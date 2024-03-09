@@ -12,7 +12,6 @@
 		20002FF52B01A14B005C7329 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20002FF42B01A14B005C7329 /* Assets.xcassets */; };
 		20002FF82B01A14B005C7329 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20002FF72B01A14B005C7329 /* Preview Assets.xcassets */; };
 		2031333D2B9CFF470093CDC2 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2031333C2B9CFF470093CDC2 /* LocationService.swift */; };
-		207EF3F42B9CAFB300EF46CF /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF3F32B9CAFB200EF46CF /* LocationManager.swift */; };
 		207EF3F62B9CAFD600EF46CF /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF3F52B9CAFD600EF46CF /* Keys.swift */; };
 		207EF3F82B9CAFF500EF46CF /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF3F72B9CAFF500EF46CF /* MapView.swift */; };
 		207EF3FB2B9CB08900EF46CF /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF3FA2B9CB08900EF46CF /* CombineMoya */; };
@@ -35,13 +34,11 @@
 		20002FF42B01A14B005C7329 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		20002FF72B01A14B005C7329 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2031333C2B9CFF470093CDC2 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
-		207EF3F32B9CAFB200EF46CF /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		207EF3F52B9CAFD600EF46CF /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		207EF3F72B9CAFF500EF46CF /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		207EF40E2B9CB32500EF46CF /* GoogleMapsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapsAPI.swift; sourceTree = "<group>"; };
 		207EF4102B9CB35000EF46CF /* NetworkConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfig.swift; sourceTree = "<group>"; };
 		207EF4122B9CB36F00EF46CF /* GooglePlaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlaces.swift; sourceTree = "<group>"; };
-		207EF4142B9CB66400EF46CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		20CBCD472B9CD334008D01AA /* Injection+Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Injection+Services.swift"; sourceTree = "<group>"; };
 		20CBCD4A2B9CD36E008D01AA /* Injection+PropertyWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Injection+PropertyWrapper.swift"; sourceTree = "<group>"; };
@@ -83,7 +80,6 @@
 			isa = PBXGroup;
 			children = (
 				20002FF02B01A149005C7329 /* PostosEletricosApp.swift */,
-				207EF4142B9CB66400EF46CF /* Info.plist */,
 				20002FF62B01A14B005C7329 /* Preview Content */,
 				203133422B9D04550093CDC2 /* Data */,
 				203133412B9D04440093CDC2 /* Domain */,
@@ -105,9 +101,8 @@
 		2031333E2B9D040B0093CDC2 /* MapView */ = {
 			isa = PBXGroup;
 			children = (
-				20002FF22B01A149005C7329 /* MapHeaderView.swift */,
-				207EF3F72B9CAFF500EF46CF /* MapView.swift */,
-				20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */,
+				20CB5BC12B9D0CDF00C42659 /* View */,
+				20CB5BC22B9D0CEA00C42659 /* ViewModel */,
 			);
 			path = MapView;
 			sourceTree = "<group>";
@@ -131,10 +126,9 @@
 		203133412B9D04440093CDC2 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				207EF3F32B9CAFB200EF46CF /* LocationManager.swift */,
 				2031333C2B9CFF470093CDC2 /* LocationService.swift */,
 				207EF40E2B9CB32500EF46CF /* GoogleMapsAPI.swift */,
-				207EF4102B9CB35000EF46CF /* NetworkConfig.swift */,
+				20CB5BBF2B9D0C5000C42659 /* Network */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -154,6 +148,31 @@
 				20002FF42B01A14B005C7329 /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		20CB5BBF2B9D0C5000C42659 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				207EF4102B9CB35000EF46CF /* NetworkConfig.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		20CB5BC12B9D0CDF00C42659 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				207EF3F72B9CAFF500EF46CF /* MapView.swift */,
+				20002FF22B01A149005C7329 /* MapHeaderView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		20CB5BC22B9D0CEA00C42659 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		20CBCD492B9CD338008D01AA /* DI */ = {
@@ -256,7 +275,6 @@
 				207EF40F2B9CB32500EF46CF /* GoogleMapsAPI.swift in Sources */,
 				207EF3F82B9CAFF500EF46CF /* MapView.swift in Sources */,
 				20002FF12B01A149005C7329 /* PostosEletricosApp.swift in Sources */,
-				207EF3F42B9CAFB300EF46CF /* LocationManager.swift in Sources */,
 				2031333D2B9CFF470093CDC2 /* LocationService.swift in Sources */,
 				20CBCD462B9CBE1C008D01AA /* MapViewModel.swift in Sources */,
 			);
@@ -395,7 +413,6 @@
 				DEVELOPMENT_TEAM = 78X7SZ5896;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PostosEletricos/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Preciso da sua localizacao quando Estiver Usando o APP";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -427,7 +444,6 @@
 				DEVELOPMENT_TEAM = 78X7SZ5896;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PostosEletricos/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Preciso da sua localizacao quando Estiver Usando o APP";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

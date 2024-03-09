@@ -42,13 +42,22 @@ struct MapView: View {
         }
         .background(.blue)
         .task {
-            try? await viewModel.locationService2.requestUserAuthorization()
-            try? await viewModel.locationService2.startCurrentLocationUpdates()
-
+            try? await viewModel.startCurrentLocationUpdates()
         }
-//        .onAppear() {
-//            viewModel.getLocationUpdates()
-//        }
+        .alert(isPresented: $viewModel.showLocationServicesAlert) {
+            Alert(
+                title: Text("Location Services Disabled"),
+                message: Text("To use this feature, please enable location services in your device settings."),
+                primaryButton: .default(Text("Settings")) {
+                    // Direct users to the app's settings
+                    if let url = URL(string: UIApplication.openSettingsURLString),
+                       UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url)
+                    }
+                },
+                secondaryButton: .cancel()
+            )
+        }
     }
 }
 

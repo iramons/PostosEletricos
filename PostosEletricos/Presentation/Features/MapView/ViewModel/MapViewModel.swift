@@ -15,8 +15,16 @@ import Combine
 @MainActor
 class MapViewModel: ObservableObject {
     
-    // MARK: Public
+    // MARK: Lifecycle
+    
+    init() {
+        updateCameraPosition()
+        
+        showLocationServicesAlert = locationService.showLocationServicesAlert
+    }
 
+    // MARK: Public
+    
     @Published var items: [MKMapItem] = [MKMapItem]()
     
     @Published var cameraPosition: MapCameraPosition = .region(
@@ -26,50 +34,43 @@ class MapViewModel: ObservableObject {
             longitudinalMeters: Constants.defaultDistance
         )
     )
-        
-//    func getLocationUpdates() {
-//        locationService.$location
-//            .sink { [weak self] newLocation in
-//                guard let self, let newLocation else { return }
-//                fetchEletricalChargingStations(in: newLocation)
-//                updateCameraPosition(with: newLocation)
-//            }
-//            .store(in: &cancellables)
-//    }
     
-    init() {
-        getLocationUpdates()
+    @Published var showLocationServicesAlert: Bool = false
+    
+    func startCurrentLocationUpdates() async throws {
+        try? await locationService.startCurrentLocationUpdates()
     }
     
-    func getLocationUpdates() {
-        let newLocation = CLLocationCoordinate2D(
-            latitude: locationService2.location?.coordinate.latitude ?? 0,
-            longitude: locationService2.location?.coordinate.longitude ?? 0
-        )
-        
-        cameraPosition = .region(
-            MKCoordinateRegion(
-                center: newLocation,
-                latitudinalMeters: Constants.defaultDistance,
-                longitudinalMeters: Constants.defaultDistance
+    /// if pass a location, will move to this location, else go to userLocation
+    private func updateCameraPosition(with location: CLLocation? = nil) {
+        if let location {
+            cameraPosition = .region(
+                MKCoordinateRegion(
+                    center: location.coordinate,
+                    latitudinalMeters: Constants.defaultDistance,
+                    longitudinalMeters: Constants.defaultDistance
+                )
             )
-        )
-    }
-    
-    private func updateCameraPosition(with location: CLLocationCoordinate2D) {
-        cameraPosition = .region(
-            MKCoordinateRegion(
-                center: location,
-                latitudinalMeters: Constants.defaultDistance,
-                longitudinalMeters: Constants.defaultDistance
+        }
+        else {
+            guard let userLocation = locationService.location else {
+                print("@@ userLocation is null.")
+                return
+            }
+            
+            cameraPosition = .region(
+                MKCoordinateRegion(
+                    center: userLocation.coordinate,
+                    latitudinalMeters: Constants.defaultDistance,
+                    longitudinalMeters: Constants.defaultDistance
+                )
             )
-        )
+        }
     }
     
     // MARK: Private
     
-//    @Injected private var locationService: LocationManager
-    @Injected var locationService2: LocationService
+    @Injected var locationService: LocationService
 
     private var cancellables = Set<AnyCancellable>()
     
