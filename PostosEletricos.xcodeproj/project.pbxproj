@@ -89,7 +89,7 @@
 				203133412B9D04440093CDC2 /* Domain */,
 				2031333F2B9D041A0093CDC2 /* Presentation */,
 				20CBCD492B9CD338008D01AA /* DI */,
-				203133432B9D04A50093CDC2 /* Res */,
+				203133432B9D04A50093CDC2 /* Resources */,
 			);
 			path = PostosEletricos;
 			sourceTree = "<group>";
@@ -148,12 +148,12 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-		203133432B9D04A50093CDC2 /* Res */ = {
+		203133432B9D04A50093CDC2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				20002FF42B01A14B005C7329 /* Assets.xcassets */,
 			);
-			path = Res;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		20CBCD492B9CD338008D01AA /* DI */ = {
