@@ -41,9 +41,14 @@ struct MapView: View {
             }
         }
         .background(.blue)
-        .onAppear() {
-            viewModel.getLocationUpdates()
+        .task {
+            try? await viewModel.locationService2.requestUserAuthorization()
+            try? await viewModel.locationService2.startCurrentLocationUpdates()
+
         }
+//        .onAppear() {
+//            viewModel.getLocationUpdates()
+//        }
     }
 }
 

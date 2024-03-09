@@ -8,5 +8,5 @@
 import Foundation
 
 func registerAllServices() {
-    DependencyContainer.register(service: LocationManager())
+    DependencyContainer.register(service: LocationService())
 }

@@ -21,20 +21,39 @@ class MapViewModel: ObservableObject {
     
     @Published var cameraPosition: MapCameraPosition = .region(
         .init(
-            center: .init(latitude: -20.4844352, longitude: -69.3907158), 
+            center: .init(latitude: -20.4844352, longitude: -69.3907158),
             latitudinalMeters: Constants.defaultDistance,
             longitudinalMeters: Constants.defaultDistance
         )
     )
         
+//    func getLocationUpdates() {
+//        locationService.$location
+//            .sink { [weak self] newLocation in
+//                guard let self, let newLocation else { return }
+//                fetchEletricalChargingStations(in: newLocation)
+//                updateCameraPosition(with: newLocation)
+//            }
+//            .store(in: &cancellables)
+//    }
+    
+    init() {
+        getLocationUpdates()
+    }
+    
     func getLocationUpdates() {
-        locationService.$location
-            .sink { [weak self] newLocation in
-                guard let self, let newLocation else { return }
-                fetchEletricalChargingStations(in: newLocation)
-                updateCameraPosition(with: newLocation)
-            }
-            .store(in: &cancellables)
+        let newLocation = CLLocationCoordinate2D(
+            latitude: locationService2.location?.coordinate.latitude ?? 0,
+            longitude: locationService2.location?.coordinate.longitude ?? 0
+        )
+        
+        cameraPosition = .region(
+            MKCoordinateRegion(
+                center: newLocation,
+                latitudinalMeters: Constants.defaultDistance,
+                longitudinalMeters: Constants.defaultDistance
+            )
+        )
     }
     
     private func updateCameraPosition(with location: CLLocationCoordinate2D) {
@@ -49,8 +68,9 @@ class MapViewModel: ObservableObject {
     
     // MARK: Private
     
-    @Injected private var locationService: LocationManager
-    
+//    @Injected private var locationService: LocationManager
+    @Injected var locationService2: LocationService
+
     private var cancellables = Set<AnyCancellable>()
     
     private var provider = MoyaProvider<GoogleMapsAPI>(plugins: [NetworkConfig.networkLogger])
