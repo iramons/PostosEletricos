@@ -1,0 +1,470 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		20002FF12B01A149005C7329 /* PostosEletricosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20002FF02B01A149005C7329 /* PostosEletricosApp.swift */; };
+		20002FF32B01A149005C7329 /* MapHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20002FF22B01A149005C7329 /* MapHeaderView.swift */; };
+		20002FF52B01A14B005C7329 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20002FF42B01A14B005C7329 /* Assets.xcassets */; };
+		20002FF82B01A14B005C7329 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20002FF72B01A14B005C7329 /* Preview Assets.xcassets */; };
+		207EF3F42B9CAFB300EF46CF /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF3F32B9CAFB200EF46CF /* LocationManager.swift */; };
+		207EF3F62B9CAFD600EF46CF /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF3F52B9CAFD600EF46CF /* Keys.swift */; };
+		207EF3F82B9CAFF500EF46CF /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF3F72B9CAFF500EF46CF /* MapView.swift */; };
+		207EF3FB2B9CB08900EF46CF /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF3FA2B9CB08900EF46CF /* CombineMoya */; };
+		207EF3FD2B9CB08900EF46CF /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF3FC2B9CB08900EF46CF /* Moya */; };
+		207EF3FF2B9CB08900EF46CF /* ReactiveMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF3FE2B9CB08900EF46CF /* ReactiveMoya */; };
+		207EF4012B9CB08900EF46CF /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF4002B9CB08900EF46CF /* RxMoya */; };
+		207EF40D2B9CB2E200EF46CF /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF40C2B9CB2E200EF46CF /* GooglePlaces */; };
+		207EF40F2B9CB32500EF46CF /* GoogleMapsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF40E2B9CB32500EF46CF /* GoogleMapsAPI.swift */; };
+		207EF4112B9CB35000EF46CF /* NetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF4102B9CB35000EF46CF /* NetworkConfig.swift */; };
+		207EF4132B9CB36F00EF46CF /* GooglePlaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF4122B9CB36F00EF46CF /* GooglePlaces.swift */; };
+		20CBCD462B9CBE1C008D01AA /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */; };
+		20CBCD482B9CD334008D01AA /* Injection+Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBCD472B9CD334008D01AA /* Injection+Services.swift */; };
+		20CBCD4B2B9CD36E008D01AA /* Injection+PropertyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBCD4A2B9CD36E008D01AA /* Injection+PropertyWrapper.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		20002FED2B01A149005C7329 /* PostosEletricos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PostosEletricos.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		20002FF02B01A149005C7329 /* PostosEletricosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostosEletricosApp.swift; sourceTree = "<group>"; };
+		20002FF22B01A149005C7329 /* MapHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapHeaderView.swift; sourceTree = "<group>"; };
+		20002FF42B01A14B005C7329 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		20002FF72B01A14B005C7329 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		207EF3F32B9CAFB200EF46CF /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		207EF3F52B9CAFD600EF46CF /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
+		207EF3F72B9CAFF500EF46CF /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		207EF40E2B9CB32500EF46CF /* GoogleMapsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapsAPI.swift; sourceTree = "<group>"; };
+		207EF4102B9CB35000EF46CF /* NetworkConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfig.swift; sourceTree = "<group>"; };
+		207EF4122B9CB36F00EF46CF /* GooglePlaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlaces.swift; sourceTree = "<group>"; };
+		207EF4142B9CB66400EF46CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		20CBCD472B9CD334008D01AA /* Injection+Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Injection+Services.swift"; sourceTree = "<group>"; };
+		20CBCD4A2B9CD36E008D01AA /* Injection+PropertyWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Injection+PropertyWrapper.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		20002FEA2B01A149005C7329 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				207EF3FD2B9CB08900EF46CF /* Moya in Frameworks */,
+				207EF3FB2B9CB08900EF46CF /* CombineMoya in Frameworks */,
+				207EF4012B9CB08900EF46CF /* RxMoya in Frameworks */,
+				207EF40D2B9CB2E200EF46CF /* GooglePlaces in Frameworks */,
+				207EF3FF2B9CB08900EF46CF /* ReactiveMoya in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		20002FE42B01A149005C7329 = {
+			isa = PBXGroup;
+			children = (
+				20002FEF2B01A149005C7329 /* PostosEletricos */,
+				20002FEE2B01A149005C7329 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		20002FEE2B01A149005C7329 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				20002FED2B01A149005C7329 /* PostosEletricos.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		20002FEF2B01A149005C7329 /* PostosEletricos */ = {
+			isa = PBXGroup;
+			children = (
+				207EF4142B9CB66400EF46CF /* Info.plist */,
+				20002FF02B01A149005C7329 /* PostosEletricosApp.swift */,
+				20002FF22B01A149005C7329 /* MapHeaderView.swift */,
+				20002FF42B01A14B005C7329 /* Assets.xcassets */,
+				20002FF62B01A14B005C7329 /* Preview Content */,
+				207EF3F32B9CAFB200EF46CF /* LocationManager.swift */,
+				207EF3F52B9CAFD600EF46CF /* Keys.swift */,
+				207EF3F72B9CAFF500EF46CF /* MapView.swift */,
+				20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */,
+				207EF40E2B9CB32500EF46CF /* GoogleMapsAPI.swift */,
+				207EF4102B9CB35000EF46CF /* NetworkConfig.swift */,
+				207EF4122B9CB36F00EF46CF /* GooglePlaces.swift */,
+				20CBCD492B9CD338008D01AA /* DI */,
+			);
+			path = PostosEletricos;
+			sourceTree = "<group>";
+		};
+		20002FF62B01A14B005C7329 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				20002FF72B01A14B005C7329 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		20CBCD492B9CD338008D01AA /* DI */ = {
+			isa = PBXGroup;
+			children = (
+				20CBCD472B9CD334008D01AA /* Injection+Services.swift */,
+				20CBCD4A2B9CD36E008D01AA /* Injection+PropertyWrapper.swift */,
+			);
+			path = DI;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		20002FEC2B01A149005C7329 /* PostosEletricos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 20002FFB2B01A14B005C7329 /* Build configuration list for PBXNativeTarget "PostosEletricos" */;
+			buildPhases = (
+				20002FE92B01A149005C7329 /* Sources */,
+				20002FEA2B01A149005C7329 /* Frameworks */,
+				20002FEB2B01A149005C7329 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PostosEletricos;
+			packageProductDependencies = (
+				207EF3FA2B9CB08900EF46CF /* CombineMoya */,
+				207EF3FC2B9CB08900EF46CF /* Moya */,
+				207EF3FE2B9CB08900EF46CF /* ReactiveMoya */,
+				207EF4002B9CB08900EF46CF /* RxMoya */,
+				207EF40C2B9CB2E200EF46CF /* GooglePlaces */,
+			);
+			productName = PostosEletricos;
+			productReference = 20002FED2B01A149005C7329 /* PostosEletricos.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		20002FE52B01A149005C7329 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					20002FEC2B01A149005C7329 = {
+						CreatedOnToolsVersion = 15.0.1;
+					};
+				};
+			};
+			buildConfigurationList = 20002FE82B01A149005C7329 /* Build configuration list for PBXProject "PostosEletricos" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = "pt-BR";
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"pt-BR",
+			);
+			mainGroup = 20002FE42B01A149005C7329;
+			packageReferences = (
+				207EF3F92B9CB08900EF46CF /* XCRemoteSwiftPackageReference "Moya" */,
+				207EF40B2B9CB2E200EF46CF /* XCRemoteSwiftPackageReference "ios-places-sdk" */,
+			);
+			productRefGroup = 20002FEE2B01A149005C7329 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				20002FEC2B01A149005C7329 /* PostosEletricos */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		20002FEB2B01A149005C7329 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20002FF82B01A14B005C7329 /* Preview Assets.xcassets in Resources */,
+				20002FF52B01A14B005C7329 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		20002FE92B01A149005C7329 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				207EF4112B9CB35000EF46CF /* NetworkConfig.swift in Sources */,
+				20CBCD4B2B9CD36E008D01AA /* Injection+PropertyWrapper.swift in Sources */,
+				20002FF32B01A149005C7329 /* MapHeaderView.swift in Sources */,
+				207EF4132B9CB36F00EF46CF /* GooglePlaces.swift in Sources */,
+				20CBCD482B9CD334008D01AA /* Injection+Services.swift in Sources */,
+				207EF3F62B9CAFD600EF46CF /* Keys.swift in Sources */,
+				207EF40F2B9CB32500EF46CF /* GoogleMapsAPI.swift in Sources */,
+				207EF3F82B9CAFF500EF46CF /* MapView.swift in Sources */,
+				20002FF12B01A149005C7329 /* PostosEletricosApp.swift in Sources */,
+				207EF3F42B9CAFB300EF46CF /* LocationManager.swift in Sources */,
+				20CBCD462B9CBE1C008D01AA /* MapViewModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		20002FF92B01A14B005C7329 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		20002FFA2B01A14B005C7329 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		20002FFC2B01A14B005C7329 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"PostosEletricos/Preview Content\"";
+				DEVELOPMENT_TEAM = 78X7SZ5896;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PostosEletricos/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Preciso da sua localizacao quando Estiver Usando o APP";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.devbvrains.postoseletricos;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		20002FFD2B01A14B005C7329 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"PostosEletricos/Preview Content\"";
+				DEVELOPMENT_TEAM = 78X7SZ5896;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PostosEletricos/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Preciso da sua localizacao quando Estiver Usando o APP";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.devbvrains.postoseletricos;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		20002FE82B01A149005C7329 /* Build configuration list for PBXProject "PostosEletricos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				20002FF92B01A14B005C7329 /* Debug */,
+				20002FFA2B01A14B005C7329 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		20002FFB2B01A14B005C7329 /* Build configuration list for PBXNativeTarget "PostosEletricos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				20002FFC2B01A14B005C7329 /* Debug */,
+				20002FFD2B01A14B005C7329 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		207EF3F92B9CB08900EF46CF /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
+		207EF40B2B9CB2E200EF46CF /* XCRemoteSwiftPackageReference "ios-places-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googlemaps/ios-places-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		207EF3FA2B9CB08900EF46CF /* CombineMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 207EF3F92B9CB08900EF46CF /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = CombineMoya;
+		};
+		207EF3FC2B9CB08900EF46CF /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 207EF3F92B9CB08900EF46CF /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		207EF3FE2B9CB08900EF46CF /* ReactiveMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 207EF3F92B9CB08900EF46CF /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = ReactiveMoya;
+		};
+		207EF4002B9CB08900EF46CF /* RxMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 207EF3F92B9CB08900EF46CF /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = RxMoya;
+		};
+		207EF40C2B9CB2E200EF46CF /* GooglePlaces */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 207EF40B2B9CB2E200EF46CF /* XCRemoteSwiftPackageReference "ios-places-sdk" */;
+			productName = GooglePlaces;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 20002FE52B01A149005C7329 /* Project object */;
+}
