@@ -25,10 +25,6 @@ final class LocationService: NSObject {
         }
     }
 
-//    func requestUserAuthorization() async throws {
-//        locationManager.requestWhenInUseAuthorization()
-//    }
-    
     func startCurrentLocationUpdates() async throws {
         for try await liveUpdates in CLLocationUpdate.liveUpdates() {
             guard let location = liveUpdates.location else { return }

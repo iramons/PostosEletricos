@@ -29,7 +29,7 @@ struct MapView: View {
                     content: {
                         ForEach(viewModel.items, id: \.self) { item in
                             let placemark = item.placemark
-                            Marker(placemark.name ?? "", coordinate: placemark.coordinate)
+                            Marker(placemark.name ?? "", systemImage: "ev.charger", coordinate: placemark.coordinate)
                         }
                     }
                 )
@@ -46,9 +46,9 @@ struct MapView: View {
         }
         .alert(isPresented: $viewModel.showLocationServicesAlert) {
             Alert(
-                title: Text("Location Services Disabled"),
-                message: Text("To use this feature, please enable location services in your device settings."),
-                primaryButton: .default(Text("Settings")) {
+                title: Text("Serviços de localização desabilitados"),
+                message: Text("Para utilizar este App é necessário habilitar o serviço de localização! Por favor habilite a localização para o App PostosEletricos nos Ajustes do iPhone."),
+                primaryButton: .default(Text("Ajustes")) {
                     // Direct users to the app's settings
                     if let url = URL(string: UIApplication.openSettingsURLString),
                        UIApplication.shared.canOpenURL(url) {

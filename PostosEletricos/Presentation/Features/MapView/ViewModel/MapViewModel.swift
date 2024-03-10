@@ -19,13 +19,14 @@ class MapViewModel: ObservableObject {
     
     init() {
         updateCameraPosition()
-        
         showLocationServicesAlert = locationService.showLocationServicesAlert
     }
 
     // MARK: Public
     
     @Published var items: [MKMapItem] = [MKMapItem]()
+    
+    @Published var showLocationServicesAlert: Bool = false
     
     @Published var cameraPosition: MapCameraPosition = .region(
         .init(
@@ -34,38 +35,9 @@ class MapViewModel: ObservableObject {
             longitudinalMeters: Constants.defaultDistance
         )
     )
-    
-    @Published var showLocationServicesAlert: Bool = false
-    
+
     func startCurrentLocationUpdates() async throws {
         try? await locationService.startCurrentLocationUpdates()
-    }
-    
-    /// if pass a location, will move to this location, else go to userLocation
-    private func updateCameraPosition(with location: CLLocation? = nil) {
-        if let location {
-            cameraPosition = .region(
-                MKCoordinateRegion(
-                    center: location.coordinate,
-                    latitudinalMeters: Constants.defaultDistance,
-                    longitudinalMeters: Constants.defaultDistance
-                )
-            )
-        }
-        else {
-            guard let userLocation = locationService.location else {
-                print("@@ userLocation is null.")
-                return
-            }
-            
-            cameraPosition = .region(
-                MKCoordinateRegion(
-                    center: userLocation.coordinate,
-                    latitudinalMeters: Constants.defaultDistance,
-                    longitudinalMeters: Constants.defaultDistance
-                )
-            )
-        }
     }
     
     // MARK: Private
@@ -80,6 +52,37 @@ class MapViewModel: ObservableObject {
         static let defaultRadius: Float = 3000
         static let defaultDistance: CLLocationDistance = CLLocationDistance(defaultRadius)
     }
+    
+    /// if pass a location, will move to this location, else go to userLocation
+    private func updateCameraPosition(with location: CLLocation? = nil) {
+        if let location {
+            cameraPosition = .region(
+                MKCoordinateRegion(
+                    center: location.coordinate,
+                    latitudinalMeters: Constants.defaultDistance,
+                    longitudinalMeters: Constants.defaultDistance
+                )
+            )
+            
+            fetchEletricalChargingStations(in: location.coordinate)
+        }
+        else {
+            guard let userLocation = locationService.location else {
+                print("@@ userLocation is null.")
+                return
+            }
+            
+            cameraPosition = .region(
+                MKCoordinateRegion(
+                    center: userLocation.coordinate,
+                    latitudinalMeters: Constants.defaultDistance,
+                    longitudinalMeters: Constants.defaultDistance
+                )
+            )
+            
+            fetchEletricalChargingStations(in: userLocation.coordinate)
+        }
+    }
 }
 
 // MARK: API
@@ -92,24 +95,28 @@ extension MapViewModel {
                 longitude: location.longitude,
                 radius: Constants.defaultRadius
             )
-        ) { result in
+        ) { [weak self] result in
+            guard let self else { return }
+            
             switch result {
-            case let .success(moyaResponse):
-                print("moyaResponse: ", moyaResponse)
+            case let .success(response):
                 do {
-                    let json = try moyaResponse.mapJSON()
-                    print("JSON: ", json)
-                    
-                    let googlePlaces = try moyaResponse.map(GooglePlaces.self, failsOnEmptyData: false)
+                    let googlePlaces = try response.map(GooglePlaces.self, failsOnEmptyData: false)
                     
                     for place in googlePlaces.results {
-                        guard let lat = place.geometry?.location?.lat,
-                              let lng = place.geometry?.location?.lng else {
-                            print("lat or lng is null.")
+                        guard let latitude = place.geometry?.location?.lat,
+                              let longitude = place.geometry?.location?.lng else {
                             return
                         }
                         
-                        self.items.append(MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lng))))
+                        items.append(
+                            MKMapItem(
+                                placemark:
+                                    MKPlacemark(
+                                        coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                                    )
+                            )
+                        )
                     }
                 }
                 catch {
