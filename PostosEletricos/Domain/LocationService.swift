@@ -8,9 +8,9 @@
 import Foundation
 import CoreLocation
 
-@Observable
-final class LocationService: NSObject {
-    var location: CLLocation? = nil
+final class LocationService: NSObject, ObservableObject {
+    
+    @Published var location: CLLocation? = nil
     
     private let locationManager = CLLocationManager()
     

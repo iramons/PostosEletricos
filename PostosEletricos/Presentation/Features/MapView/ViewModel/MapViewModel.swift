@@ -18,8 +18,9 @@ class MapViewModel: ObservableObject {
     // MARK: Lifecycle
     
     init() {
-        updateCameraPosition()
         showLocationServicesAlert = locationService.showLocationServicesAlert
+        
+        bind()
     }
 
     // MARK: Public
@@ -44,43 +45,53 @@ class MapViewModel: ObservableObject {
     
     @Injected var locationService: LocationService
 
-    private var cancellables = Set<AnyCancellable>()
-    
     private var provider = MoyaProvider<GoogleMapsAPI>(plugins: [NetworkConfig.networkLogger])
+    
+    private var cancellables = Set<AnyCancellable>()
+
+    /// indicates if app should send camera update to map or not
+    private var shouldUpdateCamera: Bool = true
+    
+    /// indicates when need fetch data from API, when it's false should stop fetching.
+    private var shouldFetchStations: Bool = true
     
     private enum Constants {
         static let defaultRadius: Float = 3000
         static let defaultDistance: CLLocationDistance = CLLocationDistance(defaultRadius)
     }
     
-    /// if pass a location, will move to this location, else go to userLocation
-    private func updateCameraPosition(with location: CLLocation? = nil) {
-        if let location {
-            cameraPosition = .region(
-                MKCoordinateRegion(
-                    center: location.coordinate,
-                    latitudinalMeters: Constants.defaultDistance,
-                    longitudinalMeters: Constants.defaultDistance
-                )
-            )
-            
-            fetchEletricalChargingStations(in: location.coordinate)
-        }
-        else {
-            guard let userLocation = locationService.location else {
-                print("@@ userLocation is null.")
-                return
+    private func bind() {
+        locationService.$location
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] location in
+                guard let self, let location else { return }
+                performUpdateCamera(with: location)
+                performFetchData(in: location.coordinate)
             }
-            
-            cameraPosition = .region(
-                MKCoordinateRegion(
-                    center: userLocation.coordinate,
-                    latitudinalMeters: Constants.defaultDistance,
-                    longitudinalMeters: Constants.defaultDistance
-                )
+            .store(in: &cancellables)
+    }
+    
+    private func updateCameraPosition(with location: CLLocation) {
+        cameraPosition = .region(
+            MKCoordinateRegion(
+                center: location.coordinate,
+                latitudinalMeters: Constants.defaultDistance,
+                longitudinalMeters: Constants.defaultDistance
             )
-            
-            fetchEletricalChargingStations(in: userLocation.coordinate)
+        )
+    }
+    
+    private func performUpdateCamera(with location: CLLocation) {
+        if shouldUpdateCamera {
+            shouldUpdateCamera = false
+            updateCameraPosition(with: location)
+        }
+    }
+    
+    private func performFetchData(in coordinate: CLLocationCoordinate2D) {
+        if shouldFetchStations {
+            shouldFetchStations = false
+            fetchEletricalChargingStations(in: coordinate)
         }
     }
 }

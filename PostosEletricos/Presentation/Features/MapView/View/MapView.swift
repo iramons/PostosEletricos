@@ -17,7 +17,7 @@ import GooglePlaces
 
 struct MapView: View {
     
-    @ObservedObject private var viewModel = MapViewModel()
+    @StateObject private var viewModel = MapViewModel()
     
     var body: some View { 
         VStack {
@@ -28,8 +28,13 @@ struct MapView: View {
                     position: $viewModel.cameraPosition,
                     content: {
                         ForEach(viewModel.items, id: \.self) { item in
-                            let placemark = item.placemark
-                            Marker(placemark.name ?? "", systemImage: "ev.charger", coordinate: placemark.coordinate)
+                            Annotation("Columbia University", coordinate: item.placemark.coordinate) {
+                                ZStack {
+                                    Image("marker8")
+                                        .resizable()
+                                        .frame(width: 50, height: 50)
+                                }
+                            }
                         }
                     }
                 )
@@ -63,4 +68,19 @@ struct MapView: View {
 
 #Preview {
     MapView()
+}
+
+struct PlaceAnnotationView: View {
+  var body: some View {
+    VStack(spacing: 0) {
+      Image(systemName: "mappin.circle.fill")
+        .font(.title)
+        .foregroundColor(.red)
+      
+      Image(systemName: "arrowtriangle.down.fill")
+        .font(.caption)
+        .foregroundColor(.red)
+        .offset(x: 0, y: -5)
+    }
+  }
 }
