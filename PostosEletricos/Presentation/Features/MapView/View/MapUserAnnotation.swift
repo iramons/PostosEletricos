@@ -11,22 +11,21 @@ import Lottie
 
 struct MapUserAnnotation: View {
     
-    @State private var showTitle = true
+    @State private var shouldShowDetails = false
         
     var body: some View {
         VStack(alignment: .center) {
-            Text("Você")
-                .multilineTextAlignment(.center)
-                .font(.headline)
-                .foregroundStyle(.blue)
-                .padding(.top, 8)
-                .padding(.horizontal, 8)
-                .padding(.bottom, 8)
-                .background(.white)
-                .cornerRadius(16)
-                .opacity(showTitle ? 0 : 1)
-                .shadow(radius: 4)
-                .zIndex(1)
+            if shouldShowDetails {
+                Text("Você")
+                    .multilineTextAlignment(.center)
+                    .font(.headline)
+                    .foregroundStyle(.blue)
+                    .padding(8)
+                    .background(.white)
+                    .cornerRadius(16)
+                    .opacity(shouldShowDetails ? 1 : 0)
+                    .shadow(radius: 4)
+            }
             
             LottieView(animation: .named("user-location-anim"))
                 .looping()
@@ -36,15 +35,9 @@ struct MapUserAnnotation: View {
         .onTapGesture {
             withAnimation(.easeInOut) {
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                showTitle.toggle()
-                
-                // TODO: Colocar clique no Mapa, fecha o alert
+                shouldShowDetails.toggle()
             }
         }
-    }
-    
-    func hideTitle() {
-        showTitle.toggle()
     }
 }
 

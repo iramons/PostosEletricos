@@ -9,15 +9,22 @@ import SwiftUI
 
 struct MapHeaderView: View {
     var body: some View {
-        HStack {
-            Image(systemName: "ev.charger")
-                .imageScale(.large)
-                .foregroundStyle(.yellow)
+        HStack(alignment: .bottom) {
+            Image("marker5")
+                .resizable()
+                .frame(width: 40, height: 40)
             
             Text("Postos Elétricos")
+                .multilineTextAlignment(.center)
                 .font(.title2)
+                .fontWeight(.regular)
+                .foregroundStyle(.blue)
         }
-        .background(.blue)
+        .frame(maxWidth: .infinity, alignment: .center)
+        .frame(height: 60)
+        .padding(.horizontal)
+        .background(.white)
+        .shadow(radius: 8)
     }
 }
 
