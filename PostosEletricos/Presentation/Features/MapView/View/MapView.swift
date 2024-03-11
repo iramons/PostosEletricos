@@ -18,22 +18,23 @@ import GooglePlaces
 struct MapView: View {
     
     @StateObject private var viewModel = MapViewModel()
-    
+        
     var body: some View { 
         VStack {
             MapHeaderView()
             
             ZStack {
-                Map(
-                    position: $viewModel.cameraPosition,
-                    content: {
-                        ForEach(viewModel.items, id: \.self) { item in
-                            Annotation("", coordinate: item.placemark.coordinate) {
-                                PlaceAnnotationView(title: item.name ?? "")
-                            }
+                Map(position: $viewModel.cameraPosition) {
+                    if let location = viewModel.location {
+                        UserAnnotation()
+                    }
+                    
+                    ForEach(viewModel.items, id: \.self) { item in
+                        Annotation("", coordinate: item.placemark.coordinate) {
+                            PlaceAnnotationView(title: item.name ?? "")
                         }
                     }
-                )
+                }
                 .mapControls {
                     MapCompass()
                     MapPitchToggle()

@@ -36,6 +36,8 @@ class MapViewModel: ObservableObject {
             longitudinalMeters: Constants.defaultDistance
         )
     )
+    
+    @Published var location: CLLocation?
 
     func startCurrentLocationUpdates() async throws {
         try? await locationService.startCurrentLocationUpdates()
@@ -65,13 +67,16 @@ class MapViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] location in
                 guard let self, let location else { return }
-                performUpdateCamera(with: location)
+                self.location = location
+                performUpdateCamera()
                 performFetchData(in: location.coordinate)
             }
             .store(in: &cancellables)
     }
     
-    private func updateCameraPosition(with location: CLLocation) {
+    private func updateCameraPosition() {
+        guard let location else { return }
+        
         cameraPosition = .region(
             MKCoordinateRegion(
                 center: location.coordinate,
@@ -81,10 +86,10 @@ class MapViewModel: ObservableObject {
         )
     }
     
-    private func performUpdateCamera(with location: CLLocation) {
+    private func performUpdateCamera() {
         if shouldUpdateCamera {
             shouldUpdateCamera = false
-            updateCameraPosition(with: location)
+            updateCameraPosition()
         }
     }
     
