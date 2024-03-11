@@ -46,11 +46,8 @@ struct PlaceAnnotationView: View {
     }
     .onTapGesture {
       withAnimation(.easeInOut) {
-          let generator = UIImpactFeedbackGenerator(style: .light)
-          generator.impactOccurred()
-          
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
         showTitle.toggle()
-          
         // TODO: Colocar clique no Mapa, fecha o alert
       }
     }
