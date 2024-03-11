@@ -12,6 +12,7 @@ import CoreLocationUI
 import Moya
 import CombineMoya
 import GooglePlaces
+import Lottie
 
 // MARK: MapView
 
@@ -25,10 +26,10 @@ struct MapView: View {
             
             ZStack {
                 Map(position: $viewModel.cameraPosition) {
-                    if let location = viewModel.location {
-                        UserAnnotation()
+                    UserAnnotation {
+                        MapUserAnnotation()
                     }
-                    
+                                        
                     ForEach(viewModel.items, id: \.self) { item in
                         Annotation("", coordinate: item.placemark.coordinate) {
                             PlaceAnnotationView(title: item.name ?? "")
@@ -39,6 +40,9 @@ struct MapView: View {
                     MapCompass()
                     MapPitchToggle()
                     MapUserLocationButton()
+                }
+                .onTapGesture {
+                    // TODO: Hide opened views
                 }
             }
         }

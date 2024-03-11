@@ -15,6 +15,9 @@
 		207AF3E22B9E804F002AE17D /* MapApps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207AF3E12B9E804F002AE17D /* MapApps.swift */; };
 		207AF3E42B9E80B8002AE17D /* URL+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207AF3E32B9E80B8002AE17D /* URL+Ext.swift */; };
 		207AF3EB2B9E820A002AE17D /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207AF3EA2B9E820A002AE17D /* UIViewController+Ext.swift */; };
+		207AF3EE2B9EA109002AE17D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 207AF3ED2B9EA109002AE17D /* Lottie */; };
+		207AF3F22B9EA3C1002AE17D /* MapUserAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207AF3F12B9EA3C1002AE17D /* MapUserAnnotation.swift */; };
+		207AF3F42B9EA8BA002AE17D /* user-location-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 207AF3F32B9EA8BA002AE17D /* user-location-anim.json */; };
 		207EF3F62B9CAFD600EF46CF /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF3F52B9CAFD600EF46CF /* Keys.swift */; };
 		207EF3F82B9CAFF500EF46CF /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF3F72B9CAFF500EF46CF /* MapView.swift */; };
 		207EF3FB2B9CB08900EF46CF /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF3FA2B9CB08900EF46CF /* CombineMoya */; };
@@ -41,6 +44,8 @@
 		207AF3E12B9E804F002AE17D /* MapApps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapApps.swift; sourceTree = "<group>"; };
 		207AF3E32B9E80B8002AE17D /* URL+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Ext.swift"; sourceTree = "<group>"; };
 		207AF3EA2B9E820A002AE17D /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
+		207AF3F12B9EA3C1002AE17D /* MapUserAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUserAnnotation.swift; sourceTree = "<group>"; };
+		207AF3F32B9EA8BA002AE17D /* user-location-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "user-location-anim.json"; sourceTree = "<group>"; };
 		207EF3F52B9CAFD600EF46CF /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		207EF3F72B9CAFF500EF46CF /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		207EF40E2B9CB32500EF46CF /* GoogleMapsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapsAPI.swift; sourceTree = "<group>"; };
@@ -62,6 +67,7 @@
 				207EF4012B9CB08900EF46CF /* RxMoya in Frameworks */,
 				207EF40D2B9CB2E200EF46CF /* GooglePlaces in Frameworks */,
 				207EF3FF2B9CB08900EF46CF /* ReactiveMoya in Frameworks */,
+				207AF3EE2B9EA109002AE17D /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,6 +161,7 @@
 		203133432B9D04A50093CDC2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				207AF3F62B9EA8D1002AE17D /* Json */,
 				20002FF42B01A14B005C7329 /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -185,6 +192,22 @@
 			path = GoogleMaps;
 			sourceTree = "<group>";
 		};
+		207AF3F52B9EA8C0002AE17D /* Anim */ = {
+			isa = PBXGroup;
+			children = (
+				207AF3F32B9EA8BA002AE17D /* user-location-anim.json */,
+			);
+			path = Anim;
+			sourceTree = "<group>";
+		};
+		207AF3F62B9EA8D1002AE17D /* Json */ = {
+			isa = PBXGroup;
+			children = (
+				207AF3F52B9EA8C0002AE17D /* Anim */,
+			);
+			path = Json;
+			sourceTree = "<group>";
+		};
 		20CB5BBF2B9D0C5000C42659 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +222,7 @@
 				207EF3F72B9CAFF500EF46CF /* MapView.swift */,
 				20002FF22B01A149005C7329 /* MapHeaderView.swift */,
 				20CB5BC32B9E7A3C00C42659 /* PlaceAnnotationView.swift */,
+				207AF3F12B9EA3C1002AE17D /* MapUserAnnotation.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -242,6 +266,7 @@
 				207EF3FE2B9CB08900EF46CF /* ReactiveMoya */,
 				207EF4002B9CB08900EF46CF /* RxMoya */,
 				207EF40C2B9CB2E200EF46CF /* GooglePlaces */,
+				207AF3ED2B9EA109002AE17D /* Lottie */,
 			);
 			productName = PostosEletricos;
 			productReference = 20002FED2B01A149005C7329 /* PostosEletricos.app */;
@@ -275,6 +300,7 @@
 			packageReferences = (
 				207EF3F92B9CB08900EF46CF /* XCRemoteSwiftPackageReference "Moya" */,
 				207EF40B2B9CB2E200EF46CF /* XCRemoteSwiftPackageReference "ios-places-sdk" */,
+				207AF3EC2B9EA109002AE17D /* XCRemoteSwiftPackageReference "lottie-spm" */,
 			);
 			productRefGroup = 20002FEE2B01A149005C7329 /* Products */;
 			projectDirPath = "";
@@ -292,6 +318,7 @@
 			files = (
 				20002FF82B01A14B005C7329 /* Preview Assets.xcassets in Resources */,
 				20002FF52B01A14B005C7329 /* Assets.xcassets in Resources */,
+				207AF3F42B9EA8BA002AE17D /* user-location-anim.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +339,7 @@
 				207EF3F62B9CAFD600EF46CF /* Keys.swift in Sources */,
 				207EF40F2B9CB32500EF46CF /* GoogleMapsAPI.swift in Sources */,
 				207EF3F82B9CAFF500EF46CF /* MapView.swift in Sources */,
+				207AF3F22B9EA3C1002AE17D /* MapUserAnnotation.swift in Sources */,
 				207AF3E22B9E804F002AE17D /* MapApps.swift in Sources */,
 				20002FF12B01A149005C7329 /* PostosEletricosApp.swift in Sources */,
 				2031333D2B9CFF470093CDC2 /* LocationService.swift in Sources */,
@@ -528,6 +556,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		207AF3EC2B9EA109002AE17D /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.4.1;
+			};
+		};
 		207EF3F92B9CB08900EF46CF /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Moya/Moya.git";
@@ -547,6 +583,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		207AF3ED2B9EA109002AE17D /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 207AF3EC2B9EA109002AE17D /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			productName = Lottie;
+		};
 		207EF3FA2B9CB08900EF46CF /* CombineMoya */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 207EF3F92B9CB08900EF46CF /* XCRemoteSwiftPackageReference "Moya" */;

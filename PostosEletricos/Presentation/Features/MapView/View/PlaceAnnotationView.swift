@@ -15,7 +15,7 @@ struct PlaceAnnotationView: View {
   
   var body: some View {
     VStack(spacing: 4) {
-        VStack(spacing: 0) {
+        VStack {
             Text("Endereço")
               .multilineTextAlignment(.center)
               .font(.headline)
@@ -52,4 +52,8 @@ struct PlaceAnnotationView: View {
       }
     }
   }
+}
+
+#Preview {
+    PlaceAnnotationView(title: "Title")
 }
