@@ -18,7 +18,7 @@ final class LocationService: NSObject, ObservableObject {
     
     override init() {
         super.init()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.desiredAccuracy = kCLLocationAccuracyReduced
         
         Task {
             try? await checkLocationAuthorization(status: locationManager.authorizationStatus)

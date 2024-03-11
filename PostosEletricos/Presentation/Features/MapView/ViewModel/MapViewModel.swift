@@ -25,6 +25,8 @@ class MapViewModel: ObservableObject {
 
     // MARK: Public
     
+    @Published var location: CLLocation?
+    
     @Published var items: [MKMapItem] = [MKMapItem]()
     
     @Published var showLocationServicesAlert: Bool = false
@@ -37,7 +39,13 @@ class MapViewModel: ObservableObject {
         )
     )
     
-    @Published var location: CLLocation?
+    @Published var route: MKRoute?
+    
+    @Published var travelTime: String?
+    
+    let gradient = LinearGradient(colors: [.red, .orange], startPoint: .leading, endPoint: .trailing)
+    
+    let stroke = StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round, dash: [8, 8])
 
     func startCurrentLocationUpdates() async throws {
         try? await locationService.startCurrentLocationUpdates()
@@ -50,7 +58,7 @@ class MapViewModel: ObservableObject {
     private var provider = MoyaProvider<GoogleMapsAPI>(plugins: [NetworkConfig.networkLogger])
     
     private var cancellables = Set<AnyCancellable>()
-
+    
     /// indicates if app should send camera update to map or not
     private var shouldUpdateCamera: Bool = true
     
@@ -96,7 +104,7 @@ class MapViewModel: ObservableObject {
     private func performFetchData(in coordinate: CLLocationCoordinate2D) {
         if shouldFetchStations {
             shouldFetchStations = false
-            fetchEletricalChargingStations(in: coordinate)
+            fetchStations(in: coordinate)
         }
     }
 }
@@ -104,7 +112,7 @@ class MapViewModel: ObservableObject {
 // MARK: API
 
 extension MapViewModel {
-    func fetchEletricalChargingStations(in location: CLLocationCoordinate2D) {
+    func fetchStations(in location: CLLocationCoordinate2D) {
         provider.request(
             .eletricalChargingStations(
                 latitude: location.latitude,
@@ -139,5 +147,26 @@ extension MapViewModel {
                 print("failure request: ", error)
             }
         }
+    }
+    
+    func fetchRouteFrom(_ source: CLLocationCoordinate2D, to destination: CLLocationCoordinate2D) {
+        let request = MKDirections.Request()
+        request.source = MKMapItem(placemark: MKPlacemark(coordinate: source))
+        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination))
+        request.transportType = .automobile
+        
+        _Concurrency.Task {
+            let result = try? await MKDirections(request: request).calculate()
+            route = result?.routes.first
+            getTravelTime()
+        }
+    }
+    
+    private func getTravelTime() {
+        guard let route else { return }
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .abbreviated
+        formatter.allowedUnits = [.hour, .minute]
+        travelTime = formatter.string(from: route.expectedTravelTime)
     }
 }
