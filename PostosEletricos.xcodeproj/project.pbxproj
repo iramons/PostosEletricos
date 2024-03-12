@@ -28,6 +28,7 @@
 		207EF40F2B9CB32500EF46CF /* GoogleMapsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF40E2B9CB32500EF46CF /* GoogleMapsAPI.swift */; };
 		207EF4112B9CB35000EF46CF /* NetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF4102B9CB35000EF46CF /* NetworkConfig.swift */; };
 		207EF4132B9CB36F00EF46CF /* GooglePlaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF4122B9CB36F00EF46CF /* GooglePlaces.swift */; };
+		208321A42B9FB98B00F83542 /* LocationPreviewLookAroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 208321A32B9FB98B00F83542 /* LocationPreviewLookAroundView.swift */; };
 		20CB5BC42B9E7A3C00C42659 /* PlaceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CB5BC32B9E7A3C00C42659 /* PlaceAnnotationView.swift */; };
 		20CBCD462B9CBE1C008D01AA /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */; };
 		20CBCD482B9CD334008D01AA /* Injection+Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBCD472B9CD334008D01AA /* Injection+Services.swift */; };
@@ -51,6 +52,7 @@
 		207EF40E2B9CB32500EF46CF /* GoogleMapsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapsAPI.swift; sourceTree = "<group>"; };
 		207EF4102B9CB35000EF46CF /* NetworkConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfig.swift; sourceTree = "<group>"; };
 		207EF4122B9CB36F00EF46CF /* GooglePlaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlaces.swift; sourceTree = "<group>"; };
+		208321A32B9FB98B00F83542 /* LocationPreviewLookAroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPreviewLookAroundView.swift; sourceTree = "<group>"; };
 		20CB5BC32B9E7A3C00C42659 /* PlaceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotationView.swift; sourceTree = "<group>"; };
 		20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		20CBCD472B9CD334008D01AA /* Injection+Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Injection+Services.swift"; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				20002FF22B01A149005C7329 /* MapHeaderView.swift */,
 				20CB5BC32B9E7A3C00C42659 /* PlaceAnnotationView.swift */,
 				207AF3F12B9EA3C1002AE17D /* MapUserAnnotation.swift */,
+				208321A32B9FB98B00F83542 /* LocationPreviewLookAroundView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				207EF4112B9CB35000EF46CF /* NetworkConfig.swift in Sources */,
+				208321A42B9FB98B00F83542 /* LocationPreviewLookAroundView.swift in Sources */,
 				20CBCD4B2B9CD36E008D01AA /* Injection+PropertyWrapper.swift in Sources */,
 				207AF3EB2B9E820A002AE17D /* UIViewController+Ext.swift in Sources */,
 				20002FF32B01A149005C7329 /* MapHeaderView.swift in Sources */,

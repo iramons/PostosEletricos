@@ -39,9 +39,19 @@ class MapViewModel: ObservableObject {
         )
     )
     
-    @Published var route: MKRoute?
+    @Published var route: MKRoute? {
+        didSet {
+            let hasRoute = route != nil
+            isRoutePresenting = hasRoute
+            showRouteButtonTitle = hasRoute ? "Remover rota" : "Mostrar rota"
+        }
+    }
     
     @Published var travelTime: String?
+    
+    @Published var showRouteButtonTitle: String = "Mostrar rota"
+    
+    @Published var isRoutePresenting: Bool = false
     
     let gradient = LinearGradient(colors: [.red, .orange], startPoint: .leading, endPoint: .trailing)
     
@@ -49,6 +59,16 @@ class MapViewModel: ObservableObject {
 
     func startCurrentLocationUpdates() async throws {
         try? await locationService.startCurrentLocationUpdates()
+    }
+    
+    func updateCamera(to location: CLLocation) {
+        cameraPosition = .region(
+            MKCoordinateRegion(
+                center: location.coordinate,
+                latitudinalMeters: Constants.defaultDistance,
+                longitudinalMeters: Constants.defaultDistance
+            )
+        )
     }
     
     // MARK: Private
@@ -84,14 +104,7 @@ class MapViewModel: ObservableObject {
     
     private func updateCameraPosition() {
         guard let location else { return }
-        
-        cameraPosition = .region(
-            MKCoordinateRegion(
-                center: location.coordinate,
-                latitudinalMeters: Constants.defaultDistance,
-                longitudinalMeters: Constants.defaultDistance
-            )
-        )
+        updateCamera(to: location)
     }
     
     private func performUpdateCamera() {
@@ -107,9 +120,17 @@ class MapViewModel: ObservableObject {
             fetchStations(in: coordinate)
         }
     }
+    
+    private func getTravelTime() {
+        guard let route else { return }
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .abbreviated
+        formatter.allowedUnits = [.hour, .minute]
+        travelTime = formatter.string(from: route.expectedTravelTime)
+    }
 }
 
-// MARK: API
+// MARK: Request
 
 extension MapViewModel {
     func fetchStations(in location: CLLocationCoordinate2D) {
@@ -149,10 +170,10 @@ extension MapViewModel {
         }
     }
     
-    func fetchRouteFrom(_ source: CLLocationCoordinate2D, to destination: CLLocationCoordinate2D) {
+    func fetchRouteFrom(_ source: CLLocation, to destination: CLLocation) {
         let request = MKDirections.Request()
-        request.source = MKMapItem(placemark: MKPlacemark(coordinate: source))
-        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination))
+        request.source = MKMapItem(placemark: MKPlacemark(coordinate: source.coordinate))
+        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination.coordinate))
         request.transportType = .automobile
         
         _Concurrency.Task {
@@ -160,13 +181,5 @@ extension MapViewModel {
             route = result?.routes.first
             getTravelTime()
         }
-    }
-    
-    private func getTravelTime() {
-        guard let route else { return }
-        let formatter = DateComponentsFormatter()
-        formatter.unitsStyle = .abbreviated
-        formatter.allowedUnits = [.hour, .minute]
-        travelTime = formatter.string(from: route.expectedTravelTime)
     }
 }
