@@ -19,13 +19,12 @@ import Lottie
 struct MapView: View {
     
     @StateObject private var viewModel = MapViewModel()
-    
-    @State private var selection: MKMapItem?
-    
+
     var body: some View {
         VStack {
             MapHeaderView()
-            Map(position: $viewModel.cameraPosition) {
+            
+            Map(position: $viewModel.cameraPosition, selection: $viewModel.selectedItem) {
                 UserAnnotation {
                     MapUserAnnotation()
                 }
@@ -34,10 +33,13 @@ struct MapView: View {
                     Annotation("", coordinate: item.placemark.coordinate) {
                         PlaceAnnotationView()
                             .onTapGesture {
+                                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+
                                 withAnimation {
-                                    selection = item
+                                    viewModel.selectedItem = item
                                 }
                             }
+                        
                     }
                 }
                 
@@ -53,65 +55,26 @@ struct MapView: View {
                 MapUserLocationButton()
             }
             .overlay(alignment: .bottom) {
-                VStack(alignment: .leading) {
-                    if let selection {
-                        Text("Endereço")
-                            .multilineTextAlignment(.leading)
-                            .font(.headline)
-                            .foregroundStyle(.black)
-                            .padding(.top, 8)
-                            .padding(.leading, 16)
-
-                        Text(selection.placemark.name ?? "SEMNOME-1")
-                            .multilineTextAlignment(.leading)
-                            .fontWeight(.regular)
-                            .foregroundStyle(.black)
-                            .padding(.leading, 16)
-
-                        Button(
-                            action: {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                withAnimation(.easeInOut) {
-                                    guard let origin = viewModel.location,
-                                          let destionation = selection.placemark.location
-                                    else { return }
-                                    
-                                    if viewModel.isRoutePresenting {
-                                        viewModel.route = nil
-                                    } else {
-                                        viewModel.fetchRouteFrom(origin, to: destionation)
-                                    }
-                                }
-                            },
-                            label: {
-                                Text(viewModel.showRouteButtonTitle)
-                                    .multilineTextAlignment(.center)
-                                    .font(.footnote)
-                                    .foregroundStyle(.white)
-                                    .padding(.horizontal, 12)
-                                    .padding(.vertical, 3)
-                                    .background(viewModel.isRoutePresenting ? .red : .indigo)
-                                    .cornerRadius(8)
+                if let selection = viewModel.selectedItem {
+                    BottomMapDetailsView(
+                        selection: selection,
+                        isRoutePresenting: viewModel.isRoutePresenting,
+                        action: {
+                            guard let origin = viewModel.location,
+                                  let destionation = selection.placemark.location
+                            else { return }
+                            
+                            if viewModel.isRoutePresenting {
+                                viewModel.route = nil
+                            } else {
+                                viewModel.fetchRouteFrom(origin, to: destionation)
                             }
-                        )
-                        .padding(.leading, 16)
-                        
-                        LocationPreviewLookAroundView(selectedResult: selection)
-                            .frame(height: 140)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .padding()
-                    }
+                        }
+                    )
                 }
-                .background(.white)
-                .cornerRadius(20)
-                .padding(.horizontal, 16)
-                .padding(.bottom, 8)
-                
             }
-            .onChange(of: selection) {
-                UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-                guard let selection else { return }
-                guard let location = selection.placemark.location else { return }
+            .onChange(of: viewModel.selectedItem) { _ , newValue in
+                guard let location = newValue?.placemark.location else { return }
                 viewModel.updateCamera(to: location)
             }
         }

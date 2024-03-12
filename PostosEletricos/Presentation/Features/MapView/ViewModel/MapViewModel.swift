@@ -29,6 +29,8 @@ class MapViewModel: ObservableObject {
     
     @Published var items: [MKMapItem] = [MKMapItem]()
     
+    @Published var selectedItem: MKMapItem?
+    
     @Published var showLocationServicesAlert: Bool = false
     
     @Published var cameraPosition: MapCameraPosition = .region(
@@ -53,10 +55,6 @@ class MapViewModel: ObservableObject {
     
     @Published var isRoutePresenting: Bool = false
     
-    let gradient = LinearGradient(colors: [.red, .orange], startPoint: .leading, endPoint: .trailing)
-    
-    let stroke = StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round, dash: [8, 8])
-
     func startCurrentLocationUpdates() async throws {
         try? await locationService.startCurrentLocationUpdates()
     }

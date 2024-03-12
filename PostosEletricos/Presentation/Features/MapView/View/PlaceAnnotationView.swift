@@ -12,12 +12,10 @@ import CoreLocation
 struct PlaceAnnotationView: View {
 
     var body: some View {
-        VStack(spacing: 4) {
-            Image("marker4")
-                .resizable()
-                .frame(width: 36, height: 50)
-                .shadow(radius: 4)
-        }
+        Image("marker4")
+            .resizable()
+            .frame(width: 36, height: 50)
+            .shadow(radius: 4)
     }
 }
 
