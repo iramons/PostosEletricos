@@ -18,7 +18,7 @@ struct MapHeaderView: View {
                 .multilineTextAlignment(.center)
                 .font(.title2)
                 .fontWeight(.regular)
-                .foregroundStyle(.blue)
+                .foregroundStyle(.green)
         }
         .frame(maxWidth: .infinity, alignment: .center)
         .frame(height: 60)

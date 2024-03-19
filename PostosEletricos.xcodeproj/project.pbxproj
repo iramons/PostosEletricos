@@ -30,6 +30,8 @@
 		207EF4112B9CB35000EF46CF /* NetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF4102B9CB35000EF46CF /* NetworkConfig.swift */; };
 		207EF4132B9CB36F00EF46CF /* GooglePlaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF4122B9CB36F00EF46CF /* GooglePlaces.swift */; };
 		208321A42B9FB98B00F83542 /* LocationPreviewLookAroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 208321A32B9FB98B00F83542 /* LocationPreviewLookAroundView.swift */; };
+		20C5ED5F2BA9E9A20092AB11 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C5ED5E2BA9E9A20092AB11 /* SplashView.swift */; };
+		20C5ED622BA9EC640092AB11 /* splash-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 20C5ED612BA9EC640092AB11 /* splash-anim.json */; };
 		20CB5BC42B9E7A3C00C42659 /* PlaceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CB5BC32B9E7A3C00C42659 /* PlaceAnnotationView.swift */; };
 		20CBCD462B9CBE1C008D01AA /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */; };
 		20CBCD482B9CD334008D01AA /* Injection+Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBCD472B9CD334008D01AA /* Injection+Services.swift */; };
@@ -55,6 +57,8 @@
 		207EF4102B9CB35000EF46CF /* NetworkConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfig.swift; sourceTree = "<group>"; };
 		207EF4122B9CB36F00EF46CF /* GooglePlaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlaces.swift; sourceTree = "<group>"; };
 		208321A32B9FB98B00F83542 /* LocationPreviewLookAroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPreviewLookAroundView.swift; sourceTree = "<group>"; };
+		20C5ED5E2BA9E9A20092AB11 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		20C5ED612BA9EC640092AB11 /* splash-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "splash-anim.json"; sourceTree = "<group>"; };
 		20CB5BC32B9E7A3C00C42659 /* PlaceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotationView.swift; sourceTree = "<group>"; };
 		20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		20CBCD472B9CD334008D01AA /* Injection+Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Injection+Services.swift"; sourceTree = "<group>"; };
@@ -138,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				2031333E2B9D040B0093CDC2 /* MapView */,
+				20C5ED602BA9E9A60092AB11 /* Splash */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -199,6 +204,7 @@
 		207AF3F52B9EA8C0002AE17D /* Anim */ = {
 			isa = PBXGroup;
 			children = (
+				20C5ED612BA9EC640092AB11 /* splash-anim.json */,
 				207AF3F32B9EA8BA002AE17D /* user-location-anim.json */,
 			);
 			path = Anim;
@@ -210,6 +216,14 @@
 				207AF3F52B9EA8C0002AE17D /* Anim */,
 			);
 			path = Json;
+			sourceTree = "<group>";
+		};
+		20C5ED602BA9E9A60092AB11 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				20C5ED5E2BA9E9A20092AB11 /* SplashView.swift */,
+			);
+			path = Splash;
 			sourceTree = "<group>";
 		};
 		20CB5BBF2B9D0C5000C42659 /* Network */ = {
@@ -323,6 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				20002FF82B01A14B005C7329 /* Preview Assets.xcassets in Resources */,
+				20C5ED622BA9EC640092AB11 /* splash-anim.json in Resources */,
 				20002FF52B01A14B005C7329 /* Assets.xcassets in Resources */,
 				207AF3F42B9EA8BA002AE17D /* user-location-anim.json in Resources */,
 			);
@@ -348,6 +363,7 @@
 				207EF40F2B9CB32500EF46CF /* GoogleMapsAPI.swift in Sources */,
 				207EF3F82B9CAFF500EF46CF /* MapView.swift in Sources */,
 				207AF3F22B9EA3C1002AE17D /* MapUserAnnotation.swift in Sources */,
+				20C5ED5F2BA9E9A20092AB11 /* SplashView.swift in Sources */,
 				207AF3E22B9E804F002AE17D /* MapApps.swift in Sources */,
 				20002FF12B01A149005C7329 /* PostosEletricosApp.swift in Sources */,
 				2031333D2B9CFF470093CDC2 /* LocationService.swift in Sources */,

@@ -25,9 +25,7 @@ struct MapView: View {
             MapHeaderView()
             
             Map(position: $viewModel.cameraPosition, selection: $viewModel.selectedItem) {
-                UserAnnotation {
-                    MapUserAnnotation()
-                }
+                UserAnnotation()
                 
                 ForEach(viewModel.items, id: \.self) { item in
                     Annotation("", coordinate: item.placemark.coordinate) {

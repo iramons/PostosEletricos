@@ -12,7 +12,7 @@ import CoreLocation
 struct PlaceAnnotationView: View {
 
     var body: some View {
-        Image("marker4")
+        Image("charger")
             .resizable()
             .frame(width: 36, height: 50)
             .shadow(radius: 4)

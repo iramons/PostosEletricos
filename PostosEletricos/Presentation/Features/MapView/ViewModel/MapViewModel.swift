@@ -40,7 +40,7 @@ class MapViewModel: ObservableObject {
             longitudinalMeters: Constants.defaultDistance
         )
     )
-    
+        
     @Published var route: MKRoute? {
         didSet {
             let hasRoute = route != nil
