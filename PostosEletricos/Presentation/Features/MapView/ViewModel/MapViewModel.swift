@@ -151,9 +151,9 @@ extension MapViewModel {
                               let longitude = place.geometry?.location?.lng else {
                             return
                         }
-                    
+                                            
                         let item = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)))
-                        item.name = place.vicinity
+                        item.name = place.name
                         
                         items.append(item)
                     }

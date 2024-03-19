@@ -17,7 +17,7 @@ struct BottomMapDetailsView: View {
 
     var body: some View {
         VStack {
-            Text("Endereço")
+            Text(selection.name ?? "Posto elétrico")
                 .multilineTextAlignment(.leading)
                 .font(.headline)
                 .foregroundStyle(.black)
@@ -25,7 +25,7 @@ struct BottomMapDetailsView: View {
                 .padding(.leading, 16)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            Text(selection.placemark.name ?? "SEMNOME-1")
+            Text(selection.placemark.subtitle ?? "Subtitle")
                 .multilineTextAlignment(.leading)
                 .font(.system(size: 14))
                 .foregroundStyle(.black)
