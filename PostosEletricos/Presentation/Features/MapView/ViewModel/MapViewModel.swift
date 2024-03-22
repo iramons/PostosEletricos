@@ -62,6 +62,12 @@ class MapViewModel: ObservableObject {
 
     @Published var showSplash: Bool = true
 
+    @Published var showFindInAreaButton: Bool = true
+
+    @State var state: FetchState = .none
+
+    @Published var isLoading: Bool = false
+
     func startCurrentLocationUpdates() async throws {
         try? await locationService.startCurrentLocationUpdates()
     }
@@ -151,6 +157,8 @@ class MapViewModel: ObservableObject {
 
 extension MapViewModel {
     func fetchStations(in location: CLLocationCoordinate2D) {
+        isLoading = true
+
         provider.request(
             .eletricalChargingStations(
                 latitude: location.latitude,
@@ -180,9 +188,11 @@ extension MapViewModel {
                 catch {
                     print("error in success response: ", error)
                 }
-                
+                isLoading = false
+
             case let .failure(error):
                 print("failure request: ", error)
+                isLoading = false
             }
         }
     }

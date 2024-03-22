@@ -13,6 +13,7 @@ import Moya
 import CombineMoya
 import GooglePlaces
 import Lottie
+import OSLog
 
 // MARK: MapView
 
@@ -22,18 +23,29 @@ struct MapView: View {
 
     @Namespace var animation
 
+
     var body: some View {
-        ZStack(alignment: .center) {
+        ZStack(alignment: .top) {
             Color.white.ignoresSafeArea(edges: .all)
 
-            if viewModel.showSplash {
-                SplashView(viewModel: viewModel, animation: animation)
-                    .zIndex(1)
+//            if viewModel.showSplash {
+//                SplashView(viewModel: viewModel, animation: animation)
+//                    .zIndex(.infinity)
+//            }
+
+            withAnimation(.easeIn(duration: 2)) {
+                FindInAreaButton(isLoading: viewModel.isLoading) {
+                    guard let cameraPositionCoordinate = viewModel.cameraPosition.region?.center else { return }
+                    viewModel.fetchStations(in: cameraPositionCoordinate)
+                }
+                .offset(y: viewModel.showFindInAreaButton ? 80 : -UIScreen.main.bounds.height)
+                .animation(.easeInOut(duration: 0.8), value: viewModel.showFindInAreaButton)
+                .zIndex(1)
             }
 
             VStack(spacing: .zero) {
                 MapHeaderView(animation: animation)
-                    .shadow(radius: 8)
+                    .zIndex(1)
 
                 Map(
                     position: $viewModel.cameraPosition,
@@ -67,7 +79,7 @@ struct MapView: View {
                     guard let location = newValue?.placemark.location else { return }
                     viewModel.updateCamera(to: location)
                 }
-                .onMapCameraChange(frequency: .continuous) { context in
+                .onMapCameraChange(frequency: .onEnd) { context in
                     viewModel.updateCameraSpan(with: context)
                 }
                 .overlay(alignment: .bottom) {
