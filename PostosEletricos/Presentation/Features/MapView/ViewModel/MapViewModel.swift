@@ -29,7 +29,14 @@ class MapViewModel: ObservableObject {
     
     @Published var items: [MKMapItem] = [MKMapItem]()
     
+    @Published var selectedItem: MKMapItem?
+    
     @Published var showLocationServicesAlert: Bool = false
+    
+    @Published var region: MKCoordinateRegion = .init(
+        center: Constants.defaultCoordinate,
+        span: Constants.defaultSpan
+    )
     
     @Published var cameraPosition: MapCameraPosition = .region(
         .init(
@@ -39,19 +46,54 @@ class MapViewModel: ObservableObject {
         )
     )
     
-    @Published var route: MKRoute?
+    @Published var route: MKRoute? {
+        didSet {
+            let hasRoute = route != nil
+            isRoutePresenting = hasRoute
+            showRouteButtonTitle = hasRoute ? "Remover rota" : "Mostrar rota"
+        }
+    }
     
     @Published var travelTime: String?
     
-    let gradient = LinearGradient(colors: [.red, .orange], startPoint: .leading, endPoint: .trailing)
+    @Published var showRouteButtonTitle: String = "Mostrar rota"
     
-    let stroke = StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round, dash: [8, 8])
+    @Published var isRoutePresenting: Bool = false
+
+    @Published var showSplash: Bool = true
 
     func startCurrentLocationUpdates() async throws {
         try? await locationService.startCurrentLocationUpdates()
     }
     
+    func updateCamera(to location: CLLocation) {
+        guard let region = cameraPosition.region else {
+            print("@@ region is null")
+            return
+        }
+        
+        withAnimation(.easeInOut) {
+            cameraPosition = .region(
+                MKCoordinateRegion(
+                    center: location.coordinate,
+                    span: region.span
+                )
+            )
+        }
+    }
+    
+    func updateCameraSpan(with context: MapCameraUpdateContext) {
+        cameraPosition = .region(.init(center: context.camera.centerCoordinate, span: context.region.span))
+    }
+
     // MARK: Private
+    
+    private enum Constants {
+        static let defaultRadius: Float = 3000
+        static let defaultDistance: CLLocationDistance = CLLocationDistance(defaultRadius)
+        static let defaultCoordinate: CLLocationCoordinate2D = .init(latitude: -22.904232, longitude: -43.104371)
+        static let defaultSpan: MKCoordinateSpan = .init(latitudeDelta: 0.01, longitudeDelta: 0.01)
+    }
     
     @Injected var locationService: LocationService
 
@@ -64,11 +106,6 @@ class MapViewModel: ObservableObject {
     
     /// indicates when need fetch data from API, when it's false should stop fetching.
     private var shouldFetchStations: Bool = true
-    
-    private enum Constants {
-        static let defaultRadius: Float = 3000
-        static let defaultDistance: CLLocationDistance = CLLocationDistance(defaultRadius)
-    }
     
     private func bind() {
         locationService.$location
@@ -84,14 +121,7 @@ class MapViewModel: ObservableObject {
     
     private func updateCameraPosition() {
         guard let location else { return }
-        
-        cameraPosition = .region(
-            MKCoordinateRegion(
-                center: location.coordinate,
-                latitudinalMeters: Constants.defaultDistance,
-                longitudinalMeters: Constants.defaultDistance
-            )
-        )
+        updateCamera(to: location)
     }
     
     private func performUpdateCamera() {
@@ -107,9 +137,17 @@ class MapViewModel: ObservableObject {
             fetchStations(in: coordinate)
         }
     }
+    
+    private func getTravelTime() {
+        guard let route else { return }
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .abbreviated
+        formatter.allowedUnits = [.hour, .minute]
+        travelTime = formatter.string(from: route.expectedTravelTime)
+    }
 }
 
-// MARK: API
+// MARK: Request
 
 extension MapViewModel {
     func fetchStations(in location: CLLocationCoordinate2D) {
@@ -128,14 +166,14 @@ extension MapViewModel {
                     let googlePlaces = try response.map(GooglePlaces.self, failsOnEmptyData: false)
                     
                     for place in googlePlaces.results {
-                        guard let latitude = place.geometry?.location?.lat,
-                              let longitude = place.geometry?.location?.lng else {
-                            return
-                        }
-                    
-                        let item = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)))
-                        item.name = place.vicinity
+                        guard let lat = place.geometry?.location?.lat,
+                              let lng = place.geometry?.location?.lng
+                        else { return }
                         
+                        let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+                        let item = MKMapItem(placemark: .init(coordinate: coordinate))
+                        item.name = place.name
+
                         items.append(item)
                     }
                 }
@@ -149,10 +187,10 @@ extension MapViewModel {
         }
     }
     
-    func fetchRouteFrom(_ source: CLLocationCoordinate2D, to destination: CLLocationCoordinate2D) {
+    func fetchRouteFrom(_ source: CLLocation, to destination: CLLocation) {
         let request = MKDirections.Request()
-        request.source = MKMapItem(placemark: MKPlacemark(coordinate: source))
-        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination))
+        request.source = MKMapItem(placemark: MKPlacemark(coordinate: source.coordinate))
+        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination.coordinate))
         request.transportType = .automobile
         
         _Concurrency.Task {
@@ -160,13 +198,5 @@ extension MapViewModel {
             route = result?.routes.first
             getTravelTime()
         }
-    }
-    
-    private func getTravelTime() {
-        guard let route else { return }
-        let formatter = DateComponentsFormatter()
-        formatter.unitsStyle = .abbreviated
-        formatter.allowedUnits = [.hour, .minute]
-        travelTime = formatter.string(from: route.expectedTravelTime)
     }
 }

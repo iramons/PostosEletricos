@@ -1,0 +1,17 @@
+{
+  "images" : [
+    {
+      "filename" : "charger.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "compression-type" : "gpu-optimized-best",
+    "preserves-vector-representation" : true,
+    "template-rendering-intent" : "original"
+  }
+}

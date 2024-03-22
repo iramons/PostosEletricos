@@ -6,28 +6,29 @@
 //
 
 import SwiftUI
+import Lottie
 
 struct MapHeaderView: View {
+
+    var animation: Namespace.ID
+
     var body: some View {
-        HStack(alignment: .bottom) {
-            Image("marker5")
+        HStack {
+            LottieView(animation: .named("splash-anim"))
+                .looping()
                 .resizable()
-                .frame(width: 40, height: 40)
-            
+                .frame(width: 60, height: 60)
+                .matchedGeometryEffect(id: "chargeStationAnimID", in: animation)
+
             Text("Postos Elétricos")
                 .multilineTextAlignment(.center)
                 .font(.title2)
                 .fontWeight(.regular)
-                .foregroundStyle(.blue)
+                .foregroundStyle(.black)
         }
         .frame(maxWidth: .infinity, alignment: .center)
-        .frame(height: 60)
+        .frame(height: 70)
         .padding(.horizontal)
         .background(.white)
-        .shadow(radius: 8)
     }
-}
-
-#Preview {
-    MapHeaderView()
 }

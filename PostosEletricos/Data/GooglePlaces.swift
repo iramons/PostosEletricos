@@ -18,7 +18,7 @@ struct GooglePlaces: Codable {
 
 // MARK: - Result
 
-struct Place: Codable {
+struct Place: Codable, Equatable {
     let businessStatus: String?
     let geometry: Geometry?
     let icon: String?
@@ -35,6 +35,46 @@ struct Place: Codable {
     let vicinity: String?
     let openingHours: OpeningHours?
     let photos: [Photo]?
+    
+    internal init(
+        businessStatus: String? = nil,
+        geometry: Geometry? = nil,
+        icon: String? = nil,
+        iconBackgroundColor: String? = nil,
+        iconMaskBaseURI: String? = nil,
+        name: String? = nil,
+        placeID: String? = nil,
+        plusCode: PlusCode? = nil,
+        rating: Int? = nil,
+        reference: String? = nil,
+        scope: String? = nil,
+        types: [String]? = nil,
+        userRatingsTotal: Int? = nil, 
+        vicinity: String? = nil,
+        openingHours: OpeningHours? = nil,
+        photos: [Photo]? = nil
+    ) {
+        self.businessStatus = businessStatus
+        self.geometry = geometry
+        self.icon = icon
+        self.iconBackgroundColor = iconBackgroundColor
+        self.iconMaskBaseURI = iconMaskBaseURI
+        self.name = name
+        self.placeID = placeID
+        self.plusCode = plusCode
+        self.rating = rating
+        self.reference = reference
+        self.scope = scope
+        self.types = types
+        self.userRatingsTotal = userRatingsTotal
+        self.vicinity = vicinity
+        self.openingHours = openingHours
+        self.photos = photos
+    }
+    
+    static func == (lhs: Place, rhs: Place) -> Bool {
+        lhs.placeID == rhs.placeID
+    }
 }
 
 // MARK: - Geometry
@@ -56,12 +96,12 @@ struct Viewport: Codable {
 }
 
 // MARK: - OpeningHours
-struct OpeningHours: Codable {
+struct OpeningHours: Codable, Equatable {
     let openNow: Bool?
 }
 
 // MARK: - Photo
-struct Photo: Codable {
+struct Photo: Codable, Equatable {
     let height: Int?
     let htmlAttributions: [String]?
     let photoReference: String?
@@ -69,7 +109,7 @@ struct Photo: Codable {
 }
 
 // MARK: - PlusCode
-struct PlusCode: Codable {
+struct PlusCode: Codable, Equatable {
     let compoundCode: String?
     let globalCode: String?
 }

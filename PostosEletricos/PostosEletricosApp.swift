@@ -20,6 +20,7 @@ struct PostosEletricosApp: App {
         GMSPlacesClient.provideAPIKey(Keys.googleMaps.rawValue)
     }
     
+    
     var body: some Scene {
         WindowGroup {
             MapView()
