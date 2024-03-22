@@ -32,7 +32,6 @@
 		208321A42B9FB98B00F83542 /* LocationPreviewLookAroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 208321A32B9FB98B00F83542 /* LocationPreviewLookAroundView.swift */; };
 		20C5ED5F2BA9E9A20092AB11 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C5ED5E2BA9E9A20092AB11 /* SplashView.swift */; };
 		20C5ED622BA9EC640092AB11 /* splash-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 20C5ED612BA9EC640092AB11 /* splash-anim.json */; };
-		20CB5BC42B9E7A3C00C42659 /* PlaceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CB5BC32B9E7A3C00C42659 /* PlaceAnnotationView.swift */; };
 		20CBCD462B9CBE1C008D01AA /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */; };
 		20CBCD482B9CD334008D01AA /* Injection+Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBCD472B9CD334008D01AA /* Injection+Services.swift */; };
 		20CBCD4B2B9CD36E008D01AA /* Injection+PropertyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBCD4A2B9CD36E008D01AA /* Injection+PropertyWrapper.swift */; };
@@ -59,7 +58,6 @@
 		208321A32B9FB98B00F83542 /* LocationPreviewLookAroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPreviewLookAroundView.swift; sourceTree = "<group>"; };
 		20C5ED5E2BA9E9A20092AB11 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		20C5ED612BA9EC640092AB11 /* splash-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "splash-anim.json"; sourceTree = "<group>"; };
-		20CB5BC32B9E7A3C00C42659 /* PlaceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotationView.swift; sourceTree = "<group>"; };
 		20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		20CBCD472B9CD334008D01AA /* Injection+Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Injection+Services.swift"; sourceTree = "<group>"; };
 		20CBCD4A2B9CD36E008D01AA /* Injection+PropertyWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Injection+PropertyWrapper.swift"; sourceTree = "<group>"; };
@@ -239,7 +237,6 @@
 			children = (
 				207EF3F72B9CAFF500EF46CF /* MapView.swift */,
 				20002FF22B01A149005C7329 /* MapHeaderView.swift */,
-				20CB5BC32B9E7A3C00C42659 /* PlaceAnnotationView.swift */,
 				207AF3F12B9EA3C1002AE17D /* MapUserAnnotation.swift */,
 				208321A32B9FB98B00F83542 /* LocationPreviewLookAroundView.swift */,
 				207218392BA0B6C4005A136A /* BottomMapDetailsView.swift */,
@@ -368,7 +365,6 @@
 				20002FF12B01A149005C7329 /* PostosEletricosApp.swift in Sources */,
 				2031333D2B9CFF470093CDC2 /* LocationService.swift in Sources */,
 				20CBCD462B9CBE1C008D01AA /* MapViewModel.swift in Sources */,
-				20CB5BC42B9E7A3C00C42659 /* PlaceAnnotationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

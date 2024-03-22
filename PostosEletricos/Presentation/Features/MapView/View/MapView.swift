@@ -23,22 +23,23 @@ struct MapView: View {
     var body: some View {
         VStack {
             MapHeaderView()
-            
-            Map(position: $viewModel.cameraPosition, selection: $viewModel.selectedItem) {
+                        
+            Map(
+                position: $viewModel.cameraPosition,
+                selection: $viewModel.selectedItem
+            ) {
                 UserAnnotation()
                 
                 ForEach(viewModel.items, id: \.self) { item in
-                    Annotation("", coordinate: item.placemark.coordinate) {
-                        PlaceAnnotationView()
-                            .onTapGesture {
-                                UIImpactFeedbackGenerator(style: .light).impactOccurred()
-
-                                withAnimation {
-                                    viewModel.selectedItem = item
-                                }
-                            }
-                        
+                    Marker(coordinate: item.placemark.coordinate) {
+                        Label(
+                            item.name ?? "Postos Elétricos",
+                            systemImage: "bolt.fill"
+                        )
                     }
+                    .tint(.green)
+                    .tag(item.name?.description)
+                    .annotationTitles(.hidden)
                 }
                 
                 if let route = viewModel.route {
@@ -46,11 +47,17 @@ struct MapView: View {
                         .stroke(.blue, lineWidth: 8)
                 }
             }
-            .mapStyle(.standard)
             .mapControls {
                 MapCompass()
                 MapPitchToggle()
                 MapUserLocationButton()
+            }
+            .onChange(of: viewModel.selectedItem) { _ , newValue in
+                guard let location = newValue?.placemark.location else { return }
+                viewModel.updateCamera(to: location)
+            }
+            .onMapCameraChange(frequency: .continuous) { context in
+                viewModel.updateCameraSpan(with: context)
             }
             .overlay(alignment: .bottom) {
                 if let selection = viewModel.selectedItem {
@@ -70,10 +77,6 @@ struct MapView: View {
                         }
                     )
                 }
-            }
-            .onChange(of: viewModel.selectedItem) { _ , newValue in
-                guard let location = newValue?.placemark.location else { return }
-                viewModel.updateCamera(to: location)
             }
         }
         .task {
@@ -98,10 +101,4 @@ struct MapView: View {
 
 #Preview {
     MapView()
-}
-
-extension AnyTransition {
-    static var moveUpward: AnyTransition {
-        AnyTransition.move(edge: .bottom)
-    }
 }

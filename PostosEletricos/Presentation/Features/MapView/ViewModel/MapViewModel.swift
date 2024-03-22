@@ -33,6 +33,11 @@ class MapViewModel: ObservableObject {
     
     @Published var showLocationServicesAlert: Bool = false
     
+    @Published var region: MKCoordinateRegion = .init(
+        center: Constants.defaultCoordinate,
+        span: Constants.defaultSpan
+    )
+    
     @Published var cameraPosition: MapCameraPosition = .region(
         .init(
             center: .init(latitude: -20.4844352, longitude: -69.3907158),
@@ -40,7 +45,7 @@ class MapViewModel: ObservableObject {
             longitudinalMeters: Constants.defaultDistance
         )
     )
-        
+    
     @Published var route: MKRoute? {
         didSet {
             let hasRoute = route != nil
@@ -60,16 +65,33 @@ class MapViewModel: ObservableObject {
     }
     
     func updateCamera(to location: CLLocation) {
-        cameraPosition = .region(
-            MKCoordinateRegion(
-                center: location.coordinate,
-                latitudinalMeters: Constants.defaultDistance,
-                longitudinalMeters: Constants.defaultDistance
+        guard let region = cameraPosition.region else {
+            print("@@ region is null")
+            return
+        }
+        
+        withAnimation(.easeInOut) {
+            cameraPosition = .region(
+                MKCoordinateRegion(
+                    center: location.coordinate,
+                    span: region.span
+                )
             )
-        )
+        }
     }
     
+    func updateCameraSpan(with context: MapCameraUpdateContext) {
+        cameraPosition = .region(.init(center: context.camera.centerCoordinate, span: context.region.span))
+    }
+
     // MARK: Private
+    
+    private enum Constants {
+        static let defaultRadius: Float = 3000
+        static let defaultDistance: CLLocationDistance = CLLocationDistance(defaultRadius)
+        static let defaultCoordinate: CLLocationCoordinate2D = .init(latitude: -22.904232, longitude: -43.104371)
+        static let defaultSpan: MKCoordinateSpan = .init(latitudeDelta: 0.01, longitudeDelta: 0.01)
+    }
     
     @Injected var locationService: LocationService
 
@@ -82,11 +104,6 @@ class MapViewModel: ObservableObject {
     
     /// indicates when need fetch data from API, when it's false should stop fetching.
     private var shouldFetchStations: Bool = true
-    
-    private enum Constants {
-        static let defaultRadius: Float = 3000
-        static let defaultDistance: CLLocationDistance = CLLocationDistance(defaultRadius)
-    }
     
     private func bind() {
         locationService.$location
@@ -147,14 +164,14 @@ extension MapViewModel {
                     let googlePlaces = try response.map(GooglePlaces.self, failsOnEmptyData: false)
                     
                     for place in googlePlaces.results {
-                        guard let latitude = place.geometry?.location?.lat,
-                              let longitude = place.geometry?.location?.lng else {
-                            return
-                        }
-                                            
-                        let item = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)))
-                        item.name = place.name
+                        guard let lat = place.geometry?.location?.lat,
+                              let lng = place.geometry?.location?.lng
+                        else { return }
                         
+                        let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+                        let item = MKMapItem(placemark: .init(coordinate: coordinate))
+                        item.name = place.name
+
                         items.append(item)
                     }
                 }
