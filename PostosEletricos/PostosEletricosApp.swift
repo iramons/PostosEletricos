@@ -20,24 +20,10 @@ struct PostosEletricosApp: App {
         GMSPlacesClient.provideAPIKey(Keys.googleMaps.rawValue)
     }
     
-    @State var showSplash: Bool = false
     
     var body: some Scene {
         WindowGroup {
-            ZStack {
-                if showSplash {
-                    MapView()
-                } else {
-                    SplashView()
-                }
-            }
-            .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    withAnimation {
-                        showSplash = true
-                    }
-                }
-            }
+            MapView()
         }
     }
 }

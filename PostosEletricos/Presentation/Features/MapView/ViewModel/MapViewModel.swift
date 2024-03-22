@@ -59,7 +59,9 @@ class MapViewModel: ObservableObject {
     @Published var showRouteButtonTitle: String = "Mostrar rota"
     
     @Published var isRoutePresenting: Bool = false
-    
+
+    @Published var showSplash: Bool = true
+
     func startCurrentLocationUpdates() async throws {
         try? await locationService.startCurrentLocationUpdates()
     }

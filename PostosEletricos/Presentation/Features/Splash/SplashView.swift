@@ -10,14 +10,21 @@ import SwiftUI
 import Lottie
 
 struct SplashView: View {
+
+    @ObservedObject var viewModel: MapViewModel
+
+    var animation: Namespace.ID
+
     var body: some View {
-        
-        Color.white
-            .ignoresSafeArea()
-        
-        LottieView(animation: .named("splash-anim"))
-            .looping()
-            .resizable()
-            .frame(width: 100, height: 100)
+        ZStack {
+            Color.white.edgesIgnoringSafeArea(.all)
+
+            LottieView(animation: .named("splash-anim"))
+                .looping()
+                .resizable()
+                .frame(width: 100, height: 100)
+                .matchedGeometryEffect(id: "chargeStationAnimID", in: animation)
+        }
+        .edgesIgnoringSafeArea(.all)
     }
 }
