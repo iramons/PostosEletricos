@@ -111,7 +111,7 @@ struct MapView: View {
             .zIndex(0)
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 withAnimation {
                     viewModel.showSplash = false
                 }
