@@ -9,3 +9,4 @@ DerivedData/
 .netrc
 PostosEletricos.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
 PostosEletricos.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+Secrets.plist

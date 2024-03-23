@@ -42,7 +42,7 @@ extension GoogleMapsAPI: TargetType {
                 parameters: [
                     "location" : "\(latitude), \(longitude)",
                     "radius" : "\(radius)",
-                    "key" : Keys.googleMaps.rawValue,
+                    "key" : SecretsKeys.googlePlaces.key,
                     "keyword" : "electric+vehicle+charging+station+postos+eletricos"
                 ],
                 encoding: URLEncoding.default
