@@ -28,11 +28,11 @@ final class LocationService: NSObject, ObservableObject {
     func startCurrentLocationUpdates() async throws {
         for try await liveUpdates in CLLocationUpdate.liveUpdates() {
             guard let location = liveUpdates.location else { return }
-            
-            if isValid(location) {
+
+            if isValid(location) && !liveUpdates.isStationary {
                 self.location = location
                 self.lastLocation = location
-                
+
                 print("@@ new location is lat:\(location.coordinate.latitude) long:\(location.coordinate.longitude)")
             }
         }

@@ -30,5 +30,6 @@ struct MapHeaderView: View {
         .frame(height: 70)
         .padding(.horizontal)
         .background(.white)
+        .shadow(radius: 8)
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 import Moya
 
 enum GoogleMapsAPI {
-    case eletricalChargingStations(latitude: Double, longitude: Double, radius: Float)
+    case eletricalChargingStations(latitude: Double, longitude: Double, radius: Double)
 }
 
 extension GoogleMapsAPI: TargetType {
@@ -42,7 +42,7 @@ extension GoogleMapsAPI: TargetType {
                 parameters: [
                     "location" : "\(latitude), \(longitude)",
                     "radius" : "\(radius)",
-                    "key" : Keys.googleMaps.rawValue,
+                    "key" : SecretsKeys.googlePlaces.key,
                     "keyword" : "electric+vehicle+charging+station+postos+eletricos"
                 ],
                 encoding: URLEncoding.default

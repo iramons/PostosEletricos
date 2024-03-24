@@ -13,6 +13,7 @@ import Moya
 import CombineMoya
 import GooglePlaces
 import Lottie
+import OSLog
 
 // MARK: MapView
 
@@ -22,18 +23,34 @@ struct MapView: View {
 
     @Namespace var animation
 
+    @State private var distanceScrolled: CLLocationDistance = 0
+
     var body: some View {
-        ZStack(alignment: .center) {
+        ZStack(alignment: .top) {
             Color.white.ignoresSafeArea(edges: .all)
 
             if viewModel.showSplash {
                 SplashView(viewModel: viewModel, animation: animation)
-                    .zIndex(1)
+                    .zIndex(.infinity)
+            }
+
+            withAnimation(.easeIn(duration: 2)) {
+                FindInAreaButton(isLoading: viewModel.isLoading) {
+                    guard let cameraPositionCoordinate = viewModel.cameraPosition.region?.center else { return }
+
+                    viewModel.fetchStations(in: cameraPositionCoordinate) { items in
+                        guard let items else { return }
+                        viewModel.updateCameraPositionToFitMarkers(items: items)
+                    }
+                }
+                .offset(y: viewModel.showFindInAreaButton ? 80 : -UIScreen.main.bounds.height)
+                .animation(.easeInOut(duration: 0.8), value: viewModel.showFindInAreaButton)
+                .zIndex(1)
             }
 
             VStack(spacing: .zero) {
                 MapHeaderView(animation: animation)
-                    .shadow(radius: 8)
+                    .zIndex(1)
 
                 Map(
                     position: $viewModel.cameraPosition,
@@ -58,17 +75,28 @@ struct MapView: View {
                             .stroke(.blue, lineWidth: 8)
                     }
                 }
+                .mapStyle(
+                    .standard(
+                        elevation: .realistic,
+                        emphasis: .automatic,
+                        pointsOfInterest: .all,
+                        showsTraffic: true
+                    )
+                )
                 .mapControls {
                     MapCompass()
                     MapPitchToggle()
                     MapUserLocationButton()
+                    MapScaleView()
                 }
-                .onChange(of: viewModel.selectedItem) { _ , newValue in
-                    guard let location = newValue?.placemark.location else { return }
-                    viewModel.updateCamera(to: location)
+                .onChange(of: viewModel.selectedItem) { _ , newSelectedItem in
+                    guard let coordinate = newSelectedItem?.placemark.coordinate else { return }
+                    viewModel.updateCameraPosition(forCoordinate: coordinate)
                 }
-                .onMapCameraChange(frequency: .continuous) { context in
-                    viewModel.updateCameraSpan(with: context)
+                .onMapCameraChange(frequency: .onEnd) { context in
+                    viewModel.handleCamera(with: context)
+                    viewModel.updateDistance(with: context)
+                    viewModel.saveLast(context)
                 }
                 .overlay(alignment: .bottom) {
                     if let selection = viewModel.selectedItem {
@@ -89,7 +117,6 @@ struct MapView: View {
                         )
                     }
                 }
-
             }
             .task {
                 try? await viewModel.startCurrentLocationUpdates()
@@ -108,6 +135,7 @@ struct MapView: View {
                     secondaryButton: .cancel()
                 )
             }
+            .toast(isShowing: $viewModel.showToast, message: viewModel.toastMessage)
             .zIndex(0)
         }
         .onAppear {
@@ -118,7 +146,6 @@ struct MapView: View {
             }
         }
     }
-
 }
 
 #Preview {

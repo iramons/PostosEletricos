@@ -22,7 +22,7 @@ struct PostosEletricosApp: App {
     }
 
     private func configureGooglePlaces() {
-        GMSPlacesClient.provideAPIKey(Keys.googleMaps.rawValue)
+        GMSPlacesClient.provideAPIKey(SecretsKeys.googlePlaces.key)
     }
 
     var body: some Scene {
