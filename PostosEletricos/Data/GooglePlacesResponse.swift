@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - GooglePlaces
 
-struct GooglePlaces: Codable {
+struct GooglePlacesResponse: Codable {
     let htmlAttributions: [JSONAny]?
     let nextPageToken: String?
     let results: [Place]

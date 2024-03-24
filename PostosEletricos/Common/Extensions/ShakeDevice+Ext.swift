@@ -33,7 +33,7 @@ struct ShakeGestureViewModifier: ViewModifier {
 }
 
 extension View {
-  public func onShakeGesture(perform action: @escaping () -> Void) -> some View {
-    self.modifier(ShakeGestureViewModifier(action: action))
-  }
+    func onShakeGesture(perform action: @escaping () -> Void) -> some View {
+        modifier(ShakeGestureViewModifier(action: action))
+    }
 }

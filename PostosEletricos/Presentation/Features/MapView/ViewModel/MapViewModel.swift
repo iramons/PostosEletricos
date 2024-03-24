@@ -24,28 +24,31 @@ class MapViewModel: ObservableObject {
     }
 
     // MARK: Public
-    
+
+    @State var state: FetchState = .none
+
     @Published var location: CLLocation?
-    
     @Published var items: [MKMapItem] = [MKMapItem]()
-    
     @Published var selectedItem: MKMapItem?
-    
+    @Published var travelTime: String?
+    @Published var isRoutePresenting: Bool = false
+    @Published var showRouteButtonTitle: String = "Mostrar rota"
+    @Published var showToast: Bool = false
+    @Published var showSplash: Bool = true
+    @Published var showFindInAreaButton: Bool = true
     @Published var showLocationServicesAlert: Bool = false
-    
-    @Published var region: MKCoordinateRegion = .init(
-        center: Constants.defaultCoordinate,
-        span: Constants.defaultSpan
-    )
-    
+    @Published var isLoading: Bool = false
+    @Published var distance: CLLocationDistance = CLLocationDistance(3000)
+    @Published var lastRegion: MKCoordinateRegion?
+
     @Published var cameraPosition: MapCameraPosition = .region(
         .init(
             center: .init(latitude: -20.4844352, longitude: -69.3907158),
-            latitudinalMeters: Constants.defaultDistance,
-            longitudinalMeters: Constants.defaultDistance
+            latitudinalMeters: CLLocationDistance(Constants.defaultRadius),
+            longitudinalMeters: CLLocationDistance(Constants.defaultRadius)
         )
     )
-    
+
     @Published var route: MKRoute? {
         didSet {
             let hasRoute = route != nil
@@ -53,50 +56,49 @@ class MapViewModel: ObservableObject {
             showRouteButtonTitle = hasRoute ? "Remover rota" : "Mostrar rota"
         }
     }
-    
-    @Published var travelTime: String?
-    
-    @Published var showRouteButtonTitle: String = "Mostrar rota"
-    
-    @Published var isRoutePresenting: Bool = false
 
-    @Published var showSplash: Bool = true
-
-    @Published var showFindInAreaButton: Bool = true
-
-    @State var state: FetchState = .none
-
-    @Published var isLoading: Bool = false
+    let toastMessage: String = "Nenhum posto de recarga elétrica encontrado nesta área."
 
     func startCurrentLocationUpdates() async throws {
         try? await locationService.startCurrentLocationUpdates()
     }
     
-    func updateCamera(to location: CLLocation) {
-        guard let region = cameraPosition.region else {
-            print("@@ region is null")
+    func updateCameraPosition(to location: CLLocation) {
+        guard let span = cameraPosition.region?.span else {
+            printLog(.critical, "span is null")
             return
         }
-        
+
         withAnimation(.easeInOut) {
             cameraPosition = .region(
                 MKCoordinateRegion(
                     center: location.coordinate,
-                    span: region.span
+                    span: span
                 )
             )
         }
+
+        updateLastRegion()
     }
     
-    func updateCameraSpan(with context: MapCameraUpdateContext) {
-        cameraPosition = .region(.init(center: context.camera.centerCoordinate, span: context.region.span))
+    func updateCameraPosition(with context: MapCameraUpdateContext) {
+        cameraPosition = .region(.init(center: context.region.center, span: context.region.span))
+
+        updateLastRegion()
+
+        if showToast {
+            setShowToast(false)
+        }
+    }
+
+    func updateDistance(with context: MapCameraUpdateContext) {
+        distance = context.camera.distance / 3.8
     }
 
     // MARK: Private
-    
+
     private enum Constants {
         static let defaultRadius: Float = 3000
-        static let defaultDistance: CLLocationDistance = CLLocationDistance(defaultRadius)
         static let defaultCoordinate: CLLocationCoordinate2D = .init(latitude: -22.904232, longitude: -43.104371)
         static let defaultSpan: MKCoordinateSpan = .init(latitudeDelta: 0.01, longitudeDelta: 0.01)
     }
@@ -112,7 +114,7 @@ class MapViewModel: ObservableObject {
     
     /// indicates when need fetch data from API, when it's false should stop fetching.
     private var shouldFetchStations: Bool = true
-    
+
     private func bind() {
         locationService.$location
             .receive(on: DispatchQueue.main)
@@ -127,7 +129,7 @@ class MapViewModel: ObservableObject {
     
     private func updateCameraPosition() {
         guard let location else { return }
-        updateCamera(to: location)
+        updateCameraPosition(to: location)
     }
     
     private func performUpdateCamera() {
@@ -151,6 +153,16 @@ class MapViewModel: ObservableObject {
         formatter.allowedUnits = [.hour, .minute]
         travelTime = formatter.string(from: route.expectedTravelTime)
     }
+
+    private func setShowToast(_ bool: Bool) {
+        withAnimation {
+            showToast = bool
+        }
+    }
+
+    private func updateLastRegion() {
+        lastRegion = cameraPosition.region
+    }
 }
 
 // MARK: Request
@@ -163,7 +175,7 @@ extension MapViewModel {
             .eletricalChargingStations(
                 latitude: location.latitude,
                 longitude: location.longitude,
-                radius: Constants.defaultRadius
+                radius: distance
             )
         ) { [weak self] result in
             guard let self else { return }
@@ -171,9 +183,14 @@ extension MapViewModel {
             switch result {
             case let .success(response):
                 do {
-                    let googlePlaces = try response.map(GooglePlaces.self, failsOnEmptyData: false)
-                    
-                    for place in googlePlaces.results {
+                    let response = try response.map(GooglePlacesResponse.self, failsOnEmptyData: false)
+
+                    if response.results.isEmpty {
+                        printLog(.warning, "No results found in this area.")
+                        setShowToast(true)
+                    }
+
+                    for place in response.results {
                         guard let lat = place.geometry?.location?.lat,
                               let lng = place.geometry?.location?.lng
                         else { return }
@@ -186,12 +203,12 @@ extension MapViewModel {
                     }
                 }
                 catch {
-                    print("error in success response: ", error)
+                    printLog(.error, "error in success response: \(error)")
                 }
                 isLoading = false
 
             case let .failure(error):
-                print("failure request: ", error)
+                printLog(.error, "failure request: \(error)")
                 isLoading = false
             }
         }

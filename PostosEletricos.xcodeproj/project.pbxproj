@@ -28,10 +28,13 @@
 		207EF40D2B9CB2E200EF46CF /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF40C2B9CB2E200EF46CF /* GooglePlaces */; };
 		207EF40F2B9CB32500EF46CF /* GoogleMapsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF40E2B9CB32500EF46CF /* GoogleMapsAPI.swift */; };
 		207EF4112B9CB35000EF46CF /* NetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF4102B9CB35000EF46CF /* NetworkConfig.swift */; };
-		207EF4132B9CB36F00EF46CF /* GooglePlaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF4122B9CB36F00EF46CF /* GooglePlaces.swift */; };
+		207EF4132B9CB36F00EF46CF /* GooglePlacesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF4122B9CB36F00EF46CF /* GooglePlacesResponse.swift */; };
 		208321A42B9FB98B00F83542 /* LocationPreviewLookAroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 208321A32B9FB98B00F83542 /* LocationPreviewLookAroundView.swift */; };
 		20BA43C82BAF3F1300795AB5 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20BA43C72BAF3F1300795AB5 /* Secrets.plist */; };
 		20BA43CA2BAF3FB400795AB5 /* SecretsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BA43C92BAF3FB400795AB5 /* SecretsManager.swift */; };
+		20BA43CF2BAF574800795AB5 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BA43CE2BAF574800795AB5 /* ToastView.swift */; };
+		20BA43D52BAF57AA00795AB5 /* ToastModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BA43D42BAF57AA00795AB5 /* ToastModifier.swift */; };
+		20BA43D82BAF585500795AB5 /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BA43D72BAF585500795AB5 /* View+Ext.swift */; };
 		20C0EC4C2BAE3A81009C52FF /* FetchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C0EC4B2BAE3A81009C52FF /* FetchState.swift */; };
 		20C5ED5F2BA9E9A20092AB11 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C5ED5E2BA9E9A20092AB11 /* SplashView.swift */; };
 		20C5ED622BA9EC640092AB11 /* splash-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 20C5ED612BA9EC640092AB11 /* splash-anim.json */; };
@@ -66,10 +69,13 @@
 		207EF3F72B9CAFF500EF46CF /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		207EF40E2B9CB32500EF46CF /* GoogleMapsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapsAPI.swift; sourceTree = "<group>"; };
 		207EF4102B9CB35000EF46CF /* NetworkConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfig.swift; sourceTree = "<group>"; };
-		207EF4122B9CB36F00EF46CF /* GooglePlaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlaces.swift; sourceTree = "<group>"; };
+		207EF4122B9CB36F00EF46CF /* GooglePlacesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlacesResponse.swift; sourceTree = "<group>"; };
 		208321A32B9FB98B00F83542 /* LocationPreviewLookAroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPreviewLookAroundView.swift; sourceTree = "<group>"; };
 		20BA43C72BAF3F1300795AB5 /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		20BA43C92BAF3FB400795AB5 /* SecretsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretsManager.swift; sourceTree = "<group>"; };
+		20BA43CE2BAF574800795AB5 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
+		20BA43D42BAF57AA00795AB5 /* ToastModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastModifier.swift; sourceTree = "<group>"; };
+		20BA43D72BAF585500795AB5 /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
 		20C0EC4B2BAE3A81009C52FF /* FetchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchState.swift; sourceTree = "<group>"; };
 		20C5ED5E2BA9E9A20092AB11 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		20C5ED612BA9EC640092AB11 /* splash-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "splash-anim.json"; sourceTree = "<group>"; };
@@ -158,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				203133402B9D04260093CDC2 /* Features */,
+				20BA43D02BAF574B00795AB5 /* Components */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -185,7 +192,7 @@
 		203133422B9D04550093CDC2 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				207EF4122B9CB36F00EF46CF /* GooglePlaces.swift */,
+				207EF4122B9CB36F00EF46CF /* GooglePlacesResponse.swift */,
 				20C0EC4B2BAE3A81009C52FF /* FetchState.swift */,
 				20BA43CB2BAF434B00795AB5 /* Secrets */,
 			);
@@ -207,6 +214,7 @@
 				207AF3E32B9E80B8002AE17D /* URL+Ext.swift */,
 				207AF3EA2B9E820A002AE17D /* UIViewController+Ext.swift */,
 				20FCF7672BAF2361004A5495 /* ShakeDevice+Ext.swift */,
+				20BA43D72BAF585500795AB5 /* View+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -267,6 +275,30 @@
 				207EF3F52B9CAFD600EF46CF /* SecretsKeys.swift */,
 			);
 			path = SecretsKeys;
+			sourceTree = "<group>";
+		};
+		20BA43D02BAF574B00795AB5 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				20BA43D12BAF576D00795AB5 /* Toast */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		20BA43D12BAF576D00795AB5 /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				20BA43CE2BAF574800795AB5 /* ToastView.swift */,
+			);
+			path = Toast;
+			sourceTree = "<group>";
+		};
+		20BA43D62BAF57CB00795AB5 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				20BA43D42BAF57AA00795AB5 /* ToastModifier.swift */,
+			);
+			path = Modifiers;
 			sourceTree = "<group>";
 		};
 		20C5ED602BA9E9A60092AB11 /* Splash */ = {
@@ -336,9 +368,10 @@
 		20FCF7772BAF2BDF004A5495 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				20FCF76E2BAF2B28004A5495 /* Utils */,
 				207AF3E72B9E8165002AE17D /* Extensions */,
+				20BA43D62BAF57CB00795AB5 /* Modifiers */,
 				203133432B9D04A50093CDC2 /* Resources */,
+				20FCF76E2BAF2B28004A5495 /* Utils */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -437,7 +470,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20BA43D82BAF585500795AB5 /* View+Ext.swift in Sources */,
 				207EF4112B9CB35000EF46CF /* NetworkConfig.swift in Sources */,
+				20BA43D52BAF57AA00795AB5 /* ToastModifier.swift in Sources */,
 				208321A42B9FB98B00F83542 /* LocationPreviewLookAroundView.swift in Sources */,
 				20CBCD4B2B9CD36E008D01AA /* Injection+PropertyWrapper.swift in Sources */,
 				2072183A2BA0B6C4005A136A /* BottomMapDetailsView.swift in Sources */,
@@ -447,7 +482,7 @@
 				20002FF32B01A149005C7329 /* MapHeaderView.swift in Sources */,
 				207AF3E42B9E80B8002AE17D /* URL+Ext.swift in Sources */,
 				20BA43CA2BAF3FB400795AB5 /* SecretsManager.swift in Sources */,
-				207EF4132B9CB36F00EF46CF /* GooglePlaces.swift in Sources */,
+				207EF4132B9CB36F00EF46CF /* GooglePlacesResponse.swift in Sources */,
 				20FCF7682BAF2361004A5495 /* ShakeDevice+Ext.swift in Sources */,
 				20CBCD482B9CD334008D01AA /* Injection+Services.swift in Sources */,
 				207EF3F62B9CAFD600EF46CF /* SecretsKeys.swift in Sources */,
@@ -457,6 +492,7 @@
 				207EF3F82B9CAFF500EF46CF /* MapView.swift in Sources */,
 				207AF3F22B9EA3C1002AE17D /* MapUserAnnotation.swift in Sources */,
 				20C5ED5F2BA9E9A20092AB11 /* SplashView.swift in Sources */,
+				20BA43CF2BAF574800795AB5 /* ToastView.swift in Sources */,
 				207AF3E22B9E804F002AE17D /* MapApps.swift in Sources */,
 				20002FF12B01A149005C7329 /* PostosEletricosApp.swift in Sources */,
 				20FCF76C2BAF2AC7004A5495 /* LogHandler.swift in Sources */,

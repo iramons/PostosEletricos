@@ -23,6 +23,7 @@ struct MapView: View {
 
     @Namespace var animation
 
+    @State private var distanceScrolled: CLLocationDistance = 0
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -69,18 +70,34 @@ struct MapView: View {
                         MapPolyline(route.polyline)
                             .stroke(.blue, lineWidth: 8)
                     }
+
+                    if let region = viewModel.cameraPosition.region {
+                        MapCircle(center: region.center, radius: viewModel.distance)
+                            .foregroundStyle(.orange.opacity(0.60))
+                            .mapOverlayLevel(level: .aboveLabels)
+                    }
                 }
+                .mapStyle(
+                    .standard(
+                        elevation: .realistic,
+                        emphasis: .muted,
+                        pointsOfInterest: .all,
+                        showsTraffic: true
+                    )
+                )
                 .mapControls {
                     MapCompass()
                     MapPitchToggle()
                     MapUserLocationButton()
+                    MapScaleView()
                 }
-                .onChange(of: viewModel.selectedItem) { _ , newValue in
-                    guard let location = newValue?.placemark.location else { return }
-                    viewModel.updateCamera(to: location)
+                .onChange(of: viewModel.selectedItem) { _ , newSelectedItem in
+                    guard let location = newSelectedItem?.placemark.location else { return }
+                    viewModel.updateCameraPosition(to: location)
                 }
                 .onMapCameraChange(frequency: .onEnd) { context in
-                    viewModel.updateCameraSpan(with: context)
+                    viewModel.updateCameraPosition(with: context)
+                    viewModel.updateDistance(with: context)
                 }
                 .overlay(alignment: .bottom) {
                     if let selection = viewModel.selectedItem {
@@ -101,7 +118,6 @@ struct MapView: View {
                         )
                     }
                 }
-
             }
             .task {
                 try? await viewModel.startCurrentLocationUpdates()
@@ -120,6 +136,7 @@ struct MapView: View {
                     secondaryButton: .cancel()
                 )
             }
+            .toast(isShowing: $viewModel.showToast, message: viewModel.toastMessage)
             .zIndex(0)
         }
         .onAppear {
@@ -130,7 +147,6 @@ struct MapView: View {
             }
         }
     }
-
 }
 
 #Preview {
