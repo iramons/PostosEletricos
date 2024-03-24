@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FindInAreaButton: View {
 
-    @State private var animate: Bool = false
+    @State private var show: Bool = false
 
     var isLoading: Bool = false {
         willSet {
@@ -25,9 +25,9 @@ struct FindInAreaButton: View {
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
 
             withAnimation {
-                animate = true
+                show = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    animate = false
+                    show = false
                 }
             }
 
@@ -53,8 +53,8 @@ struct FindInAreaButton: View {
         .background(.white)
         .cornerRadius(26)
         .shadow(radius: 3)
-        .scaleEffect(animate ? 1.2 : 1)
-        .animation(.spring(response: 0.4, dampingFraction: 0.6), value: animate)
+        .scaleEffect(show ? 1.2 : 1)
+        .animation(.spring(response: 0.4, dampingFraction: 0.6), value: show)
     }
 }
 

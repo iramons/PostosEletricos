@@ -29,15 +29,19 @@ struct MapView: View {
         ZStack(alignment: .top) {
             Color.white.ignoresSafeArea(edges: .all)
 
-//            if viewModel.showSplash {
-//                SplashView(viewModel: viewModel, animation: animation)
-//                    .zIndex(.infinity)
-//            }
+            if viewModel.showSplash {
+                SplashView(viewModel: viewModel, animation: animation)
+                    .zIndex(.infinity)
+            }
 
             withAnimation(.easeIn(duration: 2)) {
                 FindInAreaButton(isLoading: viewModel.isLoading) {
                     guard let cameraPositionCoordinate = viewModel.cameraPosition.region?.center else { return }
-                    viewModel.fetchStations(in: cameraPositionCoordinate)
+
+                    viewModel.fetchStations(in: cameraPositionCoordinate) { items in
+                        guard let items else { return }
+                        viewModel.updateCameraPositionToFitMarkers(items: items)
+                    }
                 }
                 .offset(y: viewModel.showFindInAreaButton ? 80 : -UIScreen.main.bounds.height)
                 .animation(.easeInOut(duration: 0.8), value: viewModel.showFindInAreaButton)
@@ -70,17 +74,11 @@ struct MapView: View {
                         MapPolyline(route.polyline)
                             .stroke(.blue, lineWidth: 8)
                     }
-
-                    if let region = viewModel.cameraPosition.region {
-                        MapCircle(center: region.center, radius: viewModel.distance)
-                            .foregroundStyle(.orange.opacity(0.60))
-                            .mapOverlayLevel(level: .aboveLabels)
-                    }
                 }
                 .mapStyle(
                     .standard(
                         elevation: .realistic,
-                        emphasis: .muted,
+                        emphasis: .automatic,
                         pointsOfInterest: .all,
                         showsTraffic: true
                     )
@@ -92,12 +90,13 @@ struct MapView: View {
                     MapScaleView()
                 }
                 .onChange(of: viewModel.selectedItem) { _ , newSelectedItem in
-                    guard let location = newSelectedItem?.placemark.location else { return }
-                    viewModel.updateCameraPosition(to: location)
+                    guard let coordinate = newSelectedItem?.placemark.coordinate else { return }
+                    viewModel.updateCameraPosition(forCoordinate: coordinate)
                 }
                 .onMapCameraChange(frequency: .onEnd) { context in
-                    viewModel.updateCameraPosition(with: context)
+                    viewModel.handleCamera(with: context)
                     viewModel.updateDistance(with: context)
+                    viewModel.saveLast(context)
                 }
                 .overlay(alignment: .bottom) {
                     if let selection = viewModel.selectedItem {
