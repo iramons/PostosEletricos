@@ -38,7 +38,7 @@ struct MapView: View {
                 FindInAreaButton(isLoading: viewModel.isLoading) {
                     guard let cameraPositionCoordinate = viewModel.cameraPosition.region?.center else { return }
 
-                    viewModel.fetchStations(in: cameraPositionCoordinate) { items in
+                    viewModel.fetchStationsFromGooglePlaces(in: cameraPositionCoordinate) { items in
                         guard let items else { return }
                         viewModel.updateCameraPositionToFitMarkers(items: items)
                     }

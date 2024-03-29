@@ -21,11 +21,7 @@ extension GoogleMapsAPI: TargetType {
             return ""
         }
     }
-    
-// https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=YOUR_LATITUDE,YOUR_LONGITUDE&radius=YOUR_RADIUS&keyword=electric+vehicle+charging+station&key=YOUR_API_KEY
-// https://maps.googleapis.com/maps/api/place/nearbysearch/json/keyword=electric+vehicle+charging+station?key=AIzaSyBJsnPh525iU9dzOEdq7HA8Mcigcm2xZjI&location=34.011286%2C-116.166868&radius=12.0
-// https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyBJsnPh525iU9dzOEdq7HA8Mcigcm2xZjI&keyword=electric%2Bvehicle%2Bcharging%2Bstation&location=34.011286%2C-116.166868&radius=12.0
-    
+
     var method: Moya.Method {
         switch self {
             

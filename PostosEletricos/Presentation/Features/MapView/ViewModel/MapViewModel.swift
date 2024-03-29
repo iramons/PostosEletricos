@@ -158,7 +158,7 @@ class MapViewModel: ObservableObject {
 
     // MARK: Private
 
-    private enum Constants {
+    enum Constants {
         static let defaultRadius: Float = 3000
         static let defaultCoordinate: CLLocationCoordinate2D = .init(latitude: -22.904232, longitude: -43.104371)
         static let defaultSpan: MKCoordinateSpan = .init(latitudeDelta: 0.01, longitudeDelta: 0.01)
@@ -204,9 +204,16 @@ class MapViewModel: ObservableObject {
         if shouldFetchStations {
             shouldFetchStations = false
 
-            fetchStations(in: coordinate) { [weak self] items in
+            fetchStationsFromGooglePlaces(in: coordinate) { [weak self] items in
                 guard let self, let items else { return }
                 updateCameraPositionToFitMarkers(items: items)
+
+                _Concurrency.Task {
+                    await self.fetchStationsFromMapKit() { itemsFromMapKit in
+                        guard let itemsFromMapKit else { return }
+                        self.updateCameraPositionToFitMarkers(items: itemsFromMapKit)
+                    }
+                }
             }
         }
     }
@@ -233,7 +240,7 @@ class MapViewModel: ObservableObject {
 // MARK: Request
 
 extension MapViewModel {
-    func fetchStations(in location: CLLocationCoordinate2D, completion: @escaping ([MKMapItem]?) -> Void) {
+    func fetchStationsFromGooglePlaces(in location: CLLocationCoordinate2D, completion: @escaping ([MKMapItem]?) -> Void) {
         isLoading = true
 
         provider.request(
@@ -257,20 +264,22 @@ extension MapViewModel {
                         setShowToast(true)
                     }
 
-                    for place in response.results {
+                    response.results.forEach { place in
                         guard let lat = place.geometry?.location?.lat,
                               let lng = place.geometry?.location?.lng
                         else { return }
-                        
+
                         let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
                         let item = MKMapItem(placemark: .init(coordinate: coordinate))
                         item.name = place.name
 
-                        items.append(item)
-                        itemsInFindedArea.append(item)
-
-                        completion(itemsInFindedArea)
+                        withAnimation {
+                            self.items.append(item)
+                            self.itemsInFindedArea.append(item)
+                        }
                     }
+
+                    completion(itemsInFindedArea)
                 }
                 catch {
                     printLog(.error, "\(error)")
@@ -290,6 +299,25 @@ extension MapViewModel {
         }
     }
     
+    func fetchStationsFromMapKit(completion: @escaping ([MKMapItem]?) -> Void) async {
+        guard let region = cameraPosition.region else { return }
+        let request = MKLocalSearch.Request()
+        request.region = region
+        request.naturalLanguageQuery = "eletric charge"
+        let results = try? await MKLocalSearch(request: request).start()
+
+        printLog(.error, "results = \(results)")
+
+        results?.mapItems.forEach { item in
+            withAnimation {
+                items.append(item)
+                itemsInFindedArea.append(item)
+            }
+        }
+
+        completion(itemsInFindedArea)
+    }
+
     func fetchRouteFrom(_ source: CLLocation, to destination: CLLocation) {
         let request = MKDirections.Request()
         request.source = MKMapItem(placemark: MKPlacemark(coordinate: source.coordinate))
@@ -314,5 +342,27 @@ extension MKCoordinateRegion {
         let longitudeRange = (center.longitude - longitudeDelta)...(center.longitude + longitudeDelta)
 
         return latitudeRange.contains(coordinate.latitude) && longitudeRange.contains(coordinate.longitude)
+    }
+}
+
+
+enum DatabaseType {
+    case googlePlaces
+    case mapKit
+}
+
+extension CLLocationCoordinate2D {
+    static var userLocation: CLLocationCoordinate2D {
+        return .init(latitude: -20.4844352, longitude: -69.3907158)
+    }
+}
+
+extension MKCoordinateRegion {
+    static var userRegion: MKCoordinateRegion {
+        return .init(
+            center: .userLocation,
+            latitudinalMeters: 3000,
+            longitudinalMeters: 3000
+        )
     }
 }
