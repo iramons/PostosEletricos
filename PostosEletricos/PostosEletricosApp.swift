@@ -13,8 +13,6 @@ import PulseUI
 @main
 struct PostosEletricosApp: App {
 
-    @State private var showPulseUI: Bool = false
-
     init() {
         configureGooglePlaces()
         registerAllServices()
@@ -28,21 +26,6 @@ struct PostosEletricosApp: App {
     var body: some Scene {
         WindowGroup {
             AnimatedSplashView() {
-                MapView()
-                    .onShakeGesture {
-                        UIImpactFeedbackGenerator(style: .soft)
-                            .impactOccurred()
-
-                        withAnimation {
-                            showPulseUI.toggle()
-                        }
-                    }
-                    .sheet(isPresented: $showPulseUI) {
-                        NavigationView {
-                            ConsoleView()
-                        }
-                    }
-            } onAnimatedEnd: {
 
             }
         }

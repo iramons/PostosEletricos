@@ -8,18 +8,14 @@
 import SwiftUI
 import Lottie
 
-struct AnimatedSplashView<T:View>: View {
+struct AnimatedSplashView: View {
 
-    init(
-        @ViewBuilder content: @escaping () -> T,
-        onAnimatedEnd: @escaping () -> Void
-    ) {
-        self.content = content()
+    init(onAnimatedEnd: @escaping () -> Void) {
         self.onAnimatedEnd = onAnimatedEnd
     }
 
-    var content: T
     var onAnimatedEnd: ()->()
+
     let animationTiming: Double = 0.65
     @State var startAnimation: Bool = false
     @State var animateContent: Bool = false
@@ -29,14 +25,8 @@ struct AnimatedSplashView<T:View>: View {
         VStack(spacing: 0) {
             if startAnimation {
                 GeometryReader { proxy in
-                    VStack(spacing: 0) {
-                        MapHeaderView(withAnimation: animation, isLoading: true)
-                            .zIndex(1)
-
-                        content
-                            .offset(y: animateContent ? 0 : (proxy.size.height - (70 + safeArea().top)))
-                    }
-                    .frame(maxHeight: .infinity, alignment: .top)
+                    MapView(withAnimation: animation)
+                        .offset(y: animateContent ? 0 : (proxy.size.height - (70 + safeArea().top)))
                 }
                 .transition(.identity)
                 .ignoresSafeArea(.container, edges: .all)
@@ -71,8 +61,6 @@ struct AnimatedSplashView<T:View>: View {
 
 #Preview {
     AnimatedSplashView() {
-        MapView()
-    } onAnimatedEnd: {
         
     }
 }

@@ -37,5 +37,6 @@ struct SplashView: View {
 }
 
 #Preview {
-    MapView()
+    @Namespace var animation
+    return SplashView(withAnimation: animation)
 }
