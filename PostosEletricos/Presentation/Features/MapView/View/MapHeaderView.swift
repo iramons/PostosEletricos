@@ -28,7 +28,7 @@ struct MapHeaderView: View {
                 .fill(.white)
                 .shadow(radius: 4, x: 0, y: 8)
                 .matchedGeometryEffect(id: "splashBackgroundAnimId", in: animation)
-                .frame(height: 70 + safeArea().top)
+                .frame(height: 70)
 
             VStack {
                 HStack(alignment: .center) {

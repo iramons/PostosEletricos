@@ -36,7 +36,6 @@
 		20BA43D52BAF57AA00795AB5 /* ToastModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BA43D42BAF57AA00795AB5 /* ToastModifier.swift */; };
 		20BA43D82BAF585500795AB5 /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BA43D72BAF585500795AB5 /* View+Ext.swift */; };
 		20C0EC4C2BAE3A81009C52FF /* FetchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C0EC4B2BAE3A81009C52FF /* FetchState.swift */; };
-		20C5ED5F2BA9E9A20092AB11 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C5ED5E2BA9E9A20092AB11 /* SplashView.swift */; };
 		20C5ED622BA9EC640092AB11 /* splash-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 20C5ED612BA9EC640092AB11 /* splash-anim.json */; };
 		20C6B1A92BAE20DB00B113F3 /* FindInAreaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C6B1A82BAE20DA00B113F3 /* FindInAreaButton.swift */; };
 		20CBCD462B9CBE1C008D01AA /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */; };
@@ -79,7 +78,6 @@
 		20BA43D42BAF57AA00795AB5 /* ToastModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastModifier.swift; sourceTree = "<group>"; };
 		20BA43D72BAF585500795AB5 /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
 		20C0EC4B2BAE3A81009C52FF /* FetchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchState.swift; sourceTree = "<group>"; };
-		20C5ED5E2BA9E9A20092AB11 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		20C5ED612BA9EC640092AB11 /* splash-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "splash-anim.json"; sourceTree = "<group>"; };
 		20C6B1A82BAE20DA00B113F3 /* FindInAreaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindInAreaButton.swift; sourceTree = "<group>"; };
 		20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
@@ -309,7 +307,6 @@
 		20C5ED602BA9E9A60092AB11 /* Splash */ = {
 			isa = PBXGroup;
 			children = (
-				20C5ED5E2BA9E9A20092AB11 /* SplashView.swift */,
 				271B50C32BB75A9100C4C684 /* AnimatedSplashView.swift */,
 			);
 			path = Splash;
@@ -506,7 +503,6 @@
 				207EF3F82B9CAFF500EF46CF /* MapView.swift in Sources */,
 				207AF3F22B9EA3C1002AE17D /* MapUserAnnotation.swift in Sources */,
 				271B50C62BB8A35100C4C684 /* HProgressView.swift in Sources */,
-				20C5ED5F2BA9E9A20092AB11 /* SplashView.swift in Sources */,
 				20BA43CF2BAF574800795AB5 /* ToastView.swift in Sources */,
 				207AF3E22B9E804F002AE17D /* MapApps.swift in Sources */,
 				20002FF12B01A149005C7329 /* PostosEletricosApp.swift in Sources */,
