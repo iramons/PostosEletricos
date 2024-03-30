@@ -10,12 +10,6 @@ import Lottie
 
 struct AnimatedSplashView: View {
 
-    init(onAnimatedEnd: @escaping () -> Void) {
-        self.onAnimatedEnd = onAnimatedEnd
-    }
-
-    var onAnimatedEnd: ()->()
-
     let animationTiming: Double = 0.65
     @State var startAnimation: Bool = false
     @State var animateContent: Bool = false
@@ -48,21 +42,13 @@ struct AnimatedSplashView: View {
                         startAnimation = true
                     }
                 }
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + (animationTiming - 0.05)) {
-                    withAnimation(.easeInOut(duration: animationTiming)) {
-                        onAnimatedEnd()
-                    }
-                }
             }
         }
     }
 }
 
 #Preview {
-    AnimatedSplashView() {
-        
-    }
+    AnimatedSplashView()
 }
 
 extension View {

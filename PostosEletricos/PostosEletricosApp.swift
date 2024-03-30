@@ -25,9 +25,7 @@ struct PostosEletricosApp: App {
 
     var body: some Scene {
         WindowGroup {
-            AnimatedSplashView() {
-
-            }
+            AnimatedSplashView()
         }
     }
 }
