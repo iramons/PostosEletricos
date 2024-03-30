@@ -50,6 +50,8 @@
 		20FCF7702BAF2B3B004A5495 /* Logging+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FCF76F2BAF2B3B004A5495 /* Logging+Ext.swift */; };
 		20FCF7732BAF2B5B004A5495 /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 20FCF7722BAF2B5B004A5495 /* Logging */; };
 		20FCF7762BAF2B6D004A5495 /* PulseLogHandler in Frameworks */ = {isa = PBXBuildFile; productRef = 20FCF7752BAF2B6D004A5495 /* PulseLogHandler */; };
+		271B50C42BB75A9100C4C684 /* AnimatedSplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271B50C32BB75A9100C4C684 /* AnimatedSplashView.swift */; };
+		271B50C62BB8A35100C4C684 /* HProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271B50C52BB8A35100C4C684 /* HProgressView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +90,8 @@
 		20FCF7692BAF2AA2004A5495 /* PrintLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintLog.swift; sourceTree = "<group>"; };
 		20FCF76B2BAF2AC7004A5495 /* LogHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogHandler.swift; sourceTree = "<group>"; };
 		20FCF76F2BAF2B3B004A5495 /* Logging+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logging+Ext.swift"; sourceTree = "<group>"; };
+		271B50C32BB75A9100C4C684 /* AnimatedSplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedSplashView.swift; sourceTree = "<group>"; };
+		271B50C52BB8A35100C4C684 /* HProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HProgressView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -281,6 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				20BA43D12BAF576D00795AB5 /* Toast */,
+				271B50C72BB8A35900C4C684 /* HProgressView */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -305,6 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				20C5ED5E2BA9E9A20092AB11 /* SplashView.swift */,
+				271B50C32BB75A9100C4C684 /* AnimatedSplashView.swift */,
 			);
 			path = Splash;
 			sourceTree = "<group>";
@@ -376,6 +382,14 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		271B50C72BB8A35900C4C684 /* HProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				271B50C52BB8A35100C4C684 /* HProgressView.swift */,
+			);
+			path = HProgressView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -416,7 +430,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					20002FEC2B01A149005C7329 = {
 						CreatedOnToolsVersion = 15.0.1;
@@ -491,12 +505,14 @@
 				20C6B1A92BAE20DB00B113F3 /* FindInAreaButton.swift in Sources */,
 				207EF3F82B9CAFF500EF46CF /* MapView.swift in Sources */,
 				207AF3F22B9EA3C1002AE17D /* MapUserAnnotation.swift in Sources */,
+				271B50C62BB8A35100C4C684 /* HProgressView.swift in Sources */,
 				20C5ED5F2BA9E9A20092AB11 /* SplashView.swift in Sources */,
 				20BA43CF2BAF574800795AB5 /* ToastView.swift in Sources */,
 				207AF3E22B9E804F002AE17D /* MapApps.swift in Sources */,
 				20002FF12B01A149005C7329 /* PostosEletricosApp.swift in Sources */,
 				20FCF76C2BAF2AC7004A5495 /* LogHandler.swift in Sources */,
 				2031333D2B9CFF470093CDC2 /* LocationService.swift in Sources */,
+				271B50C42BB75A9100C4C684 /* AnimatedSplashView.swift in Sources */,
 				20CBCD462B9CBE1C008D01AA /* MapViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -509,6 +525,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -572,6 +589,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

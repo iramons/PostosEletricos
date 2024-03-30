@@ -11,20 +11,31 @@ import Lottie
 
 struct SplashView: View {
 
-    @ObservedObject var viewModel: MapViewModel
+    init(withAnimation animation: Namespace.ID) {
+        self.animation = animation
+    }
 
-    var animation: Namespace.ID
+    let animation: Namespace.ID
 
     var body: some View {
         ZStack {
-            Color.white.edgesIgnoringSafeArea(.all)
+            Rectangle()
+                .fill(.white)
+                .shadow(radius: 4, x: 0, y: 8)
+                .matchedGeometryEffect(id: "splashBackgroundAnimId", in: animation)
 
-            LottieView(animation: .named("splash-anim"))
-                .looping()
-                .resizable()
-                .frame(width: 100, height: 100)
-                .matchedGeometryEffect(id: "chargeStationAnimID", in: animation)
+            VStack {
+                LottieView(animation: .named("splash-anim"))
+                    .looping()
+                    .resizable()
+                    .frame(width: 100, height: 100)
+                    .matchedGeometryEffect(id: "splashLogoAnimId", in: animation)
+            }
         }
-        .edgesIgnoringSafeArea(.all)
+        .ignoresSafeArea(.container, edges: .all)
     }
+}
+
+#Preview {
+    MapView()
 }

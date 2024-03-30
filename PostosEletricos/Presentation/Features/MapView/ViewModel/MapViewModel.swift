@@ -25,12 +25,10 @@ class MapViewModel: ObservableObject {
 
     // MARK: Public
 
-    @State var state: FetchState = .none
-
-    @Published var location: CLLocation?
+    @Published var position: MapCameraPosition = .automatic
+    @Published var selectedItem: MKMapItem?
     @Published var items: [MKMapItem] = [MKMapItem]()
     @Published var itemsInFindedArea: [MKMapItem] = [MKMapItem]()
-    @Published var selectedItem: MKMapItem?
     @Published var travelTime: String?
     @Published var isRoutePresenting: Bool = false
     @Published var showRouteButtonTitle: String = "Mostrar rota"
@@ -39,17 +37,10 @@ class MapViewModel: ObservableObject {
     @Published var showFindInAreaButton: Bool = false
     @Published var showLocationServicesAlert: Bool = false
     @Published var isLoading: Bool = false
+    @Published var isFirstLoading: Bool = false
     @Published var distance: CLLocationDistance = CLLocationDistance(3000)
     @Published var lastRegion: MKCoordinateRegion?
     @Published var lastContext: MapCameraUpdateContext?
-
-    @Published var cameraPosition: MapCameraPosition = .region(
-        .init(
-            center: .init(latitude: -20.4844352, longitude: -69.3907158),
-            latitudinalMeters: CLLocationDistance(Constants.defaultRadius),
-            longitudinalMeters: CLLocationDistance(Constants.defaultRadius)
-        )
-    )
 
     @Published var route: MKRoute? {
         didSet {
@@ -66,13 +57,13 @@ class MapViewModel: ObservableObject {
     }
     
     func updateCameraPosition(forCoordinate coordinate: CLLocationCoordinate2D) {
-        guard let span = cameraPosition.region?.span else {
+        guard let span = position.region?.span else {
             printLog(.critical, "span is null")
             return
         }
 
         withAnimation(.easeInOut) {
-            cameraPosition = .region(
+            position = .region(
                 MKCoordinateRegion(
                     center: coordinate,
                     span: span
@@ -84,7 +75,7 @@ class MapViewModel: ObservableObject {
     }
     
     func updateCameraPosition(forContext context: MapCameraUpdateContext) {
-        cameraPosition = .region(.init(center: context.region.center, span: context.region.span))
+        position = .region(.init(center: context.region.center, span: context.region.span))
 
         if showToast {
             setShowToast(false)
@@ -95,7 +86,7 @@ class MapViewModel: ObservableObject {
 
     func updateCameraPosition(forRegion region: MKCoordinateRegion) {
         withAnimation(.easeInOut) {
-            cameraPosition = .region(
+            position = .region(
                 MKCoordinateRegion(
                     center: region.center,
                     span: region.span
@@ -115,19 +106,25 @@ class MapViewModel: ObservableObject {
     }
 
     func handleCamera(with context: MapCameraUpdateContext) {
-        if cameraPosition.positionedByUser {
+        if position.positionedByUser {
             updateCameraPosition(forContext: context)
         }
 
         let itemsInRegion: [MKMapItem] = itemsInRegion(with: context)
 
-        if itemsInRegion.isEmpty {
+        if itemsInRegion.isEmpty, !isFirstLoading {
             showFindInAreaButton = true
+        }
+
+        if isFirstLoading {
+            isFirstLoading.toggle()
         }
     }
 
     /// Function to update camera position to fit all markers
-    func updateCameraPositionToFitMarkers(items: [MKMapItem]) {
+    func getMapItemsRegion(items: [MKMapItem], completion: @escaping (MKCoordinateRegion) -> Void) {
+        guard !items.isEmpty else { return }
+
         // Calculate the bounding region for all markers
         var minLat = items[0].placemark.coordinate.latitude
         var maxLat = items[0].placemark.coordinate.latitude
@@ -146,14 +143,28 @@ class MapViewModel: ObservableObject {
         let span = MKCoordinateSpan(latitudeDelta: (maxLat - minLat) * 1.2, longitudeDelta: (maxLon - minLon) * 1.2)
         let newRegion = MKCoordinateRegion(center: center, span: span)
 
-        // Set the new region as the camera position
-        updateCameraPosition(forRegion: newRegion)
+        completion(newRegion)
     }
 
     func itemsInRegion(with context: MapCameraUpdateContext) -> [MKMapItem] {
         return items.filter { item in
             context.region.contains(coordinate: item.placemark.coordinate)
         }
+    }
+
+    func onChangeOf(_ selectedItem: MKMapItem?) {
+        guard let coordinate = selectedItem?.placemark.coordinate else { return }
+        updateCameraPosition(forCoordinate: coordinate)
+    }
+
+    func onMapCameraChange(_ context: MapCameraUpdateContext) {
+        handleCamera(with: context)
+        updateDistance(with: context)
+        saveLast(context)
+    }
+
+    func onAppear() {
+        isFirstLoading = true
     }
 
     // MARK: Private
@@ -181,38 +192,36 @@ class MapViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] location in
                 guard let self, let location else { return }
-                self.location = location
-                performUpdateCamera()
+
+                if shouldUpdateCamera {
+                    shouldUpdateCamera = false
+                    updateCameraPosition(forCoordinate: location.coordinate)
+                }
+
                 performFetchData(in: location.coordinate)
             }
             .store(in: &cancellables)
     }
-    
-    private func updateCameraPosition() {
-        guard let location else { return }
-        updateCameraPosition(forCoordinate: location.coordinate)
-    }
-    
-    private func performUpdateCamera() {
-        if shouldUpdateCamera {
-            shouldUpdateCamera = false
-            updateCameraPosition()
-        }
-    }
-    
+
     private func performFetchData(in coordinate: CLLocationCoordinate2D) {
         if shouldFetchStations {
             shouldFetchStations = false
 
             fetchStationsFromGooglePlaces(in: coordinate) { [weak self] items in
                 guard let self, let items else { return }
-                updateCameraPositionToFitMarkers(items: items)
 
-                _Concurrency.Task {
-                    await self.fetchStationsFromMapKit() { itemsFromMapKit in
-                        guard let itemsFromMapKit else { return }
-                        self.updateCameraPositionToFitMarkers(items: itemsFromMapKit)
-                    }
+                getMapItemsRegion(items: items) { region in
+                    self.updateCameraPosition(forRegion: region)
+
+//                    _Concurrency.Task {
+//                        await self.fetchStationsFromMapKit() { itemsFromMapKit in
+//                            guard let itemsFromMapKit else { return }
+//
+//                            self.getMapItemsRegion(items: itemsFromMapKit) { region in
+//                                self.updateCameraPosition(forRegion: region)
+//                            }
+//                        }
+//                    }
                 }
             }
         }
@@ -233,7 +242,7 @@ class MapViewModel: ObservableObject {
     }
 
     private func updateLastRegion() {
-        lastRegion = cameraPosition.region
+        lastRegion = position.region
     }
 }
 
@@ -300,13 +309,13 @@ extension MapViewModel {
     }
     
     func fetchStationsFromMapKit(completion: @escaping ([MKMapItem]?) -> Void) async {
-        guard let region = cameraPosition.region else { return }
+        guard let region = position.region else { return }
         let request = MKLocalSearch.Request()
         request.region = region
         request.naturalLanguageQuery = "eletric charge"
         let results = try? await MKLocalSearch(request: request).start()
 
-        printLog(.error, "results = \(results)")
+        printLog(.error, "results = \(String(describing: results))")
 
         results?.mapItems.forEach { item in
             withAnimation {
@@ -342,27 +351,5 @@ extension MKCoordinateRegion {
         let longitudeRange = (center.longitude - longitudeDelta)...(center.longitude + longitudeDelta)
 
         return latitudeRange.contains(coordinate.latitude) && longitudeRange.contains(coordinate.longitude)
-    }
-}
-
-
-enum DatabaseType {
-    case googlePlaces
-    case mapKit
-}
-
-extension CLLocationCoordinate2D {
-    static var userLocation: CLLocationCoordinate2D {
-        return .init(latitude: -20.4844352, longitude: -69.3907158)
-    }
-}
-
-extension MKCoordinateRegion {
-    static var userRegion: MKCoordinateRegion {
-        return .init(
-            center: .userLocation,
-            latitudinalMeters: 3000,
-            longitudinalMeters: 3000
-        )
     }
 }

@@ -10,26 +10,61 @@ import Lottie
 
 struct MapHeaderView: View {
 
-    var animation: Namespace.ID
+    init(
+        withAnimation animation: Namespace.ID,
+        isLoading: Bool = false
+    ) {
+        self.animation = animation
+        self.isLoading = isLoading
+    }
+
+    let animation: Namespace.ID
+    @State var isLoading: Bool
+    @State var canShowProgress: Bool = false
 
     var body: some View {
-        HStack {
-            LottieView(animation: .named("splash-anim"))
-                .looping()
-                .resizable()
-                .frame(width: 60, height: 60)
-                .matchedGeometryEffect(id: "chargeStationAnimID", in: animation)
+        ZStack(alignment: .bottom) {
+            Rectangle()
+                .fill(.white)
+                .shadow(radius: 4, x: 0, y: 8)
+                .matchedGeometryEffect(id: "splashBackgroundAnimId", in: animation)
+                .frame(height: 70 + safeArea().top)
 
-            Text("Postos Elétricos")
-                .multilineTextAlignment(.center)
-                .font(.title2)
-                .fontWeight(.regular)
-                .foregroundStyle(.black)
+            VStack {
+                HStack(alignment: .center) {
+                    LottieView(animation: .named("splash-anim"))
+                        .looping()
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .matchedGeometryEffect(id: "splashLogoAnimId", in: animation)
+
+                    Text("Postos Elétricos")
+                        .multilineTextAlignment(.center)
+                        .font(.title2)
+                        .fontWeight(.regular)
+                        .foregroundStyle(.black)
+                }
+                .padding(8)
+
+                if canShowProgress, isLoading {
+                    HProgressView()
+                }
+            }
+        }.onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                withAnimation {
+                    canShowProgress.toggle()
+                }
+            }
         }
-        .frame(maxWidth: .infinity, alignment: .center)
-        .frame(height: 70)
-        .padding(.horizontal)
-        .background(.white)
-        .shadow(radius: 8)
+    }
+}
+
+#Preview {
+    @Namespace var animation
+
+    return VStack {
+        MapHeaderView(withAnimation: animation)
+        Spacer()
     }
 }

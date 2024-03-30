@@ -27,20 +27,24 @@ struct PostosEletricosApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MapView()
-                .onShakeGesture {
-                    UIImpactFeedbackGenerator(style: .soft)
-                        .impactOccurred()
+            AnimatedSplashView() {
+                MapView()
+                    .onShakeGesture {
+                        UIImpactFeedbackGenerator(style: .soft)
+                            .impactOccurred()
 
-                    withAnimation {
-                        showPulseUI.toggle()
+                        withAnimation {
+                            showPulseUI.toggle()
+                        }
                     }
-                }
-                .sheet(isPresented: $showPulseUI) {
-                    NavigationView {
-                        ConsoleView()
+                    .sheet(isPresented: $showPulseUI) {
+                        NavigationView {
+                            ConsoleView()
+                        }
                     }
-                }
+            } onAnimatedEnd: {
+
+            }
         }
     }
 }
