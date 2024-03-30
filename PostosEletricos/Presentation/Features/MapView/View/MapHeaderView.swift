@@ -19,7 +19,7 @@ struct MapHeaderView: View {
     }
 
     let animation: Namespace.ID
-    @State var isLoading: Bool
+    var isLoading: Bool
     @State var canShowProgress: Bool = false
 
     var body: some View {

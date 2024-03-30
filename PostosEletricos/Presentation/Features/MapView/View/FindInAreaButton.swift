@@ -9,43 +9,24 @@ import SwiftUI
 
 struct FindInAreaButton: View {
 
-    @State private var show: Bool = false
-
-    var isLoading: Bool = false {
-        willSet {
-            print("isLoading = \(isLoading)")
-        }
-    }
-
+    @State private var animate: Bool = false
+    var isLoading: Bool = false
     var action: (() -> Void)?
 
     var body: some View {
-
         Button(action: {
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
-
+            
             withAnimation {
-                show = true
+                animate.toggle()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    show = false
+                    animate.toggle()
                 }
             }
 
             action?()
         }, label: {
-
-            HStack(spacing: 16) {
-                Text("Buscar nesta área")
-
-                if isLoading {
-                    withAnimation {
-                        ProgressView()
-                            .progressViewStyle(.circular)
-                            .tint(.orange)
-                    }
-                }
-            }
-
+            Text("Buscar nesta área")
         })
         .font(.headline)
         .padding(.horizontal, 24)
@@ -53,11 +34,10 @@ struct FindInAreaButton: View {
         .background(.white)
         .cornerRadius(26)
         .shadow(radius: 3)
-        .scaleEffect(show ? 1.2 : 1)
-        .animation(.spring(response: 0.4, dampingFraction: 0.6), value: show)
+        .scaleEffect(animate ? 1.2 : 1)
+        .animation(.spring(response: 0.4, dampingFraction: 0.6), value: animate)
     }
 }
-
 
 #Preview {
     FindInAreaButton()

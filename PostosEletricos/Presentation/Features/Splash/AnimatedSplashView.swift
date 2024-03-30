@@ -20,7 +20,7 @@ struct AnimatedSplashView: View {
             if startAnimation {
                 GeometryReader { proxy in
                     MapView(withAnimation: animation)
-                        .offset(y: animateContent ? 0 : (proxy.size.height - (70 + safeArea().top)))
+                        .offset(y: animateContent ? 0 : proxy.size.height - 70)
                 }
                 .transition(.identity)
                 .ignoresSafeArea(.container, edges: .all)
@@ -49,14 +49,4 @@ struct AnimatedSplashView: View {
 
 #Preview {
     AnimatedSplashView()
-}
-
-extension View {
-    func safeArea() -> UIEdgeInsets {
-        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let safeArea = window.windows.first?.safeAreaInsets
-        else { return .zero }
-
-         return safeArea
-    }
 }

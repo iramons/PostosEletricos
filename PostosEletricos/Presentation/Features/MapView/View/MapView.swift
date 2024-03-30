@@ -45,14 +45,17 @@ struct MapView: View {
                         }
                     }
                 }
-                .offset(y: viewModel.showFindInAreaButton ? 16 : -UIScreen.main.bounds.height)
+                .offset(y: viewModel.showFindInAreaButton ? (80 + safeArea().top) : -UIScreen.main.bounds.height)
                 .animation(.easeInOut(duration: 0.8), value: viewModel.showFindInAreaButton)
                 .zIndex(1)
             }
             
             VStack(spacing: 0) {
-                MapHeaderView(withAnimation: animation, isLoading: true)
-                    .zIndex(1)
+                MapHeaderView(
+                    withAnimation: animation,
+                    isLoading: viewModel.isLoading
+                )
+                .zIndex(.infinity)
 
                 Map(
                     position: $viewModel.position,
@@ -142,7 +145,6 @@ struct MapView: View {
                 message: viewModel.toastMessage
             )
         }
-        .frame(maxHeight: .infinity, alignment: .top)
         .onShakeGesture {
             UIImpactFeedbackGenerator(style: .soft)
                 .impactOccurred()

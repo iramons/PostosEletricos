@@ -16,3 +16,16 @@ extension View {
         modifier(ToastModifier(isShowing: isShowing, message: message))
     }
 }
+
+extension View {
+
+    // MARK: UIEdgeInsets
+
+    func safeArea() -> UIEdgeInsets {
+        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let safeArea = window.windows.first?.safeAreaInsets
+        else { return .zero }
+
+        return safeArea
+    }
+}
