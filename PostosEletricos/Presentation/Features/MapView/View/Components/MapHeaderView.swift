@@ -26,16 +26,15 @@ struct MapHeaderView: View {
         ZStack(alignment: .bottom) {
             Rectangle()
                 .fill(.white)
-                .shadow(radius: 4, x: 0, y: 8)
+                .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 8)
                 .matchedGeometryEffect(id: "splashBackgroundAnimId", in: animation)
-                .frame(height: 70)
 
-            VStack {
-                HStack(alignment: .center) {
+            VStack(spacing: .zero) {
+                HStack(alignment: .bottom) {
                     LottieView(animation: .named("splash-anim"))
                         .looping()
                         .resizable()
-                        .frame(width: 50, height: 50)
+                        .frame(width: 45, height: 45)
                         .matchedGeometryEffect(id: "splashLogoAnimId", in: animation)
 
                     Text("Postos Elétricos")
@@ -46,11 +45,12 @@ struct MapHeaderView: View {
                 }
                 .padding(8)
 
-                if canShowProgress, isLoading {
-                    HProgressView()
-                }
+                HProgressView(show: isLoading)
+                    .opacity(canShowProgress ? 1 : 0)
             }
-        }.onAppear {
+        }
+        .frame(height: 60)
+        .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 withAnimation {
                     canShowProgress.toggle()

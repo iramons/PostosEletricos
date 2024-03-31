@@ -21,10 +21,6 @@ import PulseUI
 
 struct MapView: View {
 
-    init(withAnimation animation: Namespace.ID) {
-        self.animation = animation
-    }
-
     var animation: Namespace.ID
 
     @StateObject private var viewModel = MapViewModel()
@@ -33,36 +29,35 @@ struct MapView: View {
     var body: some View {
         ZStack(alignment: .top) {
             Color.white.ignoresSafeArea(edges: .all)
-            
-            withAnimation(.easeIn(duration: 2)) {
-                FindInAreaButton(isLoading: viewModel.isLoading) {
-                    guard let cameraPositionCoordinate = viewModel.position.region?.center else { return }
-                    
-                    viewModel.fetchStationsFromGooglePlaces(in: cameraPositionCoordinate) { items in
-                        guard let items else { return }
-                        viewModel.getMapItemsRegion(items: items) { region in
-                            viewModel.updateCameraPosition(forRegion: region)
-                        }
+
+            FindInAreaButton(onTap: {
+                viewModel.showFindInAreaButton = false
+                guard let center = viewModel.position.region?.center else { return }
+
+                viewModel.fetchStationsFromGooglePlaces(in: center) { items in
+                    guard let items else { return }
+                    viewModel.getMapItemsRegion(items: items) { region in
+                        viewModel.updateCameraPosition(forRegion: region)
                     }
                 }
-                .offset(y: viewModel.showFindInAreaButton ? (80 + safeArea().top) : -UIScreen.main.bounds.height)
-                .animation(.easeInOut(duration: 0.8), value: viewModel.showFindInAreaButton)
-                .zIndex(1)
-            }
-            
+            })
+            .offset(y: viewModel.showFindInAreaButton ? 80 : -UIScreen.main.bounds.height)
+            .animation(.easeInOut(duration: 2), value: viewModel.showFindInAreaButton)
+            .zIndex(1)
+
             VStack(spacing: 0) {
                 MapHeaderView(
                     withAnimation: animation,
                     isLoading: viewModel.isLoading
                 )
-                .zIndex(.infinity)
+                .zIndex(2)
 
                 Map(
                     position: $viewModel.position,
                     selection: $viewModel.selectedItem
                 ) {
                     UserAnnotation()
-                    
+
                     ForEach(viewModel.items, id: \.self) { item in
                         Marker(coordinate: item.placemark.coordinate) {
                             Label(
@@ -74,7 +69,7 @@ struct MapView: View {
                         .tag(item.name?.description)
                         .annotationTitles(.hidden)
                     }
-                    
+
                     if let route = viewModel.route {
                         MapPolyline(route.polyline)
                             .stroke(.blue, lineWidth: 8)
@@ -112,7 +107,7 @@ struct MapView: View {
                                 guard let origin = viewModel.locationService.location,
                                       let destionation = selection.placemark.location
                                 else { return }
-                                
+
                                 if viewModel.isRoutePresenting {
                                     viewModel.route = nil
                                 } else {
@@ -163,5 +158,5 @@ struct MapView: View {
 
 #Preview {
     @Namespace var animation
-    return MapView(withAnimation: animation)
+    return MapView(animation: animation)
 }

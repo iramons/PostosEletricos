@@ -10,6 +10,7 @@ import SwiftUI
 struct HProgressView: View {
 
     @State private var isAnimating = false
+    var show: Bool = false
 
     var body: some View {
         GeometryReader { geometry in
@@ -25,9 +26,10 @@ struct HProgressView: View {
             }
         }
         .frame(height: 2)
+        .opacity(show ? 1 : 0)
         .onAppear {
-            withAnimation(Animation.linear(duration: 1).repeatForever(autoreverses: false)) {
-                isAnimating = true
+            withAnimation(.linear(duration: 1).repeatForever(autoreverses: false)) {
+                isAnimating.toggle()
             }
         }
     }

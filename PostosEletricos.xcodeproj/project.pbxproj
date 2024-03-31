@@ -323,12 +323,8 @@
 		20CB5BC12B9D0CDF00C42659 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				207EF3F72B9CAFF500EF46CF /* MapView.swift */,
-				20002FF22B01A149005C7329 /* MapHeaderView.swift */,
-				207AF3F12B9EA3C1002AE17D /* MapUserAnnotation.swift */,
-				208321A32B9FB98B00F83542 /* LocationPreviewLookAroundView.swift */,
-				207218392BA0B6C4005A136A /* BottomMapDetailsView.swift */,
-				20C6B1A82BAE20DA00B113F3 /* FindInAreaButton.swift */,
+				27D1511E2BC31EE8002E4EBD /* Map */,
+				27D1511D2BC31EC2002E4EBD /* Components */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -385,6 +381,26 @@
 				271B50C52BB8A35100C4C684 /* HProgressView.swift */,
 			);
 			path = HProgressView;
+			sourceTree = "<group>";
+		};
+		27D1511D2BC31EC2002E4EBD /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				208321A32B9FB98B00F83542 /* LocationPreviewLookAroundView.swift */,
+				207218392BA0B6C4005A136A /* BottomMapDetailsView.swift */,
+				207AF3F12B9EA3C1002AE17D /* MapUserAnnotation.swift */,
+				20002FF22B01A149005C7329 /* MapHeaderView.swift */,
+				20C6B1A82BAE20DA00B113F3 /* FindInAreaButton.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		27D1511E2BC31EE8002E4EBD /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				207EF3F72B9CAFF500EF46CF /* MapView.swift */,
+			);
+			path = Map;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

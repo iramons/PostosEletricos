@@ -9,9 +9,13 @@ import SwiftUI
 
 struct FindInAreaButton: View {
 
+    init(onTap: (@escaping () -> Void)) {
+        self.onTap = onTap
+    }
+
     @State private var animate: Bool = false
-    var isLoading: Bool = false
-    var action: (() -> Void)?
+    
+    let onTap: (() -> Void)
 
     var body: some View {
         Button(action: {
@@ -24,7 +28,7 @@ struct FindInAreaButton: View {
                 }
             }
 
-            action?()
+            onTap()
         }, label: {
             Text("Buscar nesta área")
         })
@@ -40,5 +44,5 @@ struct FindInAreaButton: View {
 }
 
 #Preview {
-    FindInAreaButton()
+    FindInAreaButton(onTap: {})
 }

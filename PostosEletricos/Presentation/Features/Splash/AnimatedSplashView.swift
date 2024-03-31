@@ -11,10 +11,9 @@ import Lottie
 struct AnimatedSplashView: View {
 
     @State var startAnimation: Bool = false
-    @State var animateContent: Bool = false
     @Namespace var animation
 
-    let animationTiming: Double = 0.65
+    let animationTiming: Double = 0.5
 
     var body: some View {
         VStack(spacing: .zero) {
@@ -41,18 +40,9 @@ struct AnimatedSplashView: View {
 extension AnimatedSplashView {
     var contentScreen: some View {
         GeometryReader { proxy in
-            MapView(withAnimation: animation)
-                .offset(y: animateContent ? 0 : proxy.size.height - 70)
+            MapView(animation: animation)
         }
         .transition(.identity)
-        .ignoresSafeArea(.container, edges: .all)
-        .onAppear {
-            if !animateContent {
-                withAnimation(.easeInOut(duration: animationTiming)) {
-                    animateContent = true
-                }
-            }
-        }
     }
 }
 
@@ -63,18 +53,16 @@ extension AnimatedSplashView {
         ZStack {
             Rectangle()
                 .fill(.white)
-                .shadow(radius: 4, x: 0, y: 8)
+                .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 8)
                 .matchedGeometryEffect(id: "splashBackgroundAnimId", in: animation)
 
-            VStack {
-                LottieView(animation: .named("splash-anim"))
-                    .looping()
-                    .resizable()
-                    .frame(width: 100, height: 100)
-                    .matchedGeometryEffect(id: "splashLogoAnimId", in: animation)
-            }
+            LottieView(animation: .named("splash-anim"))
+                .looping()
+                .resizable()
+                .frame(width: 100, height: 100)
+                .matchedGeometryEffect(id: "splashLogoAnimId", in: animation)
         }
-        .ignoresSafeArea(.container, edges: .all)
+        .ignoresSafeArea(.all)
     }
 }
 
