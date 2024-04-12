@@ -23,10 +23,16 @@ struct MapView: View {
 
     var animation: Namespace.ID
 
-    @StateObject private var viewModel = MapViewModel()
+    @ObservedObject var viewModel = MapViewModel()
     @State private var showPulseUI: Bool = false
 
     var body: some View {
+        NavigationStack {
+            content
+        }
+    }
+
+    private var content: some View {
         ZStack(alignment: .top) {
             Color.white.ignoresSafeArea(edges: .all)
 
@@ -46,11 +52,11 @@ struct MapView: View {
             .zIndex(1)
 
             VStack(spacing: 0) {
-                MapHeaderView(
-                    withAnimation: animation,
-                    isLoading: viewModel.isLoading
-                )
-                .zIndex(2)
+                    MapHeaderView(
+                        withAnimation: animation,
+                        viewModel: viewModel
+                    )
+                    .zIndex(2)
 
                 Map(
                     position: $viewModel.position,
@@ -141,12 +147,11 @@ struct MapView: View {
             )
         }
         .onShakeGesture {
-            UIImpactFeedbackGenerator(style: .soft)
-                .impactOccurred()
-
             withAnimation {
                 showPulseUI.toggle()
             }
+
+            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
         }
         .sheet(isPresented: $showPulseUI) {
             NavigationView {

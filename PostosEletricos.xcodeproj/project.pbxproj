@@ -51,6 +51,7 @@
 		20FCF7762BAF2B6D004A5495 /* PulseLogHandler in Frameworks */ = {isa = PBXBuildFile; productRef = 20FCF7752BAF2B6D004A5495 /* PulseLogHandler */; };
 		271B50C42BB75A9100C4C684 /* AnimatedSplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271B50C32BB75A9100C4C684 /* AnimatedSplashView.swift */; };
 		271B50C62BB8A35100C4C684 /* HProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271B50C52BB8A35100C4C684 /* HProgressView.swift */; };
+		274507022BC8BC9E005ED545 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274507012BC8BC9E005ED545 /* LoadingState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +91,7 @@
 		20FCF76F2BAF2B3B004A5495 /* Logging+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logging+Ext.swift"; sourceTree = "<group>"; };
 		271B50C32BB75A9100C4C684 /* AnimatedSplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedSplashView.swift; sourceTree = "<group>"; };
 		271B50C52BB8A35100C4C684 /* HProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HProgressView.swift; sourceTree = "<group>"; };
+		274507012BC8BC9E005ED545 /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -371,6 +373,7 @@
 				20BA43D62BAF57CB00795AB5 /* Modifiers */,
 				203133432B9D04A50093CDC2 /* Resources */,
 				20FCF76E2BAF2B28004A5495 /* Utils */,
+				274507032BC8BCA4005ED545 /* Enum */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -383,13 +386,21 @@
 			path = HProgressView;
 			sourceTree = "<group>";
 		};
+		274507032BC8BCA4005ED545 /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				274507012BC8BC9E005ED545 /* LoadingState.swift */,
+			);
+			path = Enum;
+			sourceTree = "<group>";
+		};
 		27D1511D2BC31EC2002E4EBD /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				20002FF22B01A149005C7329 /* MapHeaderView.swift */,
 				208321A32B9FB98B00F83542 /* LocationPreviewLookAroundView.swift */,
 				207218392BA0B6C4005A136A /* BottomMapDetailsView.swift */,
 				207AF3F12B9EA3C1002AE17D /* MapUserAnnotation.swift */,
-				20002FF22B01A149005C7329 /* MapHeaderView.swift */,
 				20C6B1A82BAE20DA00B113F3 /* FindInAreaButton.swift */,
 			);
 			path = Components;
@@ -520,6 +531,7 @@
 				207AF3F22B9EA3C1002AE17D /* MapUserAnnotation.swift in Sources */,
 				271B50C62BB8A35100C4C684 /* HProgressView.swift in Sources */,
 				20BA43CF2BAF574800795AB5 /* ToastView.swift in Sources */,
+				274507022BC8BC9E005ED545 /* LoadingState.swift in Sources */,
 				207AF3E22B9E804F002AE17D /* MapApps.swift in Sources */,
 				20002FF12B01A149005C7329 /* PostosEletricosApp.swift in Sources */,
 				20FCF76C2BAF2AC7004A5495 /* LogHandler.swift in Sources */,

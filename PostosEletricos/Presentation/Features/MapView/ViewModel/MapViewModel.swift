@@ -11,6 +11,7 @@ import MapKit
 import SwiftUI
 import Moya
 import Combine
+import GooglePlaces
 
 @MainActor
 class MapViewModel: ObservableObject {
@@ -38,6 +39,7 @@ class MapViewModel: ObservableObject {
         )
     )
 
+    @Published var state: LoadingState = .idle
     @Published var selectedItem: MKMapItem?
     @Published var items: [MKMapItem] = [MKMapItem]()
     @Published var itemsInFindedArea: [MKMapItem] = [MKMapItem]()
@@ -52,6 +54,9 @@ class MapViewModel: ObservableObject {
     @Published var distance: CLLocationDistance = CLLocationDistance(3000)
     @Published var lastRegion: MKCoordinateRegion?
     @Published var lastContext: MapCameraUpdateContext?
+    @Published var searchText: String = ""
+    @Published var isSearchBarVisible = false
+    @Published var placesFromSearch: [Place] = []
 
     @Published var route: MKRoute? {
         didSet {
@@ -78,12 +83,9 @@ class MapViewModel: ObservableObject {
     func handleCamera(with context: MapCameraUpdateContext) {
         if position.positionedByUser {
             updateCameraPosition(forContext: context)
-        }
 
-//        print("$$ isDifferentRegion = \(context.region != lastRegion) - isFirstLoading = \(isFirstLoading)")
-//        if context.region != lastRegion, !isFirstLoading {
-//            showFindInAreaButton = true
-//        }
+            showFindInAreaButton = true
+        }
     }
 
     /// Function to update camera position to fit all markers
@@ -204,11 +206,71 @@ class MapViewModel: ObservableObject {
     private func updateLastRegion() {
         lastRegion = position.region
     }
+
+    private let client = GMSPlacesClient.shared()
+
 }
 
-// MARK: Request
+// MARK: Requests
 
 extension MapViewModel {
+    func findAutocompletePredictions(in location: CLLocationCoordinate2D, completion: @escaping ([Place]?) -> Void) {
+        let filter = GMSAutocompleteFilter()
+
+        client
+            .findAutocompletePredictions(
+                fromQuery: "electric+vehicle+charging+station+postos+eletricos",
+                filter: filter,
+                sessionToken: nil) { results, error in
+                    guard let results, error == nil else {
+                        completion(nil)
+                        return
+                    }
+
+                    let places: [Place] = results.compactMap({ place in
+                        printLog(.critical, "attributedFullText = \(place.attributedFullText.string)")
+                        return Place(name: place.attributedFullText.string, placeID: place.placeID)
+                    })
+
+                    completion(places)
+                }
+    }
+
+    func lookUpPlaceID(location: CLLocationCoordinate2D, completion: @escaping ([MKMapItem]?) -> Void) {
+        findAutocompletePredictions(in: location) { [weak self] places in
+            guard let places else { return }
+
+            // Initialize a dispatch group
+            let group = DispatchGroup()
+
+            DispatchQueue.main.async {
+                places.forEach { place in
+                    // Enter the group before starting the asynchronous operation
+                    group.enter()
+
+                    self?.client.lookUpPlaceID(place.placeID ?? "") { googlePlace, error in
+                        defer { group.leave() } // Ensure we leave the group whether or not there is an error
+
+                        guard let coordinate = googlePlace?.coordinate else { return }
+                        let item = MKMapItem(placemark: .init(coordinate: coordinate))
+                        item.name = place.name
+
+                        withAnimation {
+                            self?.items.append(item)
+                            self?.itemsInFindedArea.append(item)
+                        }
+                    }
+                }
+
+                // Call the completion block after all items have been processed
+                group.notify(queue: .main) {
+                    completion(self?.itemsInFindedArea)
+                    self?.isLoading = false
+                }
+            }
+        }
+    }
+
     func fetchStationsFromGooglePlaces(in location: CLLocationCoordinate2D, completion: @escaping ([MKMapItem]?) -> Void) {
         isLoading = true
 
@@ -228,14 +290,17 @@ extension MapViewModel {
                 do {
                     let response = try response.map(GooglePlacesResponse.self, failsOnEmptyData: false)
 
-                    if response.results.isEmpty {
+                    guard let results = response.results, !results.isEmpty else {
                         printLog(.warning, "No results found in this area.")
                         setShowToast(true)
+                        completion(nil)
+                        return
                     }
 
-                    response.results.forEach { place in
-                        guard let lat = place.geometry?.location?.lat,
-                              let lng = place.geometry?.location?.lng
+                    results.forEach { place in
+                        guard let location = place.geometry?.location,
+                              let lat = location.lat,
+                              let lng = location.lng
                         else { return }
 
                         let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
@@ -251,14 +316,14 @@ extension MapViewModel {
                     completion(itemsInFindedArea)
                 }
                 catch {
-                    printLog(.error, "\(error)")
+                    printLog(.error, "\(error) - \(error.localizedDescription)")
                     completion(nil)
                 }
 
                 isLoading = false
 
             case let .failure(error):
-                printLog(.error, "failure request: \(error)")
+                printLog(.error, "failure request: \(error) - \(error.localizedDescription)")
                 isLoading = false
                 completion(nil)
             }
