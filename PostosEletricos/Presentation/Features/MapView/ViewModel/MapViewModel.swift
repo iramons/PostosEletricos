@@ -47,16 +47,29 @@ class MapViewModel: ObservableObject {
     @Published var isRoutePresenting: Bool = false
     @Published var showRouteButtonTitle: String = "Mostrar rota"
     @Published var showToast: Bool = false
+
     @Published var showFindInAreaButton: Bool = false
+    var shouldShowFindInAreaButton: Bool {
+        return !shouldShowPlacesFromSearch && showFindInAreaButton
+    }
+
     @Published var showLocationServicesAlert: Bool = false
     @Published var isLoading: Bool = false
     @Published var isFirstLoading: Bool = true
     @Published var distance: CLLocationDistance = CLLocationDistance(3000)
     @Published var lastRegion: MKCoordinateRegion?
     @Published var lastContext: MapCameraUpdateContext?
-    @Published var searchText: String = ""
+    @Published var searchText: String = "" {
+        didSet {
+            findAutocompletePredictions()
+        }
+    }
     @Published var isSearchBarVisible = false
+
     @Published var placesFromSearch: [Place] = []
+    var shouldShowPlacesFromSearch: Bool {
+        return !placesFromSearch.isEmpty && isSearchBarVisible
+    }
 
     @Published var route: MKRoute? {
         didSet {
@@ -66,7 +79,7 @@ class MapViewModel: ObservableObject {
         }
     }
 
-    let toastMessage: String = "Nenhum posto de recarga elétrica encontrado nesta área."
+    var toastMessage: String = "Nenhum posto de recarga elétrica encontrado nesta área."
 
     func startCurrentLocationUpdates() async throws {
         try? await locationService.startCurrentLocationUpdates()
@@ -84,7 +97,9 @@ class MapViewModel: ObservableObject {
         if position.positionedByUser {
             updateCameraPosition(forContext: context)
 
-            showFindInAreaButton = true
+            withAnimation {
+                showFindInAreaButton = true
+            }
         }
     }
 
@@ -214,62 +229,10 @@ class MapViewModel: ObservableObject {
 // MARK: Requests
 
 extension MapViewModel {
-    func findAutocompletePredictions(in location: CLLocationCoordinate2D, completion: @escaping ([Place]?) -> Void) {
-        let filter = GMSAutocompleteFilter()
 
-        client
-            .findAutocompletePredictions(
-                fromQuery: "electric+vehicle+charging+station+postos+eletricos",
-                filter: filter,
-                sessionToken: nil) { results, error in
-                    guard let results, error == nil else {
-                        completion(nil)
-                        return
-                    }
+    // MARK: Stations
 
-                    let places: [Place] = results.compactMap({ place in
-                        printLog(.critical, "attributedFullText = \(place.attributedFullText.string)")
-                        return Place(name: place.attributedFullText.string, placeID: place.placeID)
-                    })
-
-                    completion(places)
-                }
-    }
-
-    func lookUpPlaceID(location: CLLocationCoordinate2D, completion: @escaping ([MKMapItem]?) -> Void) {
-        findAutocompletePredictions(in: location) { [weak self] places in
-            guard let places else { return }
-
-            // Initialize a dispatch group
-            let group = DispatchGroup()
-
-            DispatchQueue.main.async {
-                places.forEach { place in
-                    // Enter the group before starting the asynchronous operation
-                    group.enter()
-
-                    self?.client.lookUpPlaceID(place.placeID ?? "") { googlePlace, error in
-                        defer { group.leave() } // Ensure we leave the group whether or not there is an error
-
-                        guard let coordinate = googlePlace?.coordinate else { return }
-                        let item = MKMapItem(placemark: .init(coordinate: coordinate))
-                        item.name = place.name
-
-                        withAnimation {
-                            self?.items.append(item)
-                            self?.itemsInFindedArea.append(item)
-                        }
-                    }
-                }
-
-                // Call the completion block after all items have been processed
-                group.notify(queue: .main) {
-                    completion(self?.itemsInFindedArea)
-                    self?.isLoading = false
-                }
-            }
-        }
-    }
+    // MARK: GooglePlaces
 
     func fetchStationsFromGooglePlaces(in location: CLLocationCoordinate2D, completion: @escaping ([MKMapItem]?) -> Void) {
         isLoading = true
@@ -281,24 +244,25 @@ extension MapViewModel {
                 radius: distance
             )
         ) { [weak self] result in
-            guard let self else { return }
-            
+            guard let strongSelf = self else { return }
+
             switch result {
             case let .success(response):
-                itemsInFindedArea = []
+                strongSelf.itemsInFindedArea = []
 
                 do {
                     let response = try response.map(GooglePlacesResponse.self, failsOnEmptyData: false)
 
                     guard let results = response.results, !results.isEmpty else {
                         printLog(.warning, "No results found in this area.")
-                        setShowToast(true)
+                        strongSelf.setShowToast(true)
                         completion(nil)
                         return
                     }
 
-                    results.forEach { place in
-                        guard let location = place.geometry?.location,
+                    results.forEach { [weak self] place in
+                        guard let self,
+                              let location = place.geometry?.location,
                               let lat = location.lat,
                               let lng = location.lng
                         else { return }
@@ -307,31 +271,32 @@ extension MapViewModel {
                         let item = MKMapItem(placemark: .init(coordinate: coordinate))
                         item.name = place.name
 
-                        withAnimation {
+                        withAnimation(.easeIn) {
                             self.items.append(item)
                             self.itemsInFindedArea.append(item)
+                            completion(self.itemsInFindedArea)
                         }
                     }
-
-                    completion(itemsInFindedArea)
                 }
                 catch {
                     printLog(.error, "\(error) - \(error.localizedDescription)")
                     completion(nil)
                 }
 
-                isLoading = false
+                strongSelf.isLoading = false
 
             case let .failure(error):
                 printLog(.error, "failure request: \(error) - \(error.localizedDescription)")
-                isLoading = false
+                strongSelf.isLoading = false
                 completion(nil)
             }
 
-            isFirstLoading = false
+            strongSelf.isFirstLoading = false
         }
     }
     
+    // MARK: MapKit
+
     func fetchStationsFromMapKit(completion: @escaping ([MKMapItem]?) -> Void) async {
         guard let region = position.region else { return }
         let request = MKLocalSearch.Request()
@@ -350,6 +315,66 @@ extension MapViewModel {
 
         completion(itemsInFindedArea)
     }
+
+    // MARK: AutoComplete
+
+    func findAutocompletePredictions() {
+        let filter = GMSAutocompleteFilter()
+        filter.type = .address
+
+        client.findAutocompletePredictions(
+            fromQuery: searchText,
+            filter: filter,
+            sessionToken: nil) { [weak self] results, error in
+                guard let self, let results, error == nil else { return }
+
+                let places: [Place] = results.compactMap({ place in
+                    Place(name: place.attributedFullText.string, placeID: place.placeID)
+                })
+
+                let sortedPlaces = places.sorted {
+                    levenshteinDistance(from: $0.name?.lowercased() ?? "", to: self.searchText.lowercased()) <
+                        levenshteinDistance(from: $1.name?.lowercased() ?? "", to: self.searchText.lowercased())
+                }
+
+                DispatchQueue.main.async {
+                    self.placesFromSearch = sortedPlaces
+                }
+            }
+    }
+
+    // MARK: Get GooglePlace
+
+    func getPlace(id: String?, completion: @escaping (Place?) -> Void) {
+        guard let id else {
+            printLog(.critical, "id is null")
+            completion(nil)
+            return
+        }
+
+        client.fetchPlace(fromPlaceID: id, placeFields: .all, sessionToken: nil) { [weak self] googlePlace, error in
+            guard let self else { return }
+
+            if let error {
+                printLog(.critical, "\(error) - \(error.localizedDescription)")
+                self.toastMessage = "\(error) - \(error.localizedDescription)"
+            }
+
+            guard let googlePlace else {
+                printLog(.critical, "googlePlace is null")
+                return
+            }
+
+            printLog(.error, "googlePlace = \(googlePlace)")
+            
+            let location = Location(lat: googlePlace.coordinate.latitude, lng: googlePlace.coordinate.longitude)
+            let geometry = Geometry(location: location)
+            let place = Place(geometry: geometry, name: googlePlace.name, placeID: googlePlace.placeID)
+            completion(place)
+        }
+    }
+
+    // MARK: Route
 
     func fetchRouteFrom(_ source: CLLocation, to destination: CLLocation) {
         let request = MKDirections.Request()
@@ -448,4 +473,27 @@ extension CLLocationCoordinate2D: Equatable {
     public static func ==(lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
         return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
     }
+}
+
+
+func levenshteinDistance(from s: String, to t: String) -> Int {
+    let sCount = s.count
+    let tCount = t.count
+    var matrix = [[Int]](repeating: [Int](repeating: 0, count: tCount + 1), count: sCount + 1)
+
+    for i in 0...sCount {
+        matrix[i][0] = i
+    }
+    for j in 0...tCount {
+        matrix[0][j] = j
+    }
+
+    for i in 1...sCount {
+        for j in 1...tCount {
+            let cost = (s[s.index(s.startIndex, offsetBy: i - 1)] == t[t.index(t.startIndex, offsetBy: j - 1)]) ? 0 : 1
+            matrix[i][j] = min(min(matrix[i - 1][j] + 1, matrix[i][j - 1] + 1), matrix[i - 1][j - 1] + cost)
+        }
+    }
+
+    return matrix[sCount][tCount]
 }

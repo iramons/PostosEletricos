@@ -7,24 +7,19 @@
 
 import SwiftUI
 import Lottie
+import MapKit
 
 struct MapHeaderView: View {
 
-    init(
-        withAnimation animation: Namespace.ID,
-        viewModel: MapViewModel
-    ) {
-        self.animation = animation
+    init(viewModel: MapViewModel) {
         self.viewModel = viewModel
     }
 
-    let animation: Namespace.ID
     @State var canShowProgress: Bool = false
+    @State private var selectionFromSearch: UUID?
     @ObservedObject var viewModel: MapViewModel
 
     var body: some View {
-
-
         VStack(spacing: .zero) {
             HStack {
                 LottieView(animation: .named("splash-anim"))
@@ -32,7 +27,6 @@ struct MapHeaderView: View {
                     .resizable()
                     .frame(width: 35, height: 35)
                     .padding(.bottom, 4)
-                    .matchedGeometryEffect(id: "splashLogoAnimId", in: animation)
 
                 Text("Postos Elétricos")
                     .font(.title)
@@ -42,7 +36,6 @@ struct MapHeaderView: View {
                 Button {
                     withAnimation {
                         viewModel.isSearchBarVisible.toggle()
-                        viewModel.showFindInAreaButton = false
                     }
 
                     UIImpactFeedbackGenerator(style: .light).impactOccurred()
@@ -72,24 +65,45 @@ struct MapHeaderView: View {
             HProgressView(show: viewModel.isLoading)
                 .opacity(canShowProgress ? 1 : 0)
 
-            if !viewModel.placesFromSearch.isEmpty {
-                List(viewModel.placesFromSearch, id: \.placeID) { place in
-                    VStack(alignment: .leading) {
-                        Text(place.name ?? "")
-                            .font(.headline)
-                        Text(place.vicinity ?? "")
-                            .font(.subheadline)
+            if viewModel.shouldShowPlacesFromSearch {
+                List(viewModel.placesFromSearch, id: \.id, selection: $selectionFromSearch) { placeFromSearch in
+                    Text(placeFromSearch.name ?? "deu ruim")
+                        .font(.subheadline)
+                        .multilineTextAlignment(.leading)
+                }.onChange(of: selectionFromSearch) {
+                    withAnimation {
+                        viewModel.isSearchBarVisible = false
+                        viewModel.searchText = ""
+                    }
+
+                    let placesFromSearch = viewModel.placesFromSearch.first(where: { 
+                       return $0.id == selectionFromSearch
+                    })
+
+                    viewModel.getPlace(id: placesFromSearch?.placeID) { place in
+                        guard let lat = place?.geometry?.location?.lat,
+                              let lng = place?.geometry?.location?.lng
+                        else { return }
+
+                        let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+                        viewModel.updateCameraPosition(forCoordinate: coordinate)
+
+                        viewModel.fetchStationsFromGooglePlaces(in: coordinate) { items in
+                            guard let items else { return }
+                            viewModel.getMapItemsRegion(items: items) { region in
+                                viewModel.updateCameraPosition(forRegion: region)
+                            }
+                        }
                     }
                 }
+                .listStyle(.plain)
             }
         }
         .background(
             Color
                 .white
                 .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 8)
-                .matchedGeometryEffect(id: "splashBackgroundAnimId", in: animation)
         )
-
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 withAnimation {
@@ -104,7 +118,7 @@ struct MapHeaderView: View {
     @Namespace var animation
 
     return VStack(spacing: 0) {
-        MapHeaderView(withAnimation: animation, viewModel: MapViewModel())
+        MapHeaderView(viewModel: MapViewModel())
         Rectangle().fill(.gray.opacity(0.2)).frame(maxHeight: .infinity)
     }
 }

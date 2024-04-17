@@ -11,14 +11,11 @@ import Lottie
 struct AnimatedSplashView: View {
 
     @State var startAnimation: Bool = false
-    @Namespace var animation
-
-    let animationTiming: Double = 0.5
 
     var body: some View {
         VStack(spacing: .zero) {
             if startAnimation {
-                contentScreen
+                MapView()
             } else {
                 launchScreen
             }
@@ -26,23 +23,12 @@ struct AnimatedSplashView: View {
         .onAppear {
             if !startAnimation {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    withAnimation(.easeInOut(duration: animationTiming)) {
+                    withAnimation(.easeIn) {
                         startAnimation.toggle()
                     }
                 }
             }
         }
-    }
-}
-
-// MARK: Content
-
-extension AnimatedSplashView {
-    var contentScreen: some View {
-        GeometryReader { proxy in
-            MapView(animation: animation)
-        }
-        .transition(.identity)
     }
 }
 
@@ -54,13 +40,11 @@ extension AnimatedSplashView {
             Rectangle()
                 .fill(.white)
                 .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 8)
-                .matchedGeometryEffect(id: "splashBackgroundAnimId", in: animation)
 
             LottieView(animation: .named("splash-anim"))
                 .looping()
                 .resizable()
                 .frame(width: 100, height: 100)
-                .matchedGeometryEffect(id: "splashLogoAnimId", in: animation)
         }
         .ignoresSafeArea(.all)
     }

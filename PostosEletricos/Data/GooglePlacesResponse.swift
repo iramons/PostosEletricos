@@ -17,7 +17,8 @@ struct GooglePlacesResponse: Codable {
 
 // MARK: - Place
 
-struct Place: Codable, Equatable {
+struct Place: Identifiable, Codable, Equatable, Hashable {
+    let id = UUID()
     let businessStatus: String?
     let geometry: Geometry?
     let icon: String?
@@ -72,40 +73,45 @@ struct Place: Codable, Equatable {
     }
     
     static func == (lhs: Place, rhs: Place) -> Bool {
-        lhs.placeID == rhs.placeID
+        lhs.placeID == rhs.placeID && lhs.id == rhs.id
     }
 }
 
 // MARK: - Geometry
 
-struct Geometry: Codable {
+struct Geometry: Codable, Hashable {
     let location: Location?
     let viewport: Viewport?
+
+    init(location: Location? = nil, viewport: Viewport? = nil) {
+        self.location = location
+        self.viewport = viewport
+    }
 }
 
 // MARK: - Location
 
-struct Location: Codable {
+struct Location: Codable, Hashable {
     let lat: Double?
     let lng: Double?
 }
 
 // MARK: - Viewport
 
-struct Viewport: Codable {
+struct Viewport: Codable, Hashable {
     let northeast: Location?
     let southwest: Location?
 }
 
 // MARK: - OpeningHours
 
-struct OpeningHours: Codable, Equatable {
+struct OpeningHours: Codable, Equatable, Hashable {
     let openNow: Bool?
 }
 
 // MARK: - Photo
 
-struct Photo: Codable, Equatable {
+struct Photo: Codable, Equatable, Hashable {
     let height: Double?
     let htmlAttributions: [String]?
     let photoReference: String?
@@ -114,7 +120,7 @@ struct Photo: Codable, Equatable {
 
 // MARK: - PlusCode
 
-struct PlusCode: Codable, Equatable {
+struct PlusCode: Codable, Equatable, Hashable {
     let compoundCode: String?
     let globalCode: String?
 }
