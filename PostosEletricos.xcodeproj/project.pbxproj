@@ -71,6 +71,7 @@
 		271377F12BD5C266005F026E /* launch-dog-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 271377F02BD5C266005F026E /* launch-dog-anim.json */; };
 		271B50C42BB75A9100C4C684 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271B50C32BB75A9100C4C684 /* LaunchView.swift */; };
 		271B50C62BB8A35100C4C684 /* HProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271B50C52BB8A35100C4C684 /* HProgressView.swift */; };
+		272F0A642BD5D79F00EE280F /* SearchListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272F0A632BD5D79F00EE280F /* SearchListView.swift */; };
 		274507022BC8BC9E005ED545 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274507012BC8BC9E005ED545 /* LoadingState.swift */; };
 		2784EF682BD5886B00F485CC /* car-charging-station-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF672BD5886B00F485CC /* car-charging-station-anim.json */; };
 		2784EF6A2BD5A22900F485CC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF692BD5A22900F485CC /* Colors.xcassets */; };
@@ -133,6 +134,7 @@
 		271377F02BD5C266005F026E /* launch-dog-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "launch-dog-anim.json"; sourceTree = "<group>"; };
 		271B50C32BB75A9100C4C684 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
 		271B50C52BB8A35100C4C684 /* HProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HProgressView.swift; sourceTree = "<group>"; };
+		272F0A632BD5D79F00EE280F /* SearchListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListView.swift; sourceTree = "<group>"; };
 		274507012BC8BC9E005ED545 /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
 		2784EF672BD5886B00F485CC /* car-charging-station-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "car-charging-station-anim.json"; sourceTree = "<group>"; };
 		2784EF692BD5A22900F485CC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
@@ -524,6 +526,7 @@
 				271377EB2BD5BED0005F026E /* BottomSheetDetails */,
 				271377EC2BD5BEEE005F026E /* UserAnnotation */,
 				271377ED2BD5BEF8005F026E /* FindInAreaButton */,
+				272F0A632BD5D79F00EE280F /* SearchListView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -679,6 +682,7 @@
 				207AF3E22B9E804F002AE17D /* MapApps.swift in Sources */,
 				20002FF12B01A149005C7329 /* PostosEletricosApp.swift in Sources */,
 				20FCF76C2BAF2AC7004A5495 /* LogHandler.swift in Sources */,
+				272F0A642BD5D79F00EE280F /* SearchListView.swift in Sources */,
 				2031333D2B9CFF470093CDC2 /* LocationService.swift in Sources */,
 				271B50C42BB75A9100C4C684 /* LaunchView.swift in Sources */,
 				20CBCD462B9CBE1C008D01AA /* MapViewModel.swift in Sources */,
@@ -821,6 +825,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PostosEletricos/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Postos Elétricos";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Network usage required for debugging purposes";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Preciso da sua localizacao quando Estiver Usando o APP";
@@ -854,6 +859,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PostosEletricos/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Postos Elétricos";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Network usage required for debugging purposes";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Preciso da sua localizacao quando Estiver Usando o APP";

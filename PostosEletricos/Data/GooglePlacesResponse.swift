@@ -17,7 +17,11 @@ struct GooglePlacesResponse: Codable {
 
 // MARK: - Place
 
-struct Place: Identifiable, Codable, Equatable, Hashable {
+struct Place: Identifiable, Codable, Equatable, Hashable, Comparable {
+    static func < (lhs: Place, rhs: Place) -> Bool {
+        return lhs.placeID == rhs.placeID
+    }
+
     var id: UUID? = UUID()
     let businessStatus: String?
     let geometry: Geometry?

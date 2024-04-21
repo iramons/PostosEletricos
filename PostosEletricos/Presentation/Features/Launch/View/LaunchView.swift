@@ -21,7 +21,7 @@ struct LaunchView: View {
                 .offset(y: showAppName ? -60 : 0)
                 .opacity(showAppName ? 1 : 0)
                 .scaleEffect(showAppName ? 1.1 : 1)
-                .animation(.easeInOut(duration: 1), value: showAppName)
+                .animation(.easeIn(duration: 0.8), value: showAppName)
                 .zIndex(1)
 
             GeometryReader { geo in
@@ -72,7 +72,7 @@ struct LaunchView: View {
         .background(.darknessGreen)
         .onAppear {
             if !showAppName {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     withAnimation(.easeIn) {
                         showAppName.toggle()
                     }
