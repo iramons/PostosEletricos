@@ -18,7 +18,7 @@ struct GooglePlacesResponse: Codable {
 // MARK: - Place
 
 struct Place: Identifiable, Codable, Equatable, Hashable {
-    let id = UUID()
+    var id: UUID? = UUID()
     let businessStatus: String?
     let geometry: Geometry?
     let icon: String?

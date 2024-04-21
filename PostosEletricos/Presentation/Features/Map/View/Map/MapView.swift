@@ -23,6 +23,7 @@ struct MapView: View {
 
     @ObservedObject var viewModel = MapViewModel()
     @State private var showPulseUI: Bool = false
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         NavigationStack {
@@ -72,6 +73,9 @@ struct MapView: View {
                 map
             }
         }
+        .background(
+            Color(colorScheme == .light ? .white : .darkGray)
+        )
     }
 
     private var header: some View {

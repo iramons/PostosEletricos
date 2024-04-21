@@ -13,9 +13,10 @@ struct FindInAreaButton: View {
         self.onTap = onTap
     }
 
-    @State private var animate: Bool = false
-    
     let onTap: (() -> Void)
+
+    @State private var animate: Bool = false
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         Button(action: {
@@ -35,7 +36,7 @@ struct FindInAreaButton: View {
         .font(.headline)
         .padding(.horizontal, 24)
         .padding(.vertical, 8)
-        .background(.white)
+        .background(colorScheme == .light ? .white : .darkGray)
         .cornerRadius(26)
         .shadow(radius: 3)
         .scaleEffect(animate ? 1.2 : 1)

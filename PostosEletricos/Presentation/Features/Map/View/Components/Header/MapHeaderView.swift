@@ -18,18 +18,19 @@ struct MapHeaderView: View {
     @State var canShowProgress: Bool = false
     @State private var selectionFromSearch: UUID?
     @ObservedObject var viewModel: MapViewModel
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         VStack(spacing: .zero) {
             HStack {
-                LottieView(animation: .named("splash-anim"))
+                LottieView(animation: .named("charger-anim"))
                     .looping()
                     .resizable()
                     .frame(width: 35, height: 35)
                     .padding(.bottom, 4)
 
                 Text("Postos Elétricos")
-                    .font(.title)
+                    .font(.custom("RobotoCondensed-Regular", size: 26))
 
                 Spacer()
 
@@ -52,6 +53,7 @@ struct MapHeaderView: View {
 
             if viewModel.isSearchBarVisible {
                 TextField("Buscar...", text: $viewModel.searchText)
+                    .font(.custom("RobotoCondensed-Regular", size: 15))
                     .padding(7)
                     .padding(.horizontal, 25)
                     .background(Color(.systemGray6))
@@ -68,7 +70,7 @@ struct MapHeaderView: View {
             if viewModel.shouldShowPlacesFromSearch {
                 List(viewModel.placesFromSearch, id: \.id, selection: $selectionFromSearch) { placeFromSearch in
                     Text(placeFromSearch.name ?? "deu ruim")
-                        .font(.subheadline)
+                        .font(.custom("RobotoCondensed-Light", size: 15))
                         .multilineTextAlignment(.leading)
                 }.onChange(of: selectionFromSearch) {
                     withAnimation {
@@ -100,9 +102,8 @@ struct MapHeaderView: View {
             }
         }
         .background(
-            Color
-                .white
-                .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 8)
+            Color(colorScheme == .light ? .white : .darkGray)
+                .shadow(color: .black.opacity(colorScheme == .light ? 0.1 : 0.2), radius: 4, x: 0, y: 6)
         )
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -119,6 +120,7 @@ struct MapHeaderView: View {
 
     return VStack(spacing: 0) {
         MapHeaderView(viewModel: MapViewModel())
-        Rectangle().fill(.gray.opacity(0.2)).frame(maxHeight: .infinity)
+        Map()
+            .frame(maxHeight: .infinity)
     }
 }
