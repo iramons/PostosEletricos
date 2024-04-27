@@ -70,7 +70,7 @@ struct MapHeaderView: View {
             if viewModel.shouldShowPlacesFromSearch {
                 List(viewModel.placesFromSearch, id: \.id, selection: $selectionFromSearch) { placeFromSearch in
                     Text(placeFromSearch.name ?? "deu ruim")
-                        .font(.custom("RobotoCondensed-Light", size: 15))
+                        .font(.custom("RobotoCondensed", size: 16))
                         .multilineTextAlignment(.leading)
                 }.onChange(of: selectionFromSearch) {
                     withAnimation {
@@ -98,7 +98,6 @@ struct MapHeaderView: View {
                         }
                     }
                 }
-                .listStyle(.plain)
             }
         }
         .background(

@@ -18,11 +18,8 @@ struct GooglePlacesResponse: Codable {
 // MARK: - Place
 
 struct Place: Identifiable, Codable, Equatable, Hashable, Comparable {
-    static func < (lhs: Place, rhs: Place) -> Bool {
-        return lhs.placeID == rhs.placeID
-    }
-
-    var id: UUID? = UUID()
+    
+    let id: UUID = UUID()
     let businessStatus: String?
     let geometry: Geometry?
     let icon: String?
@@ -40,7 +37,7 @@ struct Place: Identifiable, Codable, Equatable, Hashable, Comparable {
     let openingHours: OpeningHours?
     let photos: [Photo]?
     
-    internal init(
+    init(
         businessStatus: String? = nil,
         geometry: Geometry? = nil,
         icon: String? = nil,
@@ -78,6 +75,10 @@ struct Place: Identifiable, Codable, Equatable, Hashable, Comparable {
     
     static func == (lhs: Place, rhs: Place) -> Bool {
         lhs.placeID == rhs.placeID && lhs.id == rhs.id
+    }
+
+    static func < (lhs: Place, rhs: Place) -> Bool {
+        return lhs.placeID == rhs.placeID
     }
 }
 

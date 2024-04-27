@@ -7,8 +7,11 @@
 
 import Foundation
 import UIKit
-import Pulse
 import GooglePlaces
+
+#if DEBUG
+import Pulse
+#endif
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -31,7 +34,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 private extension AppDelegate {
     func enablePulseLogs() {
+    #if DEBUG
         Experimental.URLSessionProxy.shared.isEnabled = true
         URLSessionProxyDelegate.enableAutomaticRegistration()
+    #endif
     }
 }

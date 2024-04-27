@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Lottie
-import DeviceKit
 
 struct LaunchView: View {
 

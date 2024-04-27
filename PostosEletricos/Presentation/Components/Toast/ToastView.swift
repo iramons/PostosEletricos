@@ -13,10 +13,11 @@ struct ToastView: View {
 
     var body: some View {
         Text(message)
+            .accessibilityLabel(message)
             .multilineTextAlignment(.center)
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
-            .background(Color.orange.opacity(0.8))
+            .background(.orange.opacity(0.8))
             .foregroundColor(.black)
             .cornerRadius(20)
             .shadow(radius: 2)

@@ -7,12 +7,11 @@
 
 import Foundation
 
-
-// MARK: FetchState
-
 /// `FetchState`
 ///  Default global state to use for fetching request and get states.
-enum FetchState: Equatable {
+enum FetchState<T> {
     case isLoading(Bool)
+    case success(T)
+    case failure(Error)
     case `none`
 }

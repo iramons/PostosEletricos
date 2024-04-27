@@ -8,7 +8,9 @@
 import Foundation
 
 final class SecretsManager {
+
     static let shared = SecretsManager()
+
     private var secrets: NSDictionary?
 
     private init() {

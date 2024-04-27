@@ -183,7 +183,6 @@
 				20FCF7662BAF2140004A5495 /* Info.plist */,
 				20BA43C72BAF3F1300795AB5 /* Secrets.plist */,
 				20002FF02B01A149005C7329 /* PostosEletricosApp.swift */,
-				271377BB2BD5AFC6005F026E /* AppDelegate.swift */,
 				203133422B9D04550093CDC2 /* Data */,
 				203133412B9D04440093CDC2 /* Domain */,
 				2031333F2B9D041A0093CDC2 /* Presentation */,
@@ -223,8 +222,8 @@
 		203133402B9D04260093CDC2 /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				2031333E2B9D040B0093CDC2 /* Map */,
 				20C5ED602BA9E9A60092AB11 /* Launch */,
+				2031333E2B9D040B0093CDC2 /* Map */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -244,7 +243,6 @@
 			isa = PBXGroup;
 			children = (
 				207EF4122B9CB36F00EF46CF /* GooglePlacesResponse.swift */,
-				20C0EC4B2BAE3A81009C52FF /* FetchState.swift */,
 				20BA43CB2BAF434B00795AB5 /* Secrets */,
 			);
 			path = Data;
@@ -419,6 +417,7 @@
 		20FCF7772BAF2BDF004A5495 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				274A5E9E2BDDC58100BFCF43 /* AppDelegate */,
 				207AF3E72B9E8165002AE17D /* Extensions */,
 				20BA43D62BAF57CB00795AB5 /* Modifiers */,
 				203133432B9D04A50093CDC2 /* Resources */,
@@ -513,9 +512,26 @@
 		274507032BC8BCA4005ED545 /* Enum */ = {
 			isa = PBXGroup;
 			children = (
+				20C0EC4B2BAE3A81009C52FF /* FetchState.swift */,
 				274507012BC8BC9E005ED545 /* LoadingState.swift */,
 			);
 			path = Enum;
+			sourceTree = "<group>";
+		};
+		274A5E9E2BDDC58100BFCF43 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				271377BB2BD5AFC6005F026E /* AppDelegate.swift */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		274A5E9F2BDDC75900BFCF43 /* SearchList */ = {
+			isa = PBXGroup;
+			children = (
+				272F0A632BD5D79F00EE280F /* SearchListView.swift */,
+			);
+			path = SearchList;
 			sourceTree = "<group>";
 		};
 		27D1511D2BC31EC2002E4EBD /* Components */ = {
@@ -526,7 +542,7 @@
 				271377EB2BD5BED0005F026E /* BottomSheetDetails */,
 				271377EC2BD5BEEE005F026E /* UserAnnotation */,
 				271377ED2BD5BEF8005F026E /* FindInAreaButton */,
-				272F0A632BD5D79F00EE280F /* SearchListView.swift */,
+				274A5E9F2BDDC75900BFCF43 /* SearchList */,
 			);
 			path = Components;
 			sourceTree = "<group>";

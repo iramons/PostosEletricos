@@ -19,7 +19,8 @@ class MapViewModel: ObservableObject {
     // MARK: Lifecycle
     
     init() {
-        withAnimation {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
             showLocationServicesAlert = locationService.showLocationServicesAlert
         }
 
@@ -230,8 +231,6 @@ class MapViewModel: ObservableObject {
 
 extension MapViewModel {
 
-    // MARK: Stations
-
     // MARK: GooglePlaces
 
     func fetchStationsFromGooglePlaces(in location: CLLocationCoordinate2D, completion: @escaping ([MKMapItem]?) -> Void) {
@@ -279,14 +278,14 @@ extension MapViewModel {
                     }
                 }
                 catch {
-                    printLog(.error, "\(error) - \(error.localizedDescription)")
+                    printLog(.error, "\(error)")
                     completion(nil)
                 }
 
                 strongSelf.isLoading = false
 
             case let .failure(error):
-                printLog(.error, "failure request: \(error) - \(error.localizedDescription)")
+                printLog(.error, "failure request: \(error)")
                 strongSelf.isLoading = false
                 completion(nil)
             }
