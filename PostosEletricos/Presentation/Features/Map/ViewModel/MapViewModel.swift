@@ -80,6 +80,8 @@ class MapViewModel: ObservableObject {
         }
     }
 
+    @Published var lookAroundScene: MKLookAroundScene?
+
     var toastMessage: String = "Nenhum posto de recarga elétrica encontrado nesta área."
 
     func startCurrentLocationUpdates() async throws {
@@ -143,6 +145,17 @@ class MapViewModel: ObservableObject {
 
     func onAppear() {
 
+    }
+
+    func getLookAroundScene() {
+        lookAroundScene = nil
+
+        if let selectedItem {
+            _Concurrency.Task {
+                let request = MKLookAroundSceneRequest(coordinate: selectedItem.placemark.coordinate)
+                lookAroundScene = try? await request.scene
+            }
+        }
     }
 
     // MARK: Private

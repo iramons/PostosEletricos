@@ -21,7 +21,7 @@ import PulseUI
 
 struct MapView: View {
 
-    @ObservedObject var viewModel = MapViewModel()
+    @StateObject var viewModel = MapViewModel()
     @State private var showPulseUI: Bool = false
     @Environment(\.colorScheme) var colorScheme
 
@@ -66,21 +66,19 @@ struct MapView: View {
 
     private var content: some View {
         ZStack(alignment: .top) {
-            findInAreaButton
+//            findInAreaButton
 
             VStack(spacing: .zero) {
-                header
                 map
             }
         }
-        .background(
-            Color(colorScheme == .light ? .white : .darkGray)
-        )
-    }
-
-    private var header: some View {
-        MapHeaderView(viewModel: viewModel)
-        .zIndex(1)
+        .background(Color(colorScheme == .light ? .white : .darkGray))
+        .navigationBarTitleDisplayMode(.automatic)
+        .navigationTitle("Postos Elétricos")
+        .searchable(text: $viewModel.searchText)
+        .searchSuggestions {
+            SuggestionsListView(viewModel: viewModel)
+        }
     }
 
     private var map: some View {
@@ -109,10 +107,10 @@ struct MapView: View {
         }
         .mapStyle(
             .standard(
-                elevation: .realistic,
-                emphasis: .automatic,
+                elevation: .automatic,
+                emphasis: .muted,
                 pointsOfInterest: .all,
-                showsTraffic: true
+                showsTraffic: false
             )
         )
         .mapControls {
@@ -132,7 +130,7 @@ struct MapView: View {
         .overlay(alignment: .bottom) {
             if let selection = viewModel.selectedItem {
                 BottomMapDetailsView(
-                    selection: selection,
+                    viewModel: viewModel,
                     isRoutePresenting: viewModel.isRoutePresenting,
                     action: {
                         guard let origin = viewModel.locationService.location,

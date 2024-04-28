@@ -11,13 +11,14 @@ import MapKit
 
 struct BottomMapDetailsView: View {
     
-    var selection: MKMapItem
+    @ObservedObject var viewModel: MapViewModel
+
     var isRoutePresenting: Bool
     var action: (() -> Void)
 
     var body: some View {
         VStack {
-            Text(selection.name ?? "Posto elétrico")
+            Text(viewModel.selectedItem?.name ?? "Posto elétrico")
                 .multilineTextAlignment(.leading)
                 .font(.headline)
                 .foregroundStyle(.black)
@@ -25,7 +26,7 @@ struct BottomMapDetailsView: View {
                 .padding(.leading, 16)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            Text(selection.placemark.subtitle ?? "Subtitle")
+            Text(viewModel.selectedItem?.placemark.subtitle ?? "Subtitle")
                 .multilineTextAlignment(.leading)
                 .font(.system(size: 14))
                 .foregroundStyle(.black)
@@ -51,7 +52,7 @@ struct BottomMapDetailsView: View {
             .padding(.horizontal, 16)
             .frame(maxWidth: .infinity, alignment: .trailing)
 
-            LocationPreviewLookAroundView(selectedResult: selection)
+            LocationPreviewLookAroundView(viewModel: viewModel)
                 .frame(height: 140)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .padding(.horizontal, 16)
@@ -65,5 +66,9 @@ struct BottomMapDetailsView: View {
 }
 
 #Preview {
-    BottomMapDetailsView(selection: MKMapItem(), isRoutePresenting: false, action: {})
+    BottomMapDetailsView(
+        viewModel: MapViewModel(),
+        isRoutePresenting: false,
+        action: {}
+    )
 }

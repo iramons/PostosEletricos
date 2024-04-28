@@ -10,40 +10,30 @@ import SwiftUI
 import MapKit
 
 struct LocationPreviewLookAroundView: View {
-    
-    @State private var lookAroundScene: MKLookAroundScene?
-    
-    var selectedResult: MKMapItem
-    
+
+    @ObservedObject var viewModel: MapViewModel
+
     var body: some View {
         VStack {
-            LookAroundPreview(initialScene: lookAroundScene)
+            LookAroundPreview(initialScene: viewModel.lookAroundScene)
                 .overlay(alignment: .bottomTrailing) {
                     HStack {
-                        Text(selectedResult.placemark.name ?? "SEMNOME")
+                        Text(viewModel.selectedItem?.placemark.name ?? "SEMNOME")
                     }
                     .font(.caption)
                     .foregroundStyle(.white)
                     .padding(18)
                 }
                 .onAppear {
-                    getLookAroundScene()
+                    viewModel.getLookAroundScene()
                 }
-                .onChange(of: selectedResult) {
-                    getLookAroundScene()
+                .onChange(of: viewModel.selectedItem) {
+                    viewModel.getLookAroundScene()
                 }
-        }
-    }
-    
-    func getLookAroundScene() {
-        lookAroundScene = nil
-        Task {
-            let request = MKLookAroundSceneRequest(coordinate: selectedResult.placemark.coordinate)
-            lookAroundScene = try? await request.scene
         }
     }
 }
 
 #Preview {
-    LocationPreviewLookAroundView(selectedResult: MKMapItem(placemark: .init(coordinate: .init(latitude: -20.4844352, longitude: -69.3907158))))
+    LocationPreviewLookAroundView(viewModel: MapViewModel())
 }
