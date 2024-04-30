@@ -1,5 +1,5 @@
 //
-//  LoadingState.swift
+//  ViewState.swift
 //  PostosEletricos
 //
 //  Created by Ramon Santos on 11/04/24.
@@ -7,9 +7,9 @@
 
 import Foundation
 
-enum LoadingState {
-    case idle
+enum ViewState {
     case loading
     case success(Data)
     case failed(Error)
+    case `none`
 }

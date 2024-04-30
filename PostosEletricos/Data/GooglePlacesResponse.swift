@@ -97,8 +97,8 @@ struct Geometry: Codable, Hashable {
 // MARK: - Location
 
 struct Location: Codable, Hashable {
-    let lat: Double?
-    let lng: Double?
+    var lat: Double = 0
+    var lng: Double = 0
 }
 
 // MARK: - Viewport

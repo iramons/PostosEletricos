@@ -70,7 +70,7 @@
 		271B50C42BB75A9100C4C684 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271B50C32BB75A9100C4C684 /* LaunchView.swift */; };
 		271B50C62BB8A35100C4C684 /* HProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271B50C52BB8A35100C4C684 /* HProgressView.swift */; };
 		272F0A642BD5D79F00EE280F /* SuggestionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272F0A632BD5D79F00EE280F /* SuggestionsListView.swift */; };
-		274507022BC8BC9E005ED545 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274507012BC8BC9E005ED545 /* LoadingState.swift */; };
+		274507022BC8BC9E005ED545 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274507012BC8BC9E005ED545 /* ViewState.swift */; };
 		2784EF682BD5886B00F485CC /* car-charging-station-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF672BD5886B00F485CC /* car-charging-station-anim.json */; };
 		2784EF6A2BD5A22900F485CC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF692BD5A22900F485CC /* Colors.xcassets */; };
 /* End PBXBuildFile section */
@@ -131,7 +131,7 @@
 		271B50C32BB75A9100C4C684 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
 		271B50C52BB8A35100C4C684 /* HProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HProgressView.swift; sourceTree = "<group>"; };
 		272F0A632BD5D79F00EE280F /* SuggestionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsListView.swift; sourceTree = "<group>"; };
-		274507012BC8BC9E005ED545 /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
+		274507012BC8BC9E005ED545 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		2784EF672BD5886B00F485CC /* car-charging-station-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "car-charging-station-anim.json"; sourceTree = "<group>"; };
 		2784EF692BD5A22900F485CC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -179,6 +179,7 @@
 				20FCF7662BAF2140004A5495 /* Info.plist */,
 				20BA43C72BAF3F1300795AB5 /* Secrets.plist */,
 				20002FF02B01A149005C7329 /* PostosEletricosApp.swift */,
+				271377BB2BD5AFC6005F026E /* AppDelegate.swift */,
 				203133422B9D04550093CDC2 /* Data */,
 				203133412B9D04440093CDC2 /* Domain */,
 				2031333F2B9D041A0093CDC2 /* Presentation */,
@@ -413,7 +414,6 @@
 		20FCF7772BAF2BDF004A5495 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				274A5E9E2BDDC58100BFCF43 /* AppDelegate */,
 				207AF3E72B9E8165002AE17D /* Extensions */,
 				20BA43D62BAF57CB00795AB5 /* Modifiers */,
 				203133432B9D04A50093CDC2 /* Resources */,
@@ -493,17 +493,9 @@
 			isa = PBXGroup;
 			children = (
 				20C0EC4B2BAE3A81009C52FF /* FetchState.swift */,
-				274507012BC8BC9E005ED545 /* LoadingState.swift */,
+				274507012BC8BC9E005ED545 /* ViewState.swift */,
 			);
 			path = Enum;
-			sourceTree = "<group>";
-		};
-		274A5E9E2BDDC58100BFCF43 /* AppDelegate */ = {
-			isa = PBXGroup;
-			children = (
-				271377BB2BD5AFC6005F026E /* AppDelegate.swift */,
-			);
-			path = AppDelegate;
 			sourceTree = "<group>";
 		};
 		274A5E9F2BDDC75900BFCF43 /* Suggestions */ = {
@@ -670,7 +662,7 @@
 				271B50C62BB8A35100C4C684 /* HProgressView.swift in Sources */,
 				271377BC2BD5AFC6005F026E /* AppDelegate.swift in Sources */,
 				20BA43CF2BAF574800795AB5 /* ToastView.swift in Sources */,
-				274507022BC8BC9E005ED545 /* LoadingState.swift in Sources */,
+				274507022BC8BC9E005ED545 /* ViewState.swift in Sources */,
 				207AF3E22B9E804F002AE17D /* MapApps.swift in Sources */,
 				20002FF12B01A149005C7329 /* PostosEletricosApp.swift in Sources */,
 				20FCF76C2BAF2AC7004A5495 /* LogHandler.swift in Sources */,
