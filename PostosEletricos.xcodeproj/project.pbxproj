@@ -71,6 +71,7 @@
 		271B50C62BB8A35100C4C684 /* HProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271B50C52BB8A35100C4C684 /* HProgressView.swift */; };
 		272F0A642BD5D79F00EE280F /* SuggestionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272F0A632BD5D79F00EE280F /* SuggestionsListView.swift */; };
 		274507022BC8BC9E005ED545 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274507012BC8BC9E005ED545 /* ViewState.swift */; };
+		2748008C2BE6A48200BF4883 /* Moya+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2748008B2BE6A48200BF4883 /* Moya+Ext.swift */; };
 		2784EF682BD5886B00F485CC /* car-charging-station-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF672BD5886B00F485CC /* car-charging-station-anim.json */; };
 		2784EF6A2BD5A22900F485CC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF692BD5A22900F485CC /* Colors.xcassets */; };
 /* End PBXBuildFile section */
@@ -132,6 +133,7 @@
 		271B50C52BB8A35100C4C684 /* HProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HProgressView.swift; sourceTree = "<group>"; };
 		272F0A632BD5D79F00EE280F /* SuggestionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsListView.swift; sourceTree = "<group>"; };
 		274507012BC8BC9E005ED545 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
+		2748008B2BE6A48200BF4883 /* Moya+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Moya+Ext.swift"; sourceTree = "<group>"; };
 		2784EF672BD5886B00F485CC /* car-charging-station-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "car-charging-station-anim.json"; sourceTree = "<group>"; };
 		2784EF692BD5A22900F485CC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -259,6 +261,7 @@
 		207AF3E72B9E8165002AE17D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				2748008A2BE6A46E00BF4883 /* Moya */,
 				207AF3E32B9E80B8002AE17D /* URL+Ext.swift */,
 				207AF3EA2B9E820A002AE17D /* UIViewController+Ext.swift */,
 				20FCF7672BAF2361004A5495 /* ShakeDevice+Ext.swift */,
@@ -498,6 +501,14 @@
 			path = Enum;
 			sourceTree = "<group>";
 		};
+		2748008A2BE6A46E00BF4883 /* Moya */ = {
+			isa = PBXGroup;
+			children = (
+				2748008B2BE6A48200BF4883 /* Moya+Ext.swift */,
+			);
+			path = Moya;
+			sourceTree = "<group>";
+		};
 		274A5E9F2BDDC75900BFCF43 /* Suggestions */ = {
 			isa = PBXGroup;
 			children = (
@@ -658,6 +669,7 @@
 				20C0EC4C2BAE3A81009C52FF /* FetchState.swift in Sources */,
 				207EF40F2B9CB32500EF46CF /* GoogleMapsAPI.swift in Sources */,
 				20C6B1A92BAE20DB00B113F3 /* FindInAreaButton.swift in Sources */,
+				2748008C2BE6A48200BF4883 /* Moya+Ext.swift in Sources */,
 				207EF3F82B9CAFF500EF46CF /* MapView.swift in Sources */,
 				271B50C62BB8A35100C4C684 /* HProgressView.swift in Sources */,
 				271377BC2BD5AFC6005F026E /* AppDelegate.swift in Sources */,
