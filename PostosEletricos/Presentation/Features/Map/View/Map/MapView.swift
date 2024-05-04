@@ -81,23 +81,31 @@ struct MapView: View {
         }
     }
 
+
     private var map: some View {
         Map(
             position: $viewModel.position,
-            selection: $viewModel.selectedItem
+            selection: $viewModel.selectedPlaceID
         ) {
             UserAnnotation()
 
-            ForEach(viewModel.items, id: \.self) { item in
-                Marker(coordinate: item.placemark.coordinate) {
-                    Label(
-                        item.name ?? "Postos Elétricos",
-                        systemImage: "bolt.fill"
-                    )
+            ForEach(viewModel.places, id: \.id) { item in
+
+                if let lat = item.geometry?.location?.lat,
+                   let lng = item.geometry?.location?.lng {
+
+                    let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+
+                    Marker(coordinate: coordinate) {
+                        Label(
+                            item.name ?? "Postos Elétricos",
+                            systemImage: "bolt.fill"
+                        )
+                    }
+                    .tag(item.id)
+                    .tint(.green)
+                    .annotationTitles(.hidden)
                 }
-                .tint(.green)
-                .tag(item.name?.description)
-                .annotationTitles(.hidden)
             }
 
             if let route = viewModel.route {
@@ -118,29 +126,27 @@ struct MapView: View {
             MapPitchToggle()
             MapUserLocationButton()
         }
-        .onChange(of: viewModel.selectedItem) { _ , newSelectedItem in
+        .onChange(of: viewModel.selectedPlaceID) { _ , newSelectedItem in
             viewModel.onChangeOf(newSelectedItem)
         }
         .onMapCameraChange(frequency: .onEnd) { context in
             viewModel.onMapCameraChange(context)
         }
-        .onAppear {
-            viewModel.onAppear()
-        }
         .overlay(alignment: .bottom) {
-            if let selection = viewModel.selectedItem {
+            if let selectedPlace = viewModel.selectedPlace,
+               let lat = selectedPlace.geometry?.location?.lat,
+               let lng = selectedPlace.geometry?.location?.lng {
+
                 BottomMapDetailsView(
-                    viewModel: viewModel,
+                    place: selectedPlace,
                     isRoutePresenting: viewModel.isRoutePresenting,
                     action: {
-                        guard let origin = viewModel.locationService.location,
-                              let destionation = selection.placemark.location
-                        else { return }
-
                         if viewModel.isRoutePresenting {
                             viewModel.route = nil
                         } else {
-                            viewModel.fetchRouteFrom(origin, to: destionation)
+                            guard let origin = viewModel.locationService.location else { return }
+                            let destination = CLLocation(latitude: lat, longitude: lng)
+                            viewModel.fetchRouteFrom(origin, to: destination)
                         }
                     }
                 )

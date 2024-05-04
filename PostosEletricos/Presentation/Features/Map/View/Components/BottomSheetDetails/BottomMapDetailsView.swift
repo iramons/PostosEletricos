@@ -11,14 +11,13 @@ import MapKit
 
 struct BottomMapDetailsView: View {
     
-    @ObservedObject var viewModel: MapViewModel
-
+    var place: Place
     var isRoutePresenting: Bool
     var action: (() -> Void)
 
     var body: some View {
         VStack {
-            Text(viewModel.selectedItem?.name ?? "Posto elétrico")
+            Text(place.name ?? "Posto elétrico")
                 .multilineTextAlignment(.leading)
                 .font(.headline)
                 .foregroundStyle(.black)
@@ -26,7 +25,7 @@ struct BottomMapDetailsView: View {
                 .padding(.leading, 16)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            Text(viewModel.selectedItem?.placemark.subtitle ?? "Subtitle")
+            Text(place.vicinity ?? "Subtitle")
                 .multilineTextAlignment(.leading)
                 .font(.system(size: 14))
                 .foregroundStyle(.black)
@@ -52,13 +51,13 @@ struct BottomMapDetailsView: View {
             .padding(.horizontal, 16)
             .frame(maxWidth: .infinity, alignment: .trailing)
 
-            if viewModel.lookAroundScene != nil {
-                LocationPreviewLookAroundView(viewModel: viewModel)
-                    .frame(height: 140)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 16)
-            }
+//            if viewModel.lookAroundScene != nil {
+//                LocationPreviewLookAroundView(viewModel: viewModel)
+//                    .frame(height: 140)
+//                    .clipShape(RoundedRectangle(cornerRadius: 10))
+//                    .padding(.horizontal, 16)
+//                    .padding(.bottom, 16)
+//            }
         }
         .background(.white)
         .cornerRadius(20)
@@ -69,7 +68,7 @@ struct BottomMapDetailsView: View {
 
 #Preview {
     BottomMapDetailsView(
-        viewModel: MapViewModel(),
+        place: Place(),
         isRoutePresenting: false,
         action: {}
     )

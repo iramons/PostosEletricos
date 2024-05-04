@@ -7,9 +7,10 @@
 
 import Foundation
 import Moya
+import MapKit
 
 enum GoogleMapsAPI {
-    case eletricalChargingStations(latitude: Double, longitude: Double, radius: Double)
+    case eletricalChargingStations(location: CLLocationCoordinate2D, radius: Double)
 }
 
 extension GoogleMapsAPI: TargetType {
@@ -33,10 +34,10 @@ extension GoogleMapsAPI: TargetType {
     var task: Moya.Task {
         switch self {
             
-        case let .eletricalChargingStations(latitude, longitude, radius):
+        case let .eletricalChargingStations(location, radius):
             return .requestParameters(
                 parameters: [
-                    "location" : "\(latitude), \(longitude)",
+                    "location" : "\(location.latitude), \(location.longitude)",
                     "radius" : "\(radius)",
                     "key" : SecretsKeys.googlePlaces.key,
                     "keyword" : "electric+vehicle+charging+station+postos+eletricos"

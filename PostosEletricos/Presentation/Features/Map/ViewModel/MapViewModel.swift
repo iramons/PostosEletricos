@@ -19,9 +19,8 @@ class MapViewModel: ObservableObject {
     // MARK: Lifecycle
     
     init() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            showLocationServicesAlert = locationService.showLocationServicesAlert
+        DispatchQueue.main.async {
+            self.showLocationServicesAlert = self.locationService.showLocationServicesAlert
         }
 
         bind()
@@ -40,10 +39,25 @@ class MapViewModel: ObservableObject {
         )
     )
 
-    @Published var state: LoadingState = .idle
-    @Published var selectedItem: MKMapItem?
+    @Published var state: ViewState = .none
+
     @Published var items: [MKMapItem] = [MKMapItem]()
     @Published var itemsInFindedArea: [MKMapItem] = [MKMapItem]()
+    @Published var selectedItem: MKMapItem?
+
+    @Published var places: [Place] = []
+
+    private var placesSet: Set<Place> = [] {
+        willSet {
+            DispatchQueue.main.async {
+                self.places = self.placesSet.sorted()
+            }
+        }
+    }
+
+    var selectedPlace: Place? { places.first(where: { $0.id == selectedPlaceID }) }
+    @Published var selectedPlaceID: String?
+    
     @Published var travelTime: String?
     @Published var isRoutePresenting: Bool = false
     @Published var showRouteButtonTitle: String = "Mostrar rota"
@@ -131,20 +145,22 @@ class MapViewModel: ObservableObject {
         completion(newRegion)
     }
 
-    func onChangeOf(_ selectedItem: MKMapItem?) {
-        guard let selectedItem else { return }
+    func onChangeOf(_ selectedId: String?) {
+        guard let place = places.first(where: { $0.id == selectedId }) else { return }
 
-        updateCameraPosition(with: .item(selectedItem))
+        guard let lat = place.geometry?.location?.lat,
+              let lng = place.geometry?.location?.lng else { return }
+
+        let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+
+        let mapItem = MKMapItem(placemark: .init(coordinate: coordinate))
+        updateCameraPosition(with: .item(mapItem))
     }
 
     func onMapCameraChange(_ context: MapCameraUpdateContext) {
         handleCamera(with: context)
         updateDistance(with: context)
         saveLast(context)
-    }
-
-    func onAppear() {
-
     }
 
     func getLookAroundScene() {
@@ -249,13 +265,7 @@ extension MapViewModel {
     func fetchStationsFromGooglePlaces(in location: CLLocationCoordinate2D, completion: @escaping ([MKMapItem]?) -> Void) {
         isLoading = true
 
-        provider.request(
-            .eletricalChargingStations(
-                latitude: location.latitude,
-                longitude: location.longitude,
-                radius: distance
-            )
-        ) { [weak self] result in
+        provider.request(.eletricalChargingStations(location: location, radius: distance)) { [weak self] result in
             guard let strongSelf = self else { return }
 
             switch result {
@@ -263,31 +273,19 @@ extension MapViewModel {
                 strongSelf.itemsInFindedArea = []
 
                 do {
-                    let response = try response.map(GooglePlacesResponse.self, failsOnEmptyData: false)
+                    let response = try response.map(GooglePlacesResponse.self, failsOnEmptyData: true)
 
-                    guard let results = response.results, !results.isEmpty else {
+                    guard let places = response.results else {
                         printLog(.warning, "No results found in this area.")
                         strongSelf.setShowToast(true)
                         completion(nil)
                         return
                     }
 
-                    results.forEach { [weak self] place in
-                        guard let self,
-                              let location = place.geometry?.location,
-                              let lat = location.lat,
-                              let lng = location.lng
-                        else { return }
-
-                        let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-                        let item = MKMapItem(placemark: .init(coordinate: coordinate))
-                        item.name = place.name
-
-                        withAnimation(.easeIn) {
-                            self.items.append(item)
-                            self.itemsInFindedArea.append(item)
-                            completion(self.itemsInFindedArea)
-                        }
+                    places.forEach { place in
+                        self?.insert(place)
+                        self?.appendMapItem(for: place)
+                        completion(self?.itemsInFindedArea)
                     }
                 }
                 catch {
@@ -306,7 +304,24 @@ extension MapViewModel {
             strongSelf.isFirstLoading = false
         }
     }
-    
+
+    private func insert(_ place: Place) {
+        placesSet.insert(place)
+    }
+
+    private func appendMapItem(for place: Place) {
+        guard let location = place.geometry?.location else { return }
+        let coordinate = CLLocationCoordinate2D(latitude: location.lat, longitude: location.lng)
+        let item = MKMapItem(placemark: .init(coordinate: coordinate))
+        item.name = place.name
+        item.phoneNumber = place.placeID
+
+        withAnimation(.easeIn) {
+            items.append(item)
+            itemsInFindedArea.append(item)
+        }
+    }
+
     // MARK: MapKit
 
     func fetchStationsFromMapKit(completion: @escaping ([MKMapItem]?) -> Void) async {
