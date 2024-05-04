@@ -10,16 +10,24 @@ import Foundation
 // MARK: - GooglePlacesResponse
 
 struct GooglePlacesResponse: Codable {
+    let htmlAttributions: [String]?
     let nextPageToken: String?
     let results: [Place]?
     let status: String?
+
+    enum CodingKeys: String, CodingKey {
+        case htmlAttributions = "html_attributions"
+        case nextPageToken = "next_page_token"
+        case results
+        case status
+    }
 }
 
 // MARK: - Place
 
-struct Place: Identifiable, Codable, Equatable, Hashable, Comparable {
+struct Place: Codable, Identifiable, Equatable, Hashable, Comparable {
     
-    let id: UUID = UUID()
+    let id: String = UUID().uuidString
     let businessStatus: String?
     let geometry: Geometry?
     let icon: String?
@@ -36,7 +44,27 @@ struct Place: Identifiable, Codable, Equatable, Hashable, Comparable {
     let vicinity: String?
     let openingHours: OpeningHours?
     let photos: [Photo]?
-    
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case businessStatus = "business_status"
+        case geometry
+        case icon
+        case iconBackgroundColor = "icon_background_color"
+        case iconMaskBaseURI = "icon_mask_base_uri"
+        case name
+        case placeID = "place_id"
+        case plusCode = "plus_code"
+        case rating
+        case reference
+        case scope
+        case types
+        case userRatingsTotal = "user_ratings_total"
+        case vicinity
+        case openingHours = "opening_hours"
+        case photos
+    }
+
     init(
         businessStatus: String? = nil,
         geometry: Geometry? = nil,
@@ -112,6 +140,10 @@ struct Viewport: Codable, Hashable {
 
 struct OpeningHours: Codable, Equatable, Hashable {
     let openNow: Bool?
+
+    enum CodingKeys: String, CodingKey {
+        case openNow = "open_now"
+    }
 }
 
 // MARK: - Photo
@@ -121,6 +153,13 @@ struct Photo: Codable, Equatable, Hashable {
     let htmlAttributions: [String]?
     let photoReference: String?
     let width: Double?
+
+    enum CodingKeys: String, CodingKey {
+        case height
+        case htmlAttributions = "html_attributions"
+        case photoReference = "photo_reference"
+        case width
+    }
 }
 
 // MARK: - PlusCode
@@ -128,4 +167,9 @@ struct Photo: Codable, Equatable, Hashable {
 struct PlusCode: Codable, Equatable, Hashable {
     let compoundCode: String?
     let globalCode: String?
+
+    enum CodingKeys: String, CodingKey {
+        case compoundCode = "compound_code"
+        case globalCode = "global_code"
+    }
 }
