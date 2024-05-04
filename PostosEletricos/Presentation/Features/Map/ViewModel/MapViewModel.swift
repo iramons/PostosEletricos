@@ -41,12 +41,9 @@ class MapViewModel: ObservableObject {
 
     @Published var state: ViewState = .none
 
-    @Published var items: [MKMapItem] = [MKMapItem]()
-    @Published var itemsInFindedArea: [MKMapItem] = [MKMapItem]()
-    @Published var selectedItem: MKMapItem?
+    // MARK: Places
 
     @Published var places: [Place] = []
-
     private var placesSet: Set<Place> = [] {
         willSet {
             DispatchQueue.main.async {
@@ -55,9 +52,18 @@ class MapViewModel: ObservableObject {
         }
     }
 
-    var selectedPlace: Place? { places.first(where: { $0.id == selectedPlaceID }) }
     @Published var selectedPlaceID: String?
-    
+    var selectedPlace: Place? { places.first(where: { $0.id == selectedPlaceID }) }
+
+    @Published var placesInFindedArea: [Place]?
+    private var placesInFindedAreaSet: Set<Place> = [] {
+        willSet {
+            DispatchQueue.main.async {
+                self.placesInFindedArea = self.placesInFindedAreaSet.sorted()
+            }
+        }
+    }
+
     @Published var travelTime: String?
     @Published var isRoutePresenting: Bool = false
     @Published var showRouteButtonTitle: String = "Mostrar rota"
@@ -74,10 +80,11 @@ class MapViewModel: ObservableObject {
     @Published var distance: CLLocationDistance = CLLocationDistance(3000)
     @Published var lastRegion: MKCoordinateRegion?
     @Published var lastContext: MapCameraUpdateContext?
+
+    // MARK: Search
+
     @Published var searchText: String = "" {
-        didSet {
-            findAutocompletePredictions()
-        }
+        didSet { findAutocompletePredictions() }
     }
     @Published var isSearchBarVisible = false
 
@@ -93,8 +100,6 @@ class MapViewModel: ObservableObject {
             showRouteButtonTitle = hasRoute ? "Remover rota" : "Mostrar rota"
         }
     }
-
-    @Published var lookAroundScene: MKLookAroundScene?
 
     var toastMessage: String = "Nenhum posto de recarga elétrica encontrado nesta área."
 
@@ -121,20 +126,20 @@ class MapViewModel: ObservableObject {
     }
 
     /// Function to update camera position to fit all markers
-    func getMapItemsRegion(items: [MKMapItem], completion: @escaping (MKCoordinateRegion) -> Void) {
-        guard !items.isEmpty else { return }
+    func getMapItemsRegion(places: [Place], completion: @escaping (MKCoordinateRegion) -> Void) {
+        guard !places.isEmpty else { return }
 
         // Calculate the bounding region for all markers
-        var minLat = items[0].placemark.coordinate.latitude
-        var maxLat = items[0].placemark.coordinate.latitude
-        var minLon = items[0].placemark.coordinate.longitude
-        var maxLon = items[0].placemark.coordinate.longitude
+        var minLat = places[0].geometry?.location?.lat ?? 0
+        var maxLat = places[0].geometry?.location?.lat ?? 0
+        var minLon = places[0].geometry?.location?.lng ?? 0
+        var maxLon = places[0].geometry?.location?.lng ?? 0
 
-        for item in items {
-            minLat = min(minLat, item.placemark.coordinate.latitude)
-            maxLat = max(maxLat, item.placemark.coordinate.latitude)
-            minLon = min(minLon, item.placemark.coordinate.longitude)
-            maxLon = max(maxLon, item.placemark.coordinate.longitude)
+        for item in places {
+            minLat = min(minLat, item.geometry?.location?.lat ?? 0)
+            maxLat = max(maxLat, item.geometry?.location?.lat ?? 0)
+            minLon = min(minLon, item.geometry?.location?.lng ?? 0)
+            maxLon = max(maxLon, item.geometry?.location?.lng ?? 0)
         }
 
         // Create a region that contains all markers
@@ -145,8 +150,8 @@ class MapViewModel: ObservableObject {
         completion(newRegion)
     }
 
-    func onChangeOf(_ selectedId: String?) {
-        guard let place = places.first(where: { $0.id == selectedId }) else { return }
+    func onChangeOf(_ selectedPlaceID: String?) {
+        guard let place = places.first(where: { $0.id == selectedPlaceID }) else { return }
 
         guard let lat = place.geometry?.location?.lat,
               let lng = place.geometry?.location?.lng else { return }
@@ -161,17 +166,6 @@ class MapViewModel: ObservableObject {
         handleCamera(with: context)
         updateDistance(with: context)
         saveLast(context)
-    }
-
-    func getLookAroundScene() {
-        lookAroundScene = nil
-
-        if let selectedItem {
-            _Concurrency.Task {
-                let request = MKLookAroundSceneRequest(coordinate: selectedItem.placemark.coordinate)
-                lookAroundScene = try? await request.scene
-            }
-        }
     }
 
     // MARK: Private
@@ -214,10 +208,10 @@ class MapViewModel: ObservableObject {
         if shouldFetchStations {
             shouldFetchStations = false
 
-            fetchStationsFromGooglePlaces(in: coordinate) { [weak self] items in
-                guard let self, let items else { return }
+            fetchStationsFromGooglePlaces(in: coordinate) { [weak self] places in
+                guard let self, let places else { return }
 
-                getMapItemsRegion(items: items) { region in
+                getMapItemsRegion(places: places) { region in
                     self.updateCameraPosition(forRegion: region)
 
 //                    _Concurrency.Task {
@@ -262,7 +256,7 @@ extension MapViewModel {
 
     // MARK: GooglePlaces
 
-    func fetchStationsFromGooglePlaces(in location: CLLocationCoordinate2D, completion: @escaping ([MKMapItem]?) -> Void) {
+    func fetchStationsFromGooglePlaces(in location: CLLocationCoordinate2D, completion: @escaping ([Place]?) -> Void) {
         isLoading = true
 
         provider.request(.eletricalChargingStations(location: location, radius: distance)) { [weak self] result in
@@ -270,7 +264,7 @@ extension MapViewModel {
 
             switch result {
             case let .success(response):
-                strongSelf.itemsInFindedArea = []
+                strongSelf.placesInFindedArea = []
 
                 do {
                     let response = try response.map(GooglePlacesResponse.self, failsOnEmptyData: true)
@@ -284,8 +278,8 @@ extension MapViewModel {
 
                     places.forEach { place in
                         self?.insert(place)
-                        self?.appendMapItem(for: place)
-                        completion(self?.itemsInFindedArea)
+                        self?.insertPlacesInFindedArea(for: place)
+                        completion(self?.placesInFindedArea)
                     }
                 }
                 catch {
@@ -309,17 +303,8 @@ extension MapViewModel {
         placesSet.insert(place)
     }
 
-    private func appendMapItem(for place: Place) {
-        guard let location = place.geometry?.location else { return }
-        let coordinate = CLLocationCoordinate2D(latitude: location.lat, longitude: location.lng)
-        let item = MKMapItem(placemark: .init(coordinate: coordinate))
-        item.name = place.name
-        item.phoneNumber = place.placeID
-
-        withAnimation(.easeIn) {
-            items.append(item)
-            itemsInFindedArea.append(item)
-        }
+    private func insertPlacesInFindedArea(for place: Place) {
+        placesInFindedAreaSet.insert(place)
     }
 
     // MARK: MapKit
@@ -335,12 +320,12 @@ extension MapViewModel {
 
         results?.mapItems.forEach { item in
             withAnimation {
-                items.append(item)
-                itemsInFindedArea.append(item)
+//                places.append(item)
+//                placesInFindedArea?.append(item)
             }
         }
 
-        completion(itemsInFindedArea)
+//        completion(itemsInFindedArea)
     }
 
     // MARK: AutoComplete

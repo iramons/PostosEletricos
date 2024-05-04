@@ -22,7 +22,7 @@ struct SuggestionsListView: View {
                     dismissSearch()
                 }
 
-                viewModel.selectedItem = nil
+                viewModel.selectedPlaceID = nil
 
                 handleSelection(place)
             }
@@ -43,7 +43,7 @@ struct SuggestionsListView: View {
 
                 viewModel.fetchStationsFromGooglePlaces(in: coordinate) { items in
                     guard let items else { return }
-                    viewModel.getMapItemsRegion(items: items) { region in
+                    viewModel.getMapItemsRegion(places: items) { region in
                         viewModel.updateCameraPosition(forRegion: region)
                         let _ = printLog(.critical, "caiu aqui")
                     }

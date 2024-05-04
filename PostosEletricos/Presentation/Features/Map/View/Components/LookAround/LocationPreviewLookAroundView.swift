@@ -11,29 +11,41 @@ import MapKit
 
 struct LocationPreviewLookAroundView: View {
 
-    @ObservedObject var viewModel: MapViewModel
+    @State var lookAroundScene: MKLookAroundScene?
+
+    var place: Place
 
     var body: some View {
         VStack {
-            LookAroundPreview(initialScene: viewModel.lookAroundScene)
+            LookAroundPreview(initialScene: lookAroundScene)
                 .overlay(alignment: .bottomTrailing) {
                     HStack {
-                        Text(viewModel.selectedItem?.placemark.name ?? "SEMNOME")
+                        Text(place.name ?? "SEMNOME")
                     }
                     .font(.caption)
                     .foregroundStyle(.white)
                     .padding(18)
                 }
-                .onAppear {
-                    viewModel.getLookAroundScene()
+                .onChange(of: place) {
+                    getLookAroundScene()
                 }
-                .onChange(of: viewModel.selectedItem) {
-                    viewModel.getLookAroundScene()
+                .onAppear {
+                    getLookAroundScene()
                 }
         }
+    }
+
+    private func getLookAroundScene() {
+        lookAroundScene = nil
+
+            _Concurrency.Task {
+                let coordinate = CLLocationCoordinate2D(latitude: place.geometry?.location?.lat ?? 0, longitude: place.geometry?.location?.lng ?? 0)
+                let request = MKLookAroundSceneRequest(coordinate: coordinate)
+                lookAroundScene = try? await request.scene
+            }
     }
 }
 
 #Preview {
-    LocationPreviewLookAroundView(viewModel: MapViewModel())
+    LocationPreviewLookAroundView(place: Place())
 }

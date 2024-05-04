@@ -165,7 +165,7 @@ struct MapView: View {
 
             viewModel.fetchStationsFromGooglePlaces(in: center) { items in
                 guard let items else { return }
-                viewModel.getMapItemsRegion(items: items) { region in
+                viewModel.getMapItemsRegion(places: items) { region in
                     viewModel.updateCameraPosition(forRegion: region)
                 }
             }

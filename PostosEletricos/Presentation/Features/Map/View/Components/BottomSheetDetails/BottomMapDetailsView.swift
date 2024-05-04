@@ -51,13 +51,12 @@ struct BottomMapDetailsView: View {
             .padding(.horizontal, 16)
             .frame(maxWidth: .infinity, alignment: .trailing)
 
-//            if viewModel.lookAroundScene != nil {
-//                LocationPreviewLookAroundView(viewModel: viewModel)
-//                    .frame(height: 140)
-//                    .clipShape(RoundedRectangle(cornerRadius: 10))
-//                    .padding(.horizontal, 16)
-//                    .padding(.bottom, 16)
-//            }
+                LocationPreviewLookAroundView(place: place)
+                    .frame(height: 140)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 16)
+
         }
         .background(.white)
         .cornerRadius(20)
