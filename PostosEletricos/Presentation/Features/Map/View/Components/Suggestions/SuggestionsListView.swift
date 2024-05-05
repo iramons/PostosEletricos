@@ -17,12 +17,12 @@ struct SuggestionsListView: View {
 
     var body: some View {
         ForEach(viewModel.placesFromSearch, id: \.id) { place in
-            Button(place.name ?? "") {
+            Button(place.name) {
                 withAnimation {
                     dismissSearch()
                 }
 
-                viewModel.selectedPlaceID = nil
+                viewModel.deselectPlace()
 
                 handleSelection(place)
             }

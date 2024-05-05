@@ -9,10 +9,6 @@ import SwiftUI
 
 struct FindInAreaButton: View {
 
-    init(onTap: (@escaping () -> Void)) {
-        self.onTap = onTap
-    }
-
     let onTap: (() -> Void)
 
     @State private var animate: Bool = false

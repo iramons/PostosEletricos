@@ -28,5 +28,12 @@
 		<string>RobotoCondensed-BlackItalic.ttf</string>
 		<string>CairoPlay-Regular.ttf</string>
 	</array>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>comgooglemaps</string>
+        <string>comgooglemaps-x-callback</string>
+        <string>waze</string>
+        <string>uber</string>
+    </array>
 </dict>
 </plist>

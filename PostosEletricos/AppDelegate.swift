@@ -22,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerAllServices()
         enablePulseLogs()
 
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+
         return true
     }
 

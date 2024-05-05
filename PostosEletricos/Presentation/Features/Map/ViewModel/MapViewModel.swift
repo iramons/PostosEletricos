@@ -168,9 +168,28 @@ class MapViewModel: ObservableObject {
         saveLast(context)
     }
 
+    func deselectPlace() {
+        withAnimation {
+            selectedPlaceID = nil
+        }
+    }
+
+    func handleRouteUpdates() {
+        if isRoutePresenting {
+            route = nil
+        } else {
+            guard let selectedPlaceCoordinate else { return }
+            showMapApps.toggle()
+        }
+    }
+
+    @Published var showMapApps: Bool = false
+
+    var selectedPlaceCoordinate: CLLocationCoordinate2D? { selectedPlace?.coordinate }
+
     // MARK: Private
 
-    enum Constants {
+    private enum Constants {
         static let defaultRadius: Float = 3000
         static let defaultCoordinate: CLLocationCoordinate2D = .init(latitude: -22.904232, longitude: -43.104371)
         static let defaultSpan: MKCoordinateSpan = .init(latitudeDelta: 0.01, longitudeDelta: 0.01)
@@ -187,6 +206,8 @@ class MapViewModel: ObservableObject {
     
     /// indicates when need fetch data from API, when it's false should stop fetching.
     private var shouldFetchStations: Bool = true
+
+    private let client = GMSPlacesClient.shared()
 
     private func bind() {
         locationService.$location
@@ -245,9 +266,6 @@ class MapViewModel: ObservableObject {
     private func updateLastRegion() {
         lastRegion = position.region
     }
-
-    private let client = GMSPlacesClient.shared()
-
 }
 
 // MARK: Requests
@@ -341,12 +359,12 @@ extension MapViewModel {
                 guard let self, let results, error == nil else { return }
 
                 let places: [Place] = results.compactMap({ place in
-                    Place(name: place.attributedFullText.string, placeID: place.placeID)
+                    Place(placeID: place.placeID, name: place.attributedFullText.string)
                 })
 
                 let sortedPlaces = places.sorted {
-                    levenshteinDistance(from: $0.name?.lowercased() ?? "", to: self.searchText.lowercased()) <
-                        levenshteinDistance(from: $1.name?.lowercased() ?? "", to: self.searchText.lowercased())
+                    levenshteinDistance(from: $0.name.lowercased(), to: self.searchText.lowercased()) <
+                        levenshteinDistance(from: $1.name.lowercased(), to: self.searchText.lowercased())
                 }
 
                 DispatchQueue.main.async {
@@ -381,17 +399,20 @@ extension MapViewModel {
             
             let location = Location(lat: googlePlace.coordinate.latitude, lng: googlePlace.coordinate.longitude)
             let geometry = Geometry(location: location)
-            let place = Place(geometry: geometry, name: googlePlace.name, placeID: googlePlace.placeID)
+            let place = Place(placeID: googlePlace.placeID, name: googlePlace.name ?? "Posto Elétrico", geometry: geometry)
             completion(place)
         }
     }
 
     // MARK: Route
 
-    func fetchRouteFrom(_ source: CLLocation, to destination: CLLocation) {
+    func getDirections(to destination: CLLocationCoordinate2D?) {
+        guard let userCoordinate = locationService.location?.coordinate else { return }
+        guard let destination else { return }
+        
         let request = MKDirections.Request()
-        request.source = MKMapItem(placemark: MKPlacemark(coordinate: source.coordinate))
-        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination.coordinate))
+        request.source = MKMapItem(placemark: MKPlacemark(coordinate: userCoordinate))
+        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination))
         request.transportType = .automobile
         
         _Concurrency.Task {

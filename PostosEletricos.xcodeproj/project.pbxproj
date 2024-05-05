@@ -26,7 +26,6 @@
 		207EF40F2B9CB32500EF46CF /* GoogleMapsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF40E2B9CB32500EF46CF /* GoogleMapsAPI.swift */; };
 		207EF4112B9CB35000EF46CF /* NetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF4102B9CB35000EF46CF /* NetworkConfig.swift */; };
 		207EF4132B9CB36F00EF46CF /* GooglePlacesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF4122B9CB36F00EF46CF /* GooglePlacesResponse.swift */; };
-		208321A42B9FB98B00F83542 /* LocationPreviewLookAroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 208321A32B9FB98B00F83542 /* LocationPreviewLookAroundView.swift */; };
 		20BA43C82BAF3F1300795AB5 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20BA43C72BAF3F1300795AB5 /* Secrets.plist */; };
 		20BA43CA2BAF3FB400795AB5 /* SecretsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BA43C92BAF3FB400795AB5 /* SecretsManager.swift */; };
 		20BA43CF2BAF574800795AB5 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20BA43CE2BAF574800795AB5 /* ToastView.swift */; };
@@ -72,6 +71,7 @@
 		272F0A642BD5D79F00EE280F /* SuggestionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272F0A632BD5D79F00EE280F /* SuggestionsListView.swift */; };
 		274507022BC8BC9E005ED545 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274507012BC8BC9E005ED545 /* ViewState.swift */; };
 		2748008C2BE6A48200BF4883 /* Moya+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2748008B2BE6A48200BF4883 /* Moya+Ext.swift */; };
+		2748008E2BE70A9D00BF4883 /* CircularInfinityProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2748008D2BE70A9D00BF4883 /* CircularInfinityProgressView.swift */; };
 		2784EF682BD5886B00F485CC /* car-charging-station-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF672BD5886B00F485CC /* car-charging-station-anim.json */; };
 		2784EF6A2BD5A22900F485CC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF692BD5A22900F485CC /* Colors.xcassets */; };
 /* End PBXBuildFile section */
@@ -91,7 +91,6 @@
 		207EF40E2B9CB32500EF46CF /* GoogleMapsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapsAPI.swift; sourceTree = "<group>"; };
 		207EF4102B9CB35000EF46CF /* NetworkConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfig.swift; sourceTree = "<group>"; };
 		207EF4122B9CB36F00EF46CF /* GooglePlacesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlacesResponse.swift; sourceTree = "<group>"; };
-		208321A32B9FB98B00F83542 /* LocationPreviewLookAroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPreviewLookAroundView.swift; sourceTree = "<group>"; };
 		20BA43C72BAF3F1300795AB5 /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		20BA43C92BAF3FB400795AB5 /* SecretsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretsManager.swift; sourceTree = "<group>"; };
 		20BA43CE2BAF574800795AB5 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
@@ -134,6 +133,7 @@
 		272F0A632BD5D79F00EE280F /* SuggestionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsListView.swift; sourceTree = "<group>"; };
 		274507012BC8BC9E005ED545 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		2748008B2BE6A48200BF4883 /* Moya+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Moya+Ext.swift"; sourceTree = "<group>"; };
+		2748008D2BE70A9D00BF4883 /* CircularInfinityProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularInfinityProgressView.swift; sourceTree = "<group>"; };
 		2784EF672BD5886B00F485CC /* car-charging-station-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "car-charging-station-anim.json"; sourceTree = "<group>"; };
 		2784EF692BD5A22900F485CC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -334,6 +334,7 @@
 			children = (
 				20BA43D12BAF576D00795AB5 /* Toast */,
 				271B50C72BB8A35900C4C684 /* HProgressView */,
+				2748008F2BE70ACE00BF4883 /* CircularInfinityProgressView */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -460,14 +461,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		271377EA2BD5BEBC005F026E /* LookAround */ = {
-			isa = PBXGroup;
-			children = (
-				208321A32B9FB98B00F83542 /* LocationPreviewLookAroundView.swift */,
-			);
-			path = LookAround;
-			sourceTree = "<group>";
-		};
 		271377EB2BD5BED0005F026E /* BottomSheetDetails */ = {
 			isa = PBXGroup;
 			children = (
@@ -509,6 +502,14 @@
 			path = Moya;
 			sourceTree = "<group>";
 		};
+		2748008F2BE70ACE00BF4883 /* CircularInfinityProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				2748008D2BE70A9D00BF4883 /* CircularInfinityProgressView.swift */,
+			);
+			path = CircularInfinityProgressView;
+			sourceTree = "<group>";
+		};
 		274A5E9F2BDDC75900BFCF43 /* Suggestions */ = {
 			isa = PBXGroup;
 			children = (
@@ -523,7 +524,6 @@
 				274A5E9F2BDDC75900BFCF43 /* Suggestions */,
 				271377ED2BD5BEF8005F026E /* FindInAreaButton */,
 				271377EB2BD5BED0005F026E /* BottomSheetDetails */,
-				271377EA2BD5BEBC005F026E /* LookAround */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -654,7 +654,6 @@
 				20BA43D82BAF585500795AB5 /* View+Ext.swift in Sources */,
 				207EF4112B9CB35000EF46CF /* NetworkConfig.swift in Sources */,
 				20BA43D52BAF57AA00795AB5 /* ToastModifier.swift in Sources */,
-				208321A42B9FB98B00F83542 /* LocationPreviewLookAroundView.swift in Sources */,
 				20CBCD4B2B9CD36E008D01AA /* Injection+PropertyWrapper.swift in Sources */,
 				2072183A2BA0B6C4005A136A /* BottomMapDetailsView.swift in Sources */,
 				20FCF76A2BAF2AA2004A5495 /* PrintLog.swift in Sources */,
@@ -667,6 +666,7 @@
 				20CBCD482B9CD334008D01AA /* Injection+Services.swift in Sources */,
 				207EF3F62B9CAFD600EF46CF /* SecretsKeys.swift in Sources */,
 				20C0EC4C2BAE3A81009C52FF /* FetchState.swift in Sources */,
+				2748008E2BE70A9D00BF4883 /* CircularInfinityProgressView.swift in Sources */,
 				207EF40F2B9CB32500EF46CF /* GoogleMapsAPI.swift in Sources */,
 				20C6B1A92BAE20DB00B113F3 /* FindInAreaButton.swift in Sources */,
 				2748008C2BE6A48200BF4883 /* Moya+Ext.swift in Sources */,

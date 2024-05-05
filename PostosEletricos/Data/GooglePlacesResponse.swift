@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MapKit
 
 // MARK: - GooglePlacesResponse
 
@@ -28,75 +29,75 @@ struct GooglePlacesResponse: Codable {
 struct Place: Codable, Identifiable, Equatable, Hashable, Comparable {
     
     let id: String = UUID().uuidString
-    let businessStatus: String?
+    let placeID: String?
+    let name: String
+    let vicinity: String?
     let geometry: Geometry?
+    let businessStatus: String?
     let icon: String?
     let iconBackgroundColor: String?
     let iconMaskBaseURI: String?
-    let name: String?
-    let placeID: String?
     let plusCode: PlusCode?
     let rating: Double?
     let reference: String?
     let scope: String?
     let types: [String]?
     let userRatingsTotal: Double?
-    let vicinity: String?
     let openingHours: OpeningHours?
     let photos: [Photo]?
 
     enum CodingKeys: String, CodingKey {
         case id
-        case businessStatus = "business_status"
+        case placeID = "place_id"
+        case name
+        case vicinity
         case geometry
+        case businessStatus = "business_status"
         case icon
         case iconBackgroundColor = "icon_background_color"
         case iconMaskBaseURI = "icon_mask_base_uri"
-        case name
-        case placeID = "place_id"
         case plusCode = "plus_code"
         case rating
         case reference
         case scope
         case types
         case userRatingsTotal = "user_ratings_total"
-        case vicinity
         case openingHours = "opening_hours"
         case photos
     }
 
     init(
-        businessStatus: String? = nil,
+        placeID: String? = nil,
+        name: String = "Posto Elétrico",
+        vicinity: String? = nil,
         geometry: Geometry? = nil,
+        businessStatus: String? = nil,
         icon: String? = nil,
         iconBackgroundColor: String? = nil,
         iconMaskBaseURI: String? = nil,
-        name: String? = nil,
-        placeID: String? = nil,
         plusCode: PlusCode? = nil,
         rating: Double? = nil,
         reference: String? = nil,
         scope: String? = nil,
         types: [String]? = nil,
         userRatingsTotal: Double? = nil,
-        vicinity: String? = nil,
         openingHours: OpeningHours? = nil,
         photos: [Photo]? = nil
     ) {
-        self.businessStatus = businessStatus
+        self.placeID = placeID
+        self.name = name
+        self.vicinity = vicinity
         self.geometry = geometry
+        self.businessStatus = businessStatus
         self.icon = icon
         self.iconBackgroundColor = iconBackgroundColor
         self.iconMaskBaseURI = iconMaskBaseURI
-        self.name = name
-        self.placeID = placeID
         self.plusCode = plusCode
         self.rating = rating
         self.reference = reference
         self.scope = scope
         self.types = types
         self.userRatingsTotal = userRatingsTotal
-        self.vicinity = vicinity
         self.openingHours = openingHours
         self.photos = photos
     }
@@ -107,6 +108,15 @@ struct Place: Codable, Identifiable, Equatable, Hashable, Comparable {
 
     static func < (lhs: Place, rhs: Place) -> Bool {
         return lhs.placeID == rhs.placeID
+    }
+}
+
+extension Place {
+
+    /// Return coordinate base on Geometry and Location results
+    var coordinate: CLLocationCoordinate2D? {
+        guard let geometry, let location = geometry.location else { return nil }
+        return CLLocationCoordinate2D(latitude: location.lat, longitude: location.lng)
     }
 }
 
