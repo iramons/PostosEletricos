@@ -100,7 +100,7 @@ struct MapView: View {
                 elevation: .realistic,
                 emphasis: .automatic,
                 pointsOfInterest: .all,
-                showsTraffic: true
+                showsTraffic: viewModel.isRoutePresenting
             )
         )
         .mapControls {
@@ -146,7 +146,7 @@ struct MapView: View {
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     MapApp.waze.open(coordinate: coordinate)
                 }
-                Button("Apenas visualizar caminho") { 
+                Button("Visualizar caminho") { 
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     viewModel.getDirections(to: coordinate)
                 }

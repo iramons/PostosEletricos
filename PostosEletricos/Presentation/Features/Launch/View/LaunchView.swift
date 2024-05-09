@@ -2,7 +2,7 @@
 //  LaunchView.swift
 //  PostosEletricos
 //
-//  Created by Sportheca Brasil on 29/03/24.
+//  Created by Ramon Santos on 29/03/24.
 //
 
 import SwiftUI

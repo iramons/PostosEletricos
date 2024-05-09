@@ -18,8 +18,8 @@ struct BottomMapDetailsView: View {
 
     var place: Place
     var isRoutePresenting: Bool
-    var action: ((BottomMapDetailsViewActionType) -> Void)
     @State var lookAroundScene: MKLookAroundScene?
+    var action: ((BottomMapDetailsViewActionType) -> Void)
 
     var placeCoordinate: CLLocationCoordinate2D? {
         guard let lat = place.geometry?.location?.lat,
@@ -66,7 +66,7 @@ struct BottomMapDetailsView: View {
                 Text(openedTitle)
                     .multilineTextAlignment(.leading)
                     .font(.custom("Roboto-Medium", size: 14))
-                    .foregroundStyle(opened ? .green : .orange)
+                    .foregroundStyle(opened ? .accent : .orange)
                     .padding(.horizontal, 17)
                     .frame(maxWidth: .infinity, alignment: .leading)
 

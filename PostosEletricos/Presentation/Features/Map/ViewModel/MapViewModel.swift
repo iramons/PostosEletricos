@@ -105,16 +105,15 @@ class MapViewModel: ObservableObject {
 
     // MARK: - Route
 
-    @Published var isRoutePresenting: Bool = false
-
-    @Published var showRouteButtonTitle: String = "Mostrar rota"
-
     @Published var route: MKRoute? {
         didSet {
-            isRoutePresenting = route != nil
-            showRouteButtonTitle = route != nil ? "Remover rota" : "Mostrar rota"
+            if route != nil {
+                updateCameraPositionForRoute()
+            }
         }
     }
+
+    var isRoutePresenting: Bool { route != nil }
 
     func getDirections(to destination: CLLocationCoordinate2D?) {
         guard let userCoordinate = locationService.location?.coordinate else { return }
@@ -460,5 +459,29 @@ extension MapViewModel {
     func updateCameraPosition(forRegion region: MKCoordinateRegion) {
         withAnimation { position = .region(.init(center: region.center, span: region.span)) }
         updateLastRegion()
+    }
+
+    func updateCameraPositionForRoute() {
+        guard let userCoordinate = locationService.location?.coordinate else { return }
+        guard let selectedPlaceCoordinate else { return }
+
+        /// Calculate min and max coordinates
+        let minLatitude = min(userCoordinate.latitude, selectedPlaceCoordinate.latitude)
+        let maxLatitude = max(userCoordinate.latitude, selectedPlaceCoordinate.latitude)
+        let minLongitude = min(userCoordinate.longitude, selectedPlaceCoordinate.longitude)
+        let maxLongitude = max(userCoordinate.longitude, selectedPlaceCoordinate.longitude)
+
+        /// Calculate center
+        let centerLatitude = (minLatitude + maxLatitude) / 2
+        let centerLongitude = (minLongitude + maxLongitude) / 2
+        let center = CLLocationCoordinate2D(latitude: centerLatitude, longitude: centerLongitude)
+
+        /// Calculate span
+        let padding: CGFloat = 2
+        let spanLatitude = (maxLatitude - minLatitude) * padding
+        let spanLongitude = (maxLongitude - minLongitude) * padding
+        let span = MKCoordinateSpan(latitudeDelta: spanLatitude, longitudeDelta: spanLongitude)
+
+        updateCameraPosition(forRegion: MKCoordinateRegion(center: center, span: span))
     }
 }
