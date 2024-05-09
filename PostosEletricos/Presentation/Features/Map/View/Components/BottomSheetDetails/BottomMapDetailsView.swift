@@ -52,12 +52,12 @@ struct BottomMapDetailsView: View {
                     .padding(.trailing, 40)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                if let vicinity = place.vicinity {
-                    Text(vicinity)
+                if let fullAddress = place.fullAddress {
+                    Text(fullAddress)
                         .multilineTextAlignment(.leading)
                         .font(.custom("Roboto-Medium", size: 14))
                         .foregroundStyle(.secondary)
-                        .padding(.horizontal, 17)
+                        .padding(.horizontal, 16)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
@@ -89,12 +89,47 @@ struct BottomMapDetailsView: View {
                             .padding(.trailing, 12)
                     }
                 )
-                .opensMap(at: placeCoordinate)
                 .background(isRoutePresenting ? .red : .indigo)
                 .cornerRadius(10)
                 .padding(.horizontal, 10)
                 .padding(.bottom, 10)
                 .frame(maxWidth: .infinity, alignment: .trailing)
+
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    if let phoneNumber = place.phoneNumber {
+                        VStack(alignment: .leading, spacing: .zero) {
+                            Text("Telefones")
+                                .multilineTextAlignment(.leading)
+                                .font(.custom("Roboto-Medium", size: 16))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+
+                            Text(phoneNumber)
+                                .multilineTextAlignment(.leading)
+                                .font(.custom("Roboto-Medium", size: 14))
+                                .foregroundStyle(.secondary)
+                                .padding(.bottom, 1)
+                        }
+                        .padding([.leading, .bottom], 16)
+                    }
+
+                    if let weekdays = place.currentOpeningHours?.weekdayText {
+                        VStack(alignment: .leading, spacing: .zero) {
+                            Text("Horários")
+                                .multilineTextAlignment(.leading)
+                                .font(.custom("Roboto-Medium", size: 16))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+
+                            ForEach(weekdays, id: \.self) { weekday in
+                                Text(weekday)
+                                    .multilineTextAlignment(.leading)
+                                    .font(.custom("Roboto-Medium", size: 14))
+                                    .foregroundStyle(.secondary)
+                                    .padding(.bottom, 1)
+                            }
+                        }
+                        .padding([.horizontal, .bottom], 16)
+                    }
+                }
 
                 HStack(alignment: .bottom) {
                     if lookAroundScene != nil {

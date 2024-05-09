@@ -96,6 +96,7 @@
 		277A3CB32BEC63D000174E0F /* GooglePlaceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB22BEC63D000174E0F /* GooglePlaceResponse.swift */; };
 		277A3CB52BEC701100174E0F /* GooglePlacesAutocompleteResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB42BEC701100174E0F /* GooglePlacesAutocompleteResponse.swift */; };
 		277A3CB82BEC71C500174E0F /* Prediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB72BEC71C500174E0F /* Prediction.swift */; };
+		277A3CBA2BED19D700174E0F /* CurrentOpeningHours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB92BED19D700174E0F /* CurrentOpeningHours.swift */; };
 		2784EF682BD5886B00F485CC /* car-charging-station-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF672BD5886B00F485CC /* car-charging-station-anim.json */; };
 		2784EF6A2BD5A22900F485CC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF692BD5A22900F485CC /* Colors.xcassets */; };
 /* End PBXBuildFile section */
@@ -182,6 +183,7 @@
 		277A3CB22BEC63D000174E0F /* GooglePlaceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlaceResponse.swift; sourceTree = "<group>"; };
 		277A3CB42BEC701100174E0F /* GooglePlacesAutocompleteResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlacesAutocompleteResponse.swift; sourceTree = "<group>"; };
 		277A3CB72BEC71C500174E0F /* Prediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prediction.swift; sourceTree = "<group>"; };
+		277A3CB92BED19D700174E0F /* CurrentOpeningHours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentOpeningHours.swift; sourceTree = "<group>"; };
 		2784EF672BD5886B00F485CC /* car-charging-station-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "car-charging-station-anim.json"; sourceTree = "<group>"; };
 		2784EF692BD5A22900F485CC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -592,6 +594,7 @@
 				277A3CAE2BEBD3E800174E0F /* PlusCode.swift */,
 				277A3CB02BEBD42D00174E0F /* Viewport.swift */,
 				277A3CB72BEC71C500174E0F /* Prediction.swift */,
+				277A3CB92BED19D700174E0F /* CurrentOpeningHours.swift */,
 			);
 			path = Place;
 			sourceTree = "<group>";
@@ -782,6 +785,7 @@
 				277A3CB52BEC701100174E0F /* GooglePlacesAutocompleteResponse.swift in Sources */,
 				271B50C62BB8A35100C4C684 /* HProgressView.swift in Sources */,
 				271377BC2BD5AFC6005F026E /* AppDelegate.swift in Sources */,
+				277A3CBA2BED19D700174E0F /* CurrentOpeningHours.swift in Sources */,
 				20BA43CF2BAF574800795AB5 /* ToastView.swift in Sources */,
 				274507022BC8BC9E005ED545 /* ViewState.swift in Sources */,
 				277A3CB82BEC71C500174E0F /* Prediction.swift in Sources */,

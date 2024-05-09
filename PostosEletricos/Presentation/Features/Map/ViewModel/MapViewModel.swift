@@ -477,7 +477,7 @@ extension MapViewModel {
         let center = CLLocationCoordinate2D(latitude: centerLatitude, longitude: centerLongitude)
 
         /// Calculate span
-        let padding: CGFloat = 2
+        let padding: CGFloat = 2.2
         let spanLatitude = (maxLatitude - minLatitude) * padding
         let spanLongitude = (maxLongitude - minLongitude) * padding
         let span = MKCoordinateSpan(latitudeDelta: spanLatitude, longitudeDelta: spanLongitude)
