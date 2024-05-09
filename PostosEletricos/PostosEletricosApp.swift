@@ -13,28 +13,28 @@ import PulseUI
 @main
 struct PostosEletricosApp: App {
 
-    init() {
-        configureGooglePlaces()
-        registerAllServices()
-        enablePulseLogs()
-    }
-
-    private func configureGooglePlaces() {
-        GMSPlacesClient.provideAPIKey(SecretsKeys.googlePlaces.key)
-    }
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @State var showMap: Bool = false
 
     var body: some Scene {
         WindowGroup {
-            AnimatedSplashView()
+            VStack(spacing: .zero) {
+                if showMap {
+                    MapView()
+                } else {
+                    LaunchView()
+                }
+            }
+            .background(.darknessGreen)
+            .onAppear {
+                if !showMap {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                        withAnimation(.easeIn) {
+                            showMap.toggle()
+                        }
+                    }
+                }
+            }
         }
-    }
-}
-
-// MARK: Pulse
-
-private extension PostosEletricosApp {
-    private func enablePulseLogs() {
-        Experimental.URLSessionProxy.shared.isEnabled = true
-        URLSessionProxyDelegate.enableAutomaticRegistration()
     }
 }

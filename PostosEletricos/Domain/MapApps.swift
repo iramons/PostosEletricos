@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import CoreLocation
+import SwiftUI
 
 public enum MapApps {
     case appleMaps
@@ -109,5 +110,101 @@ public enum MapApps {
     private func mapUrl(coordinates: CLLocationCoordinate2D, address: String) -> URL? {
         let urlString = buildUrlString(coordinates: coordinates, address: address)
         return URL(string: urlString)
+    }
+}
+
+// MARK: Refactored
+
+enum MapApp: CaseIterable {
+    case apple, googleMaps, uber, waze
+
+    var title: String {
+        switch self {
+        case .apple: return "Apple Maps"
+        case .googleMaps: return "Google Maps"
+        case .uber: return "Uber"
+        case .waze: return "Waze"
+        }
+    }
+
+    var scheme: String {
+        switch self {
+        case .apple: return "http"
+        case .googleMaps: return "comgooglemaps"
+        case .uber: return "uber"
+        case .waze: return "waze"
+        }
+    }
+
+    var isInstalled: Bool {
+        guard let url = URL(string: self.scheme.appending("://")) else { return false }
+        return UIApplication.shared.canOpenURL(url)
+    }
+
+    func url(for coordinate: CLLocationCoordinate2D?, address: String = "") -> URL? {
+        guard let coordinate else { return nil }
+
+        let latitude = coordinate.latitude
+        let longitude = coordinate.longitude
+
+        var urlString: String = ""
+
+        switch self {
+        case .apple:
+            urlString = "\(scheme)://maps.apple.com/?daddr=\(latitude),\(longitude)"
+
+        case .googleMaps:
+            urlString = "\(scheme)://?daddr=\(latitude),\(longitude)&directionsmode=driving"
+
+        case .uber:
+            urlString = "\(scheme)://?action=setPickup&dropoff[latitude]=\(latitude)&dropoff[longitude]=\(longitude)&dropoff[formatted_address]=\(address)"
+
+        case .waze:
+            urlString = "\(scheme)://?ll=\(latitude),\(longitude)navigate=yes"
+        }
+
+        let urlwithPercentEscapes = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? urlString
+
+        return URL(string: urlwithPercentEscapes)
+    }
+
+    func open(coordinate: CLLocationCoordinate2D, address: String = "") {
+        guard let url = url(for: coordinate, address: address) else { return }
+        url.openURL()
+    }
+}
+
+extension View {
+    func opensMap(at location: CLLocationCoordinate2D?) -> some View {
+        return self.modifier(OpenMapViewModifier(location: location))
+    }
+}
+
+struct OpenMapViewModifier: ViewModifier {
+
+    var location: CLLocationCoordinate2D?
+
+    @State private var showingAlert: Bool = false
+    private let installedApps = MapApp.allCases.filter { $0.isInstalled }
+
+    func body(content: Content) -> some View {
+        Button(action: {
+            if installedApps.count > 1 {
+                showingAlert = true
+            } else if let app = installedApps.first, let url = app.url(for: location) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }) {
+            content.confirmationDialog("Abrir com", isPresented: $showingAlert) {
+
+                let appButtons: [ActionSheet.Button] = self.installedApps.compactMap { app in
+                    guard let url = app.url(for: self.location) else { return nil }
+                    return .default(Text(app.title)) {
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    }
+                }
+//                return ActionSheet(title: Text("Navigate"), message: Text("Select an app..."), buttons: appButtons + [.cancel()])
+            }
+        }
     }
 }

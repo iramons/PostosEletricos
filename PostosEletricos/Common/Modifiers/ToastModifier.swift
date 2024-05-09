@@ -9,13 +9,14 @@ import Foundation
 import SwiftUI
 
 struct ToastModifier: ViewModifier {
+
     @Binding var isShowing: Bool
+
     var message: String
 
     func body(content: Content) -> some View {
         ZStack(alignment: .bottom) {
             content
-//                .blur(radius: isShowing ? 3 : 0)
 
             if isShowing {
                 ToastView(message: message)

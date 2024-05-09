@@ -6,5 +6,46 @@
 	<array>
 		<string>_pulse._tcp</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+        <string>Roboto-Regular.ttf</string>
+        <string>Roboto-Italic.ttf</string>
+        <string>Roboto-Thin.ttf</string>
+        <string>Roboto-ThinItalic.ttf</string>
+        <string>Roboto-Light.ttf</string>
+        <string>Roboto-LightItalic.ttf</string>
+        <string>Roboto-Medium.ttf</string>
+        <string>Roboto-MediumItalic.ttf</string>
+        <string>Roboto-Bold.ttf</string>
+        <string>Roboto-BoldItalic.ttf</string>
+        <string>Roboto-Black.ttf</string>
+        <string>Roboto-BlackItalic.ttf</string>
+		<string>RobotoCondensed-ThinItalic.ttf</string>
+		<string>RobotoCondensed-Thin.ttf</string>
+		<string>RobotoCondensed-SemiBoldItalic.ttf</string>
+		<string>RobotoCondensed-SemiBold.ttf</string>
+		<string>RobotoCondensed-Regular.ttf</string>
+		<string>RobotoCondensed-MediumItalic.ttf</string>
+		<string>RobotoCondensed-Medium.ttf</string>
+		<string>RobotoCondensed-LightItalic.ttf</string>
+		<string>RobotoCondensed-Light.ttf</string>
+		<string>RobotoCondensed-Italic.ttf</string>
+		<string>RobotoCondensed-ExtraLightItalic.ttf</string>
+		<string>RobotoCondensed-ExtraLight.ttf</string>
+		<string>RobotoCondensed-ExtraBoldItalic.ttf</string>
+		<string>RobotoCondensed-ExtraBold.ttf</string>
+		<string>RobotoCondensed-BoldItalic.ttf</string>
+		<string>RobotoCondensed-Bold.ttf</string>
+		<string>RobotoCondensed-Black.ttf</string>
+		<string>RobotoCondensed-BlackItalic.ttf</string>
+		<string>CairoPlay-Regular.ttf</string>
+	</array>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>comgooglemaps</string>
+        <string>comgooglemaps-x-callback</string>
+        <string>waze</string>
+        <string>uber</string>
+    </array>
 </dict>
 </plist>
