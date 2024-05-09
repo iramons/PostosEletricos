@@ -31,21 +31,17 @@ struct SuggestionsListView: View {
     }
 
     private func handleSelection(_ place: Place) {
-        DispatchQueue.main.async {
-
-            viewModel.getPlace(id: place.placeID) { placeDetail in
-                guard let lat = placeDetail?.geometry?.location?.lat,
-                      let lng = placeDetail?.geometry?.location?.lng else { return }
-
-                let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-
+        guard let placeID = place.placeID else { return }
+        
+        viewModel.fetchPlace(placeID: placeID) { place in
+            
+            if let coordinate = place?.coordinate {
                 viewModel.updateCameraPosition(forCoordinate: coordinate)
-
+                
                 viewModel.fetchStationsFromGooglePlaces(in: coordinate) { items in
                     guard let items else { return }
                     viewModel.getMapItemsRegion(places: items) { region in
                         viewModel.updateCameraPosition(forRegion: region)
-                        let _ = printLog(.critical, "caiu aqui")
                     }
                 }
             }

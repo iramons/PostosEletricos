@@ -6,12 +6,10 @@
 //
 
 import Foundation
-import CoreLocation
 import MapKit
 import SwiftUI
 import Moya
 import Combine
-import GooglePlaces
 
 @MainActor
 class MapViewModel: ObservableObject {
@@ -26,8 +24,7 @@ class MapViewModel: ObservableObject {
         bind()
     }
 
-    // MARK: Public
-
+    // TODO: check to user .automatic in future
     @Published var position: MapCameraPosition = .userLocation(
         followsHeading: true,
         fallback: .region(
@@ -44,68 +41,107 @@ class MapViewModel: ObservableObject {
     // MARK: Places
 
     @Published var places: [Place] = []
-    private var placesSet: Set<Place> = [] {
-        willSet {
-            DispatchQueue.main.async {
-                self.places = self.placesSet.sorted()
-            }
-        }
-    }
+
+    // MARK: - Selected Place
 
     @Published var selectedPlaceID: String?
     var selectedPlace: Place? { places.first(where: { $0.id == selectedPlaceID }) }
+    var selectedPlaceCoordinate: CLLocationCoordinate2D? { selectedPlace?.coordinate }
 
-    @Published var placesInFindedArea: [Place]?
-    private var placesInFindedAreaSet: Set<Place> = [] {
-        willSet {
-            DispatchQueue.main.async {
-                self.placesInFindedArea = self.placesInFindedAreaSet.sorted()
+    func onDidSelectPlace() {
+        /// update camera
+        guard let selectedPlaceCoordinate else { return }
+        let mapItem = MKMapItem(placemark: .init(coordinate: selectedPlaceCoordinate))
+        updateCameraPosition(with: .item(mapItem))
+
+        /// update place
+        guard let placeID = selectedPlace?.placeID else { return }
+        fetchPlace(placeID: placeID) { placeFromGoogle in
+            if let placeFromGoogle {
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    if let existingPlaceIndex = places.firstIndex(where: { $0.placeID == placeFromGoogle.placeID }) {
+                        withAnimation {
+                            self.places[existingPlaceIndex].update(placeFromGoogle)
+                        }
+                    }
+                }
             }
         }
     }
 
-    @Published var travelTime: String?
-    @Published var isRoutePresenting: Bool = false
-    @Published var showRouteButtonTitle: String = "Mostrar rota"
-    @Published var showToast: Bool = false
+    func onDidClosePlaceDetails() {
+        deselectPlace()
+    }
+
+    func deselectPlace() {
+        withAnimation { selectedPlaceID = nil }
+    }
+
+    // MARK: - Find in Area
 
     @Published var showFindInAreaButton: Bool = false
+
     var shouldShowFindInAreaButton: Bool {
         return !shouldShowPlacesFromSearch && showFindInAreaButton
     }
+    @Published var placesInFindedArea: [Place]?
 
+    var toastMessage: String = "Nenhum posto de recarga elétrica encontrado nesta área."
+
+    // MARK: - Search
+
+    @Published var isSearchBarVisible = false
+
+    @Published var searchText: String = "" {
+        didSet { findAutocomplete() }
+    }
+
+    @Published var placesFromSearch: [Place] = []
+
+    var shouldShowPlacesFromSearch: Bool {
+        return !placesFromSearch.isEmpty && isSearchBarVisible
+    }
+
+    // MARK: - Route
+
+    @Published var isRoutePresenting: Bool = false
+
+    @Published var showRouteButtonTitle: String = "Mostrar rota"
+
+    @Published var route: MKRoute? {
+        didSet {
+            isRoutePresenting = route != nil
+            showRouteButtonTitle = route != nil ? "Remover rota" : "Mostrar rota"
+        }
+    }
+
+    func getDirections(to destination: CLLocationCoordinate2D?) {
+        guard let userCoordinate = locationService.location?.coordinate else { return }
+        guard let destination else { return }
+
+        let request = MKDirections.Request()
+        request.source = MKMapItem(placemark: MKPlacemark(coordinate: userCoordinate))
+        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination))
+        request.transportType = .automobile
+
+        _Concurrency.Task {
+            let result = try? await MKDirections(request: request).calculate()
+            route = result?.routes.first
+            getTravelTime()
+        }
+    }
+
+    // MARK: Others
+
+    @Published var travelTime: String?
+    @Published var showToast: Bool = false
     @Published var showLocationServicesAlert: Bool = false
     @Published var isLoading: Bool = false
     @Published var isFirstLoading: Bool = true
     @Published var distance: CLLocationDistance = CLLocationDistance(3000)
     @Published var lastRegion: MKCoordinateRegion?
     @Published var lastContext: MapCameraUpdateContext?
-
-    // MARK: Search
-
-    @Published var searchText: String = "" {
-        didSet { findAutocompletePredictions() }
-    }
-    @Published var isSearchBarVisible = false
-
-    @Published var placesFromSearch: [Place] = []
-    var shouldShowPlacesFromSearch: Bool {
-        return !placesFromSearch.isEmpty && isSearchBarVisible
-    }
-
-    @Published var route: MKRoute? {
-        didSet {
-            let hasRoute = route != nil
-            isRoutePresenting = hasRoute
-            showRouteButtonTitle = hasRoute ? "Remover rota" : "Mostrar rota"
-        }
-    }
-
-    var toastMessage: String = "Nenhum posto de recarga elétrica encontrado nesta área."
-
-    func startCurrentLocationUpdates() async throws {
-        try? await locationService.startCurrentLocationUpdates()
-    }
 
     func updateDistance(with context: MapCameraUpdateContext) {
         distance = context.camera.distance / 3.8
@@ -119,9 +155,7 @@ class MapViewModel: ObservableObject {
         if position.positionedByUser {
             updateCameraPosition(forContext: context)
 
-            withAnimation {
-                showFindInAreaButton = true
-            }
+            withAnimation { showFindInAreaButton = true }
         }
     }
 
@@ -150,42 +184,21 @@ class MapViewModel: ObservableObject {
         completion(newRegion)
     }
 
-    func onChangeOf(_ selectedPlaceID: String?) {
-        guard let place = places.first(where: { $0.id == selectedPlaceID }) else { return }
-
-        guard let lat = place.geometry?.location?.lat,
-              let lng = place.geometry?.location?.lng else { return }
-
-        let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-
-        let mapItem = MKMapItem(placemark: .init(coordinate: coordinate))
-        updateCameraPosition(with: .item(mapItem))
-    }
-
     func onMapCameraChange(_ context: MapCameraUpdateContext) {
         handleCamera(with: context)
         updateDistance(with: context)
         saveLast(context)
     }
 
-    func deselectPlace() {
-        withAnimation {
-            selectedPlaceID = nil
-        }
-    }
-
     func handleRouteUpdates() {
         if isRoutePresenting {
             route = nil
         } else {
-            guard let selectedPlaceCoordinate else { return }
             showMapApps.toggle()
         }
     }
 
     @Published var showMapApps: Bool = false
-
-    var selectedPlaceCoordinate: CLLocationCoordinate2D? { selectedPlace?.coordinate }
 
     // MARK: Private
 
@@ -195,7 +208,7 @@ class MapViewModel: ObservableObject {
         static let defaultSpan: MKCoordinateSpan = .init(latitudeDelta: 0.01, longitudeDelta: 0.01)
     }
     
-    @Injected var locationService: LocationService
+    @Injected private var locationService: LocationService
 
     private var provider = MoyaProvider<GoogleMapsAPI>(plugins: [NetworkConfig.networkLogger])
     
@@ -206,8 +219,6 @@ class MapViewModel: ObservableObject {
     
     /// indicates when need fetch data from API, when it's false should stop fetching.
     private var shouldFetchStations: Bool = true
-
-    private let client = GMSPlacesClient.shared()
 
     private func bind() {
         locationService.$location
@@ -268,16 +279,16 @@ class MapViewModel: ObservableObject {
     }
 }
 
-// MARK: Requests
+// MARK: - Commom
 
 extension MapViewModel {
 
-    // MARK: GooglePlaces
+    // MARK: fetchStations from google
 
     func fetchStationsFromGooglePlaces(in location: CLLocationCoordinate2D, completion: @escaping ([Place]?) -> Void) {
         isLoading = true
 
-        provider.request(.eletricalChargingStations(location: location, radius: distance)) { [weak self] result in
+        provider.request(.places(location: location, radius: distance)) { [weak self] result in
             guard let strongSelf = self else { return }
 
             switch result {
@@ -295,8 +306,8 @@ extension MapViewModel {
                     }
 
                     places.forEach { place in
-                        self?.insert(place)
-                        self?.insertPlacesInFindedArea(for: place)
+                        self?.append(place)
+                        self?.appendPlacesInFindedArea(for: place)
                         completion(self?.placesInFindedArea)
                     }
                 }
@@ -317,12 +328,55 @@ extension MapViewModel {
         }
     }
 
-    private func insert(_ place: Place) {
-        placesSet.insert(place)
+    // MARK: getPlace from google
+
+    func fetchPlace(placeID: String, completion: @escaping (Place?) -> Void) {
+        provider.request(.place(placeID: placeID)) { result in
+            switch result {
+            case let .success(response):
+                do {
+                    let response = try response.map(GooglePlaceResponse.self, failsOnEmptyData: true)
+
+                    guard let place = response.result else {
+                        completion(nil)
+                        return
+                    }
+
+                    completion(place)
+                } catch {
+                    printLog(.error, String(describing: error))
+                    completion(nil)
+                }
+
+            case let .failure(error):
+                printLog(.error, String(describing: error))
+                 completion(nil)
+            }
+        }
     }
 
-    private func insertPlacesInFindedArea(for place: Place) {
-        placesInFindedAreaSet.insert(place)
+    private func append(_ place: Place) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+
+            if let existingPlaceIndex = places.firstIndex(where: { $0.placeID == place.placeID }) {
+                places[existingPlaceIndex].update(place)
+            } else {
+                places.append(place)
+            }
+        }
+    }
+
+    private func appendPlacesInFindedArea(for place: Place) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            
+            if let existingPlaceIndex = placesInFindedArea?.firstIndex(where: { $0.placeID == place.placeID }) {
+                placesInFindedArea?[existingPlaceIndex].update(place)
+            } else {
+                placesInFindedArea?.append(place)
+            }
+        }
     }
 
     // MARK: MapKit
@@ -342,191 +396,69 @@ extension MapViewModel {
 //                placesInFindedArea?.append(item)
             }
         }
-
 //        completion(itemsInFindedArea)
     }
 
     // MARK: AutoComplete
 
-    func findAutocompletePredictions() {
-        let filter = GMSAutocompleteFilter()
-        filter.type = .address
-
-        client.findAutocompletePredictions(
-            fromQuery: searchText,
-            filter: filter,
-            sessionToken: nil) { [weak self] results, error in
-                guard let self, let results, error == nil else { return }
-
-                let places: [Place] = results.compactMap({ place in
-                    Place(placeID: place.placeID, name: place.attributedFullText.string)
-                })
-
-                let sortedPlaces = places.sorted {
-                    levenshteinDistance(from: $0.name.lowercased(), to: self.searchText.lowercased()) <
-                        levenshteinDistance(from: $1.name.lowercased(), to: self.searchText.lowercased())
-                }
-
-                DispatchQueue.main.async {
-                    self.placesFromSearch = sortedPlaces
-                }
-            }
-    }
-
-    // MARK: Get GooglePlace
-
-    func getPlace(id: String?, completion: @escaping (Place?) -> Void) {
-        guard let id else {
-            printLog(.critical, "id is null")
-            completion(nil)
-            return
-        }
-
-        client.fetchPlace(fromPlaceID: id, placeFields: .all, sessionToken: nil) { [weak self] googlePlace, error in
+    func findAutocomplete() {
+        provider.request(.autocomplete(query: searchText, location: locationService.location?.coordinate)) { [weak self] result in
             guard let self else { return }
+            switch result {
+            case let .success(response):
+                do {
+                    let response = try response.map(GooglePlacesAutocompleteResponse.self, failsOnEmptyData: true)
 
-            if let error {
-                printLog(.critical, "\(error) - \(error.localizedDescription)")
-                self.toastMessage = "\(error) - \(error.localizedDescription)"
+                    guard let predictions = response.predictions else { return }
+
+                    let places: [Place] = predictions.map { prediction in
+                        Place(placeID: prediction.placeID, name: prediction.description ?? "")
+                    }
+
+                    let sortedPlaces = places.sorted {
+                        levenshteinDistance(from: $0.name.lowercased(), to: self.searchText.lowercased()) <
+                            levenshteinDistance(from: $1.name.lowercased(), to: self.searchText.lowercased())
+                    }
+
+                    DispatchQueue.main.async {
+                        self.placesFromSearch = sortedPlaces
+                    }
+                } catch {
+                    printLog(.error, String(describing: error))
+                    return
+                }
+
+            case let .failure(error):
+                printLog(.error, String(describing: error))
+                 return
             }
-
-            guard let googlePlace else {
-                printLog(.critical, "googlePlace is null")
-                return
-            }
-
-            printLog(.error, "googlePlace = \(googlePlace)")
-            
-            let location = Location(lat: googlePlace.coordinate.latitude, lng: googlePlace.coordinate.longitude)
-            let geometry = Geometry(location: location)
-            let place = Place(placeID: googlePlace.placeID, name: googlePlace.name ?? "Posto Elétrico", geometry: geometry)
-            completion(place)
-        }
-    }
-
-    // MARK: Route
-
-    func getDirections(to destination: CLLocationCoordinate2D?) {
-        guard let userCoordinate = locationService.location?.coordinate else { return }
-        guard let destination else { return }
-        
-        let request = MKDirections.Request()
-        request.source = MKMapItem(placemark: MKPlacemark(coordinate: userCoordinate))
-        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination))
-        request.transportType = .automobile
-        
-        _Concurrency.Task {
-            let result = try? await MKDirections(request: request).calculate()
-            route = result?.routes.first
-            getTravelTime()
         }
     }
 }
 
-// MARK: UpdateCameraPosition
+// MARK: Update Camera Position
 
 extension MapViewModel {
     func updateCameraPosition(with position: MapCameraPosition) {
-        withAnimation {
-            self.position = position
-        }
-
+        withAnimation { self.position = position }
         updateLastRegion()
     }
 
     func updateCameraPosition(forCoordinate coordinate: CLLocationCoordinate2D) {
-        guard let span = position.region?.span else {
-            printLog(.critical, "span is null")
-            return
-        }
-
-        withAnimation {
-            position = .region(
-                MKCoordinateRegion(
-                    center: coordinate,
-                    span: span
-                )
-            )
-        }
-
+        guard let span = position.region?.span else { return }
+        withAnimation { position = .region(.init(center: coordinate, span: span)) }
         updateLastRegion()
     }
 
     func updateCameraPosition(forContext context: MapCameraUpdateContext) {
+        /// intesionally not applied animation
         position = .region(.init(center: context.region.center, span: context.region.span))
-
-        if showToast {
-            setShowToast(false)
-        }
-
+        if showToast { setShowToast(false) }
         updateLastRegion()
     }
 
     func updateCameraPosition(forRegion region: MKCoordinateRegion) {
-        withAnimation {
-            position = .region(
-                MKCoordinateRegion(
-                    center: region.center,
-                    span: region.span
-                )
-            )
-        }
-
+        withAnimation { position = .region(.init(center: region.center, span: region.span)) }
         updateLastRegion()
     }
-}
-
-// Extension to determine if a coordinate is within a region
-extension MKCoordinateRegion {
-    func contains(coordinate: CLLocationCoordinate2D) -> Bool {
-        let latitudeDelta = span.latitudeDelta / 2.0
-        let longitudeDelta = span.longitudeDelta / 2.0
-
-        let latitudeRange = (center.latitude - latitudeDelta)...(center.latitude + latitudeDelta)
-        let longitudeRange = (center.longitude - longitudeDelta)...(center.longitude + longitudeDelta)
-
-        return latitudeRange.contains(coordinate.latitude) && longitudeRange.contains(coordinate.longitude)
-    }
-}
-
-
-extension MKCoordinateRegion: Equatable {
-    public static func ==(lhs: MKCoordinateRegion, rhs: MKCoordinateRegion) -> Bool {
-        return lhs.center == rhs.center && lhs.span == rhs.span
-    }
-}
-
-extension MKCoordinateSpan: Equatable {
-    public static func ==(lhs: MKCoordinateSpan, rhs: MKCoordinateSpan) -> Bool {
-        return lhs.latitudeDelta == rhs.latitudeDelta && lhs.longitudeDelta == rhs.longitudeDelta
-    }
-}
-
-extension CLLocationCoordinate2D: Equatable {
-    public static func ==(lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
-        return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
-    }
-}
-
-
-func levenshteinDistance(from s: String, to t: String) -> Int {
-    let sCount = s.count
-    let tCount = t.count
-    var matrix = [[Int]](repeating: [Int](repeating: 0, count: tCount + 1), count: sCount + 1)
-
-    for i in 0...sCount {
-        matrix[i][0] = i
-    }
-    for j in 0...tCount {
-        matrix[0][j] = j
-    }
-
-    for i in 1...sCount {
-        for j in 1...tCount {
-            let cost = (s[s.index(s.startIndex, offsetBy: i - 1)] == t[t.index(t.startIndex, offsetBy: j - 1)]) ? 0 : 1
-            matrix[i][j] = min(min(matrix[i - 1][j] + 1, matrix[i][j - 1] + 1), matrix[i - 1][j - 1] + cost)
-        }
-    }
-
-    return matrix[sCount][tCount]
 }

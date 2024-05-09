@@ -10,7 +10,8 @@ import Lottie
 
 struct LaunchView: View {
 
-    @State var showAppName: Bool = false
+    @State private var showAppName: Bool = false
+    @Injected private var locationService: LocationService
 
     var body: some View {
         ZStack {
@@ -69,6 +70,9 @@ struct LaunchView: View {
         }
         .ignoresSafeArea(.all)
         .background(.darknessGreen)
+        .task {
+            try? await startCurrentLocationUpdates()
+        }
         .onAppear {
             if !showAppName {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -82,19 +86,17 @@ struct LaunchView: View {
 
     private var heightForStreetRectangle: CGFloat {
         switch UIScreen.main.bounds.height {
-        case 0...667: // iphone SE 3G
-            return 100
-        case 668...852: // iphone 15 Pro
-            return 190
-        case 853...896: // iphone 11
-            return 200
-        case 896...932: // iphone 15 pro MAX
-            return 220
-        case 932...1366: // ipad Pro - 12.9 inch
-            return 310
-        default:
-            return 200
+        case 0...667: return 100 // iphone SE 3G
+        case 668...852: return 190 // iphone 15 Pro
+        case 853...896: return 200 // iphone 11
+        case 896...932: return 220 // iphone 15 pro MAX
+        case 932...1366: return 310 // ipad Pro - 12.9 inch
+        default: return 200 // iphone 11
         }
+    }
+
+    func startCurrentLocationUpdates() async throws {
+        try? await locationService.startCurrentLocationUpdates()
     }
 }
 

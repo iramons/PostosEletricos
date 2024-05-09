@@ -45,7 +45,8 @@ struct BottomMapDetailsView: View {
             VStack(alignment: .trailing) {
                 Text(place.name)
                     .multilineTextAlignment(.leading)
-                    .font(.custom("RobotoCondensed-Bold", size: 18))
+                    .font(.custom("Roboto-Bold", size: 18))
+                    .foregroundStyle(.primary)
                     .padding(.top, 12)
                     .padding(.leading, 16)
                     .padding(.trailing, 40)
@@ -54,7 +55,8 @@ struct BottomMapDetailsView: View {
                 if let vicinity = place.vicinity {
                     Text(vicinity)
                         .multilineTextAlignment(.leading)
-                        .font(.custom("RobotoCondensed-Medium", size: 14))
+                        .font(.custom("Roboto-Medium", size: 14))
+                        .foregroundStyle(.secondary)
                         .padding(.horizontal, 17)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
@@ -63,7 +65,8 @@ struct BottomMapDetailsView: View {
                 let openedTitle = opened ? "Aberto" : "Fechado"
                 Text(openedTitle)
                     .multilineTextAlignment(.leading)
-                    .font(.custom("RobotoCondensed-Medium", size: 14))
+                    .font(.custom("Roboto-Medium", size: 14))
+                    .foregroundStyle(opened ? .green : .orange)
                     .padding(.horizontal, 17)
                     .frame(maxWidth: .infinity, alignment: .leading)
 

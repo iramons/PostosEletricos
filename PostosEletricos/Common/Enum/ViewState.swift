@@ -9,7 +9,7 @@ import Foundation
 
 enum ViewState {
     case loading
-    case success(Data)
-    case failed(Error)
+    case success
+    case failure(Error)
     case `none`
 }

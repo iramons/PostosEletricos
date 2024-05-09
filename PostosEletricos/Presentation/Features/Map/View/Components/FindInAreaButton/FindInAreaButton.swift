@@ -32,7 +32,7 @@ struct FindInAreaButton: View {
         .font(.headline)
         .padding(.horizontal, 24)
         .padding(.vertical, 8)
-        .background(colorScheme == .light ? .white : .darkGray)
+        .background(colorScheme == .light ? .white : .darknessGray)
         .cornerRadius(26)
         .shadow(radius: 3)
         .scaleEffect(animate ? 1.2 : 1)

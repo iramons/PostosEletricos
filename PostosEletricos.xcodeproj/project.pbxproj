@@ -69,9 +69,33 @@
 		271B50C42BB75A9100C4C684 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271B50C32BB75A9100C4C684 /* LaunchView.swift */; };
 		271B50C62BB8A35100C4C684 /* HProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271B50C52BB8A35100C4C684 /* HProgressView.swift */; };
 		272F0A642BD5D79F00EE280F /* SuggestionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272F0A632BD5D79F00EE280F /* SuggestionsListView.swift */; };
+		273945872BE8343400A1CE4B /* MapKit+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273945862BE8343400A1CE4B /* MapKit+Ext.swift */; };
 		274507022BC8BC9E005ED545 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274507012BC8BC9E005ED545 /* ViewState.swift */; };
 		2748008C2BE6A48200BF4883 /* Moya+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2748008B2BE6A48200BF4883 /* Moya+Ext.swift */; };
 		2748008E2BE70A9D00BF4883 /* CircularInfinityProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2748008D2BE70A9D00BF4883 /* CircularInfinityProgressView.swift */; };
+		2748009D2BE8208A00BF4883 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 274800902BE8208900BF4883 /* Roboto-LightItalic.ttf */; };
+		2748009E2BE8208A00BF4883 /* Roboto-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 274800912BE8208A00BF4883 /* Roboto-MediumItalic.ttf */; };
+		2748009F2BE8208A00BF4883 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 274800922BE8208A00BF4883 /* Roboto-Thin.ttf */; };
+		274800A02BE8208A00BF4883 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 274800932BE8208A00BF4883 /* Roboto-Regular.ttf */; };
+		274800A12BE8208A00BF4883 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 274800942BE8208A00BF4883 /* Roboto-Italic.ttf */; };
+		274800A22BE8208A00BF4883 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 274800952BE8208A00BF4883 /* Roboto-Light.ttf */; };
+		274800A32BE8208A00BF4883 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 274800962BE8208A00BF4883 /* Roboto-Black.ttf */; };
+		274800A42BE8208A00BF4883 /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 274800972BE8208A00BF4883 /* Roboto-ThinItalic.ttf */; };
+		274800A52BE8208A00BF4883 /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 274800982BE8208A00BF4883 /* Roboto-BoldItalic.ttf */; };
+		274800A62BE8208A00BF4883 /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 274800992BE8208A00BF4883 /* Roboto-BlackItalic.ttf */; };
+		274800A72BE8208A00BF4883 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2748009A2BE8208A00BF4883 /* Roboto-Bold.ttf */; };
+		274800A82BE8208A00BF4883 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2748009B2BE8208A00BF4883 /* Roboto-Medium.ttf */; };
+		274800A92BE8208A00BF4883 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2748009C2BE8208A00BF4883 /* LICENSE.txt */; };
+		277A3CA42BEBD32C00174E0F /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CA32BEBD32C00174E0F /* Place.swift */; };
+		277A3CA72BEBD38700174E0F /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CA62BEBD38700174E0F /* Geometry.swift */; };
+		277A3CA92BEBD3BA00174E0F /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CA82BEBD3BA00174E0F /* Location.swift */; };
+		277A3CAB2BEBD3D200174E0F /* OpeningHours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CAA2BEBD3D200174E0F /* OpeningHours.swift */; };
+		277A3CAD2BEBD3E000174E0F /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CAC2BEBD3E000174E0F /* Photo.swift */; };
+		277A3CAF2BEBD3E800174E0F /* PlusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CAE2BEBD3E800174E0F /* PlusCode.swift */; };
+		277A3CB12BEBD42D00174E0F /* Viewport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB02BEBD42D00174E0F /* Viewport.swift */; };
+		277A3CB32BEC63D000174E0F /* GooglePlaceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB22BEC63D000174E0F /* GooglePlaceResponse.swift */; };
+		277A3CB52BEC701100174E0F /* GooglePlacesAutocompleteResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB42BEC701100174E0F /* GooglePlacesAutocompleteResponse.swift */; };
+		277A3CB82BEC71C500174E0F /* Prediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB72BEC71C500174E0F /* Prediction.swift */; };
 		2784EF682BD5886B00F485CC /* car-charging-station-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF672BD5886B00F485CC /* car-charging-station-anim.json */; };
 		2784EF6A2BD5A22900F485CC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF692BD5A22900F485CC /* Colors.xcassets */; };
 /* End PBXBuildFile section */
@@ -131,9 +155,33 @@
 		271B50C32BB75A9100C4C684 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
 		271B50C52BB8A35100C4C684 /* HProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HProgressView.swift; sourceTree = "<group>"; };
 		272F0A632BD5D79F00EE280F /* SuggestionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsListView.swift; sourceTree = "<group>"; };
+		273945862BE8343400A1CE4B /* MapKit+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Ext.swift"; sourceTree = "<group>"; };
 		274507012BC8BC9E005ED545 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		2748008B2BE6A48200BF4883 /* Moya+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Moya+Ext.swift"; sourceTree = "<group>"; };
 		2748008D2BE70A9D00BF4883 /* CircularInfinityProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularInfinityProgressView.swift; sourceTree = "<group>"; };
+		274800902BE8208900BF4883 /* Roboto-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-LightItalic.ttf"; sourceTree = "<group>"; };
+		274800912BE8208A00BF4883 /* Roboto-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-MediumItalic.ttf"; sourceTree = "<group>"; };
+		274800922BE8208A00BF4883 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
+		274800932BE8208A00BF4883 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		274800942BE8208A00BF4883 /* Roboto-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Italic.ttf"; sourceTree = "<group>"; };
+		274800952BE8208A00BF4883 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
+		274800962BE8208A00BF4883 /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
+		274800972BE8208A00BF4883 /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
+		274800982BE8208A00BF4883 /* Roboto-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BoldItalic.ttf"; sourceTree = "<group>"; };
+		274800992BE8208A00BF4883 /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
+		2748009A2BE8208A00BF4883 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		2748009B2BE8208A00BF4883 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		2748009C2BE8208A00BF4883 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		277A3CA32BEBD32C00174E0F /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		277A3CA62BEBD38700174E0F /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
+		277A3CA82BEBD3BA00174E0F /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		277A3CAA2BEBD3D200174E0F /* OpeningHours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningHours.swift; sourceTree = "<group>"; };
+		277A3CAC2BEBD3E000174E0F /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		277A3CAE2BEBD3E800174E0F /* PlusCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusCode.swift; sourceTree = "<group>"; };
+		277A3CB02BEBD42D00174E0F /* Viewport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Viewport.swift; sourceTree = "<group>"; };
+		277A3CB22BEC63D000174E0F /* GooglePlaceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlaceResponse.swift; sourceTree = "<group>"; };
+		277A3CB42BEC701100174E0F /* GooglePlacesAutocompleteResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlacesAutocompleteResponse.swift; sourceTree = "<group>"; };
+		277A3CB72BEC71C500174E0F /* Prediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prediction.swift; sourceTree = "<group>"; };
 		2784EF672BD5886B00F485CC /* car-charging-station-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "car-charging-station-anim.json"; sourceTree = "<group>"; };
 		2784EF692BD5A22900F485CC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -241,7 +289,7 @@
 		203133422B9D04550093CDC2 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				207EF4122B9CB36F00EF46CF /* GooglePlacesResponse.swift */,
+				277A3CA52BEBD35C00174E0F /* Place */,
 				20BA43CB2BAF434B00795AB5 /* Secrets */,
 			);
 			path = Data;
@@ -266,6 +314,7 @@
 				207AF3EA2B9E820A002AE17D /* UIViewController+Ext.swift */,
 				20FCF7672BAF2361004A5495 /* ShakeDevice+Ext.swift */,
 				20BA43D72BAF585500795AB5 /* View+Ext.swift */,
+				273945862BE8343400A1CE4B /* MapKit+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -430,6 +479,19 @@
 		271377BF2BD5B8A7005F026E /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				2748009C2BE8208A00BF4883 /* LICENSE.txt */,
+				274800962BE8208A00BF4883 /* Roboto-Black.ttf */,
+				274800992BE8208A00BF4883 /* Roboto-BlackItalic.ttf */,
+				2748009A2BE8208A00BF4883 /* Roboto-Bold.ttf */,
+				274800982BE8208A00BF4883 /* Roboto-BoldItalic.ttf */,
+				274800942BE8208A00BF4883 /* Roboto-Italic.ttf */,
+				274800952BE8208A00BF4883 /* Roboto-Light.ttf */,
+				274800902BE8208900BF4883 /* Roboto-LightItalic.ttf */,
+				2748009B2BE8208A00BF4883 /* Roboto-Medium.ttf */,
+				274800912BE8208A00BF4883 /* Roboto-MediumItalic.ttf */,
+				274800932BE8208A00BF4883 /* Roboto-Regular.ttf */,
+				274800922BE8208A00BF4883 /* Roboto-Thin.ttf */,
+				274800972BE8208A00BF4883 /* Roboto-ThinItalic.ttf */,
 				271377C92BD5BB84005F026E /* RobotoCondensed-Black.ttf */,
 				271377C52BD5BB84005F026E /* RobotoCondensed-BlackItalic.ttf */,
 				271377D42BD5BB84005F026E /* RobotoCondensed-Bold.ttf */,
@@ -516,6 +578,32 @@
 				272F0A632BD5D79F00EE280F /* SuggestionsListView.swift */,
 			);
 			path = Suggestions;
+			sourceTree = "<group>";
+		};
+		277A3CA52BEBD35C00174E0F /* Place */ = {
+			isa = PBXGroup;
+			children = (
+				277A3CB62BEC708200174E0F /* GooglePlaces */,
+				277A3CA32BEBD32C00174E0F /* Place.swift */,
+				277A3CA62BEBD38700174E0F /* Geometry.swift */,
+				277A3CA82BEBD3BA00174E0F /* Location.swift */,
+				277A3CAA2BEBD3D200174E0F /* OpeningHours.swift */,
+				277A3CAC2BEBD3E000174E0F /* Photo.swift */,
+				277A3CAE2BEBD3E800174E0F /* PlusCode.swift */,
+				277A3CB02BEBD42D00174E0F /* Viewport.swift */,
+				277A3CB72BEC71C500174E0F /* Prediction.swift */,
+			);
+			path = Place;
+			sourceTree = "<group>";
+		};
+		277A3CB62BEC708200174E0F /* GooglePlaces */ = {
+			isa = PBXGroup;
+			children = (
+				207EF4122B9CB36F00EF46CF /* GooglePlacesResponse.swift */,
+				277A3CB22BEC63D000174E0F /* GooglePlaceResponse.swift */,
+				277A3CB42BEC701100174E0F /* GooglePlacesAutocompleteResponse.swift */,
+			);
+			path = GooglePlaces;
 			sourceTree = "<group>";
 		};
 		27D1511D2BC31EC2002E4EBD /* Components */ = {
@@ -619,27 +707,40 @@
 				271377DF2BD5BB84005F026E /* RobotoCondensed-MediumItalic.ttf in Resources */,
 				271377E32BD5BB85005F026E /* RobotoCondensed-LightItalic.ttf in Resources */,
 				20002FF82B01A14B005C7329 /* Preview Assets.xcassets in Resources */,
+				2748009E2BE8208A00BF4883 /* Roboto-MediumItalic.ttf in Resources */,
+				274800A32BE8208A00BF4883 /* Roboto-Black.ttf in Resources */,
 				20C5ED622BA9EC640092AB11 /* charger-anim.json in Resources */,
+				274800A22BE8208A00BF4883 /* Roboto-Light.ttf in Resources */,
 				20002FF52B01A14B005C7329 /* Images.xcassets in Resources */,
 				271377DB2BD5BB84005F026E /* RobotoCondensed-Black.ttf in Resources */,
+				274800A42BE8208A00BF4883 /* Roboto-ThinItalic.ttf in Resources */,
 				271377E02BD5BB85005F026E /* RobotoCondensed-SemiBoldItalic.ttf in Resources */,
 				271377F12BD5C266005F026E /* launch-dog-anim.json in Resources */,
 				271377E42BD5BB85005F026E /* RobotoCondensed-ExtraBoldItalic.ttf in Resources */,
+				274800A12BE8208A00BF4883 /* Roboto-Italic.ttf in Resources */,
 				271377D72BD5BB84005F026E /* RobotoCondensed-BlackItalic.ttf in Resources */,
+				274800A02BE8208A00BF4883 /* Roboto-Regular.ttf in Resources */,
 				271377E72BD5BB85005F026E /* RobotoCondensed-Light.ttf in Resources */,
+				274800A92BE8208A00BF4883 /* LICENSE.txt in Resources */,
 				271377E52BD5BB85005F026E /* RobotoCondensed-Medium.ttf in Resources */,
 				271377DA2BD5BB84005F026E /* RobotoCondensed-ExtraBold.ttf in Resources */,
+				2748009D2BE8208A00BF4883 /* Roboto-LightItalic.ttf in Resources */,
 				271377DC2BD5BB84005F026E /* RobotoCondensed-ExtraLightItalic.ttf in Resources */,
 				271377E12BD5BB85005F026E /* RobotoCondensed-ExtraLight.ttf in Resources */,
 				2784EF6A2BD5A22900F485CC /* Colors.xcassets in Resources */,
 				271377C42BD5BA2F005F026E /* CairoPlay-Regular.ttf in Resources */,
 				271377D82BD5BB84005F026E /* RobotoCondensed-Regular.ttf in Resources */,
+				2748009F2BE8208A00BF4883 /* Roboto-Thin.ttf in Resources */,
 				271377DD2BD5BB84005F026E /* RobotoCondensed-SemiBold.ttf in Resources */,
+				274800A82BE8208A00BF4883 /* Roboto-Medium.ttf in Resources */,
 				271377DE2BD5BB84005F026E /* RobotoCondensed-Thin.ttf in Resources */,
 				271377E62BD5BB85005F026E /* RobotoCondensed-Bold.ttf in Resources */,
 				271377E82BD5BB85005F026E /* RobotoCondensed-ThinItalic.ttf in Resources */,
+				274800A72BE8208A00BF4883 /* Roboto-Bold.ttf in Resources */,
+				274800A62BE8208A00BF4883 /* Roboto-BlackItalic.ttf in Resources */,
 				20BA43C82BAF3F1300795AB5 /* Secrets.plist in Resources */,
 				2784EF682BD5886B00F485CC /* car-charging-station-anim.json in Resources */,
+				274800A52BE8208A00BF4883 /* Roboto-BoldItalic.ttf in Resources */,
 				271377D92BD5BB84005F026E /* RobotoCondensed-Italic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -651,36 +752,47 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				277A3CAF2BEBD3E800174E0F /* PlusCode.swift in Sources */,
 				20BA43D82BAF585500795AB5 /* View+Ext.swift in Sources */,
+				277A3CAD2BEBD3E000174E0F /* Photo.swift in Sources */,
 				207EF4112B9CB35000EF46CF /* NetworkConfig.swift in Sources */,
 				20BA43D52BAF57AA00795AB5 /* ToastModifier.swift in Sources */,
+				277A3CB12BEBD42D00174E0F /* Viewport.swift in Sources */,
 				20CBCD4B2B9CD36E008D01AA /* Injection+PropertyWrapper.swift in Sources */,
 				2072183A2BA0B6C4005A136A /* BottomMapDetailsView.swift in Sources */,
 				20FCF76A2BAF2AA2004A5495 /* PrintLog.swift in Sources */,
 				20FCF7702BAF2B3B004A5495 /* Logging+Ext.swift in Sources */,
 				207AF3EB2B9E820A002AE17D /* UIViewController+Ext.swift in Sources */,
 				207AF3E42B9E80B8002AE17D /* URL+Ext.swift in Sources */,
+				277A3CA42BEBD32C00174E0F /* Place.swift in Sources */,
 				20BA43CA2BAF3FB400795AB5 /* SecretsManager.swift in Sources */,
 				207EF4132B9CB36F00EF46CF /* GooglePlacesResponse.swift in Sources */,
 				20FCF7682BAF2361004A5495 /* ShakeDevice+Ext.swift in Sources */,
 				20CBCD482B9CD334008D01AA /* Injection+Services.swift in Sources */,
+				273945872BE8343400A1CE4B /* MapKit+Ext.swift in Sources */,
 				207EF3F62B9CAFD600EF46CF /* SecretsKeys.swift in Sources */,
 				20C0EC4C2BAE3A81009C52FF /* FetchState.swift in Sources */,
+				277A3CA72BEBD38700174E0F /* Geometry.swift in Sources */,
+				277A3CB32BEC63D000174E0F /* GooglePlaceResponse.swift in Sources */,
 				2748008E2BE70A9D00BF4883 /* CircularInfinityProgressView.swift in Sources */,
 				207EF40F2B9CB32500EF46CF /* GoogleMapsAPI.swift in Sources */,
 				20C6B1A92BAE20DB00B113F3 /* FindInAreaButton.swift in Sources */,
 				2748008C2BE6A48200BF4883 /* Moya+Ext.swift in Sources */,
 				207EF3F82B9CAFF500EF46CF /* MapView.swift in Sources */,
+				277A3CB52BEC701100174E0F /* GooglePlacesAutocompleteResponse.swift in Sources */,
 				271B50C62BB8A35100C4C684 /* HProgressView.swift in Sources */,
 				271377BC2BD5AFC6005F026E /* AppDelegate.swift in Sources */,
 				20BA43CF2BAF574800795AB5 /* ToastView.swift in Sources */,
 				274507022BC8BC9E005ED545 /* ViewState.swift in Sources */,
+				277A3CB82BEC71C500174E0F /* Prediction.swift in Sources */,
+				277A3CA92BEBD3BA00174E0F /* Location.swift in Sources */,
 				207AF3E22B9E804F002AE17D /* MapApps.swift in Sources */,
 				20002FF12B01A149005C7329 /* PostosEletricosApp.swift in Sources */,
 				20FCF76C2BAF2AC7004A5495 /* LogHandler.swift in Sources */,
 				272F0A642BD5D79F00EE280F /* SuggestionsListView.swift in Sources */,
 				2031333D2B9CFF470093CDC2 /* LocationService.swift in Sources */,
 				271B50C42BB75A9100C4C684 /* LaunchView.swift in Sources */,
+				277A3CAB2BEBD3D200174E0F /* OpeningHours.swift in Sources */,
 				20CBCD462B9CBE1C008D01AA /* MapViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
