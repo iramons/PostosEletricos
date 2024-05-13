@@ -122,8 +122,8 @@ enum MapApp: CaseIterable {
         switch self {
         case .apple: return "Apple Maps"
         case .googleMaps: return "Google Maps"
-        case .uber: return "Uber"
         case .waze: return "Waze"
+        case .uber: return "Uber"
         }
     }
 
@@ -131,8 +131,8 @@ enum MapApp: CaseIterable {
         switch self {
         case .apple: return "http"
         case .googleMaps: return "comgooglemaps"
-        case .uber: return "uber"
         case .waze: return "waze"
+        case .uber: return "uber"
         }
     }
 
@@ -156,11 +156,11 @@ enum MapApp: CaseIterable {
         case .googleMaps:
             urlString = "\(scheme)://?daddr=\(latitude),\(longitude)&directionsmode=driving"
 
-        case .uber:
-            urlString = "\(scheme)://?action=setPickup&dropoff[latitude]=\(latitude)&dropoff[longitude]=\(longitude)&dropoff[formatted_address]=\(address)"
-
         case .waze:
             urlString = "\(scheme)://?ll=\(latitude),\(longitude)navigate=yes"
+
+        case .uber:
+            urlString = "\(scheme)://?action=setPickup&dropoff[latitude]=\(latitude)&dropoff[longitude]=\(longitude)&dropoff[formatted_address]=\(address)"
         }
 
         let urlwithPercentEscapes = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? urlString

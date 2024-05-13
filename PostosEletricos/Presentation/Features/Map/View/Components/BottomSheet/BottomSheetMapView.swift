@@ -47,31 +47,28 @@ struct BottomSheetMapView: View {
             .zIndex(1)
 
             ScrollView(.vertical) {
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: .zero) {
                     Text(place.opened ? "Aberto agora" : "Fechado")
                         .font(.custom("Roboto-Black", size: 13))
                         .padding(.vertical, 4)
                         .padding(.horizontal, 8)
                         .background(place.opened ? .accent : .red)
                         .foregroundStyle(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
-                        .padding(.top, 16)
-                        .padding(.leading, 16)
+                        .clipShape(.capsule)
+                        .padding(.bottom, 2)
 
                     Text(place.name)
                         .multilineTextAlignment(.leading)
                         .minimumScaleFactor(0.5)
                         .font(.custom("Roboto-Bold", size: 18))
                         .foregroundStyle(.primary)
-                        .padding(.leading, 16)
 
-                    HStack(spacing: 6) {
+                    HStack(alignment: .bottom, spacing: 6) {
                         if let fullAddress = place.fullAddress {
                             Text(fullAddress)
                                 .multilineTextAlignment(.leading)
                                 .font(.custom("Roboto-Medium", size: 14))
                                 .foregroundStyle(.secondary)
-                                .padding(.horizontal, 16)
                         }
 
                         Spacer()
@@ -98,13 +95,11 @@ struct BottomSheetMapView: View {
                         .background(isRoutePresenting ? .red : .indigo)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .shadow(radius: 4)
-                        .padding(.horizontal, 10)
-                        .padding(.top, 20)
                     }
 
                     Divider()
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 4)
+                        .foregroundStyle(.gray.gradient)
+                        .padding(.vertical, 6)
 
                     HStack(alignment: .top, spacing: 10) {
                         VStack(alignment: .leading, spacing: 10) {
@@ -177,9 +172,7 @@ struct BottomSheetMapView: View {
                             }
                         }
                     }
-                    .padding(.top, 8)
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 8)
+                    .padding(.top, 4)
 
                     HStack(alignment: .bottom) {
                         if lookAroundScene != nil {
@@ -191,11 +184,10 @@ struct BottomSheetMapView: View {
                             .frame(maxWidth: .infinity, alignment: .trailing)
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                             .shadow(radius: 4)
-                            .padding(.horizontal, 10)
-                            .padding(.bottom, 8)
                         }
                     }
                 }
+                .padding(16)
             }
         }
         .onChange(of: place) {

@@ -22,7 +22,7 @@ struct SuggestionsListView: View {
                     dismissSearch()
                 }
 
-                viewModel.deselectPlace()
+                viewModel.onDismissSearch()
 
                 handleSelection(place)
             }

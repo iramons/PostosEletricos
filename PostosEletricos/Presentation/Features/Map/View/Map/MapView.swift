@@ -75,6 +75,8 @@ struct MapView: View {
     private var map: some View {
         Map(position: $viewModel.position, selection: $viewModel.selectedID) {
             UserAnnotation()
+                .mapOverlayLevel(level: .aboveLabels)
+                .annotationTitles(.visible)
 
             ForEach(viewModel.places, id: \.id) { place in
                 if let coordinate = place.coordinate {
@@ -105,36 +107,39 @@ struct MapView: View {
             MapPitchToggle()
             MapUserLocationButton()
         }
-        .onChange(of: viewModel.selectedPlace) { _, _ in
-            viewModel.onDidSelectPlace()
-        }
-        .onChange(of: viewModel.position) { _, newPosition in
-            if newPosition.positionedByUser {
-
-            }
-        }
         .onMapCameraChange(frequency: .onEnd) { context in
             viewModel.onMapCameraChange(context)
         }
-        .sheet(item: $viewModel.selectedPlace) { place in
-            BottomSheetMapView(
-                place: place,
-                isRoutePresenting: viewModel.isRoutePresenting,
-                action: { type in
-                    switch type {
-                    case .close: viewModel.onDismissBottomSheet()
-                    case .route: viewModel.handleRouteUpdates()
-                    }
-                }
-            )
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-            .presentationCornerRadius(20)
-            .presentationDetents([.fraction(0.3), .medium, .large])
-            .presentationDragIndicator(.visible)
-            .presentationBackground(.regularMaterial)
-            .presentationBackgroundInteraction(.enabled(upThrough: .large))
+        .onChange(of: viewModel.selectedID) { _, newSelectedID in
+            viewModel.updateSelectedPlace(withID: newSelectedID)
         }
-        .confirmationDialog("Abrir com", isPresented: $viewModel.showMapApps, titleVisibility: .visible) {
+        .sheet(
+            isPresented: $viewModel.showBottomSheet,
+            onDismiss: {
+                viewModel.onDismissBottomSheet()
+            },
+            content: {
+                if let selectedPlace = viewModel.selectedPlace {
+                    BottomSheetMapView(
+                        place: selectedPlace,
+                        isRoutePresenting: viewModel.isRoutePresenting,
+                        action: { type in
+                            switch type {
+                            case .close: viewModel.onBottomSheetCloseButtonTap()
+                            case .route: viewModel.onShowRouteTap()
+                            }
+                        }
+                    )
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                    .presentationCornerRadius(20)
+                    .presentationDetents(viewModel.isRoutePresenting ? [.fraction(0.15)] : [.fraction(0.3), .medium, .large])
+                    .presentationDragIndicator(.visible)
+                    .presentationBackground(.regularMaterial.shadow(.drop(radius: 4)))
+                    .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+                }
+            }
+        )
+        .confirmationDialog("Abrir com", isPresented: $viewModel.showRouteOptions, titleVisibility: .visible) {
             if let coordinate = viewModel.selectedPlace?.coordinate {
                 Button(MapApp.apple.title) { 
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
@@ -144,21 +149,21 @@ struct MapView: View {
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     MapApp.googleMaps.open(coordinate: coordinate)
                 }
-                Button(MapApp.uber.title) {
-                    UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-                    MapApp.uber.open(coordinate: coordinate, address: viewModel.selectedPlace?.vicinity ?? "")
-                }
                 Button(MapApp.waze.title) {
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     MapApp.waze.open(coordinate: coordinate)
                 }
+                Button(MapApp.uber.title) {
+                    UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+                    MapApp.uber.open(coordinate: coordinate, address: viewModel.selectedPlace?.vicinity ?? "")
+                }
                 Button("Apenas visualizar") {
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     viewModel.getDirections(to: coordinate)
-                    viewModel.showBottomSheet.toggle()
+                    viewModel.onDismissRouteOptions()
                 }
                 Button("Cancelar", role: .cancel) {
-                    viewModel.showBottomSheet.toggle()
+                    viewModel.onDismissRouteOptions()
                 }
             }
         }

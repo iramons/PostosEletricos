@@ -32,32 +32,47 @@ class MapViewModel: ObservableObject {
 
     // MARK: Places
 
-    @Published var places: [Place] = []
-
-    // MARK: - Selected Place
-
-    @Published var selectedID: String? {
+    @Published var places: [Place] = [] {
         didSet {
-            updatePlace()
-
-            withAnimation {
-                showBottomSheet = selectedID != nil
+            DispatchQueue.main.async {
+                if self.selectedPlace != nil {
+                    self.selectedPlace = self.places.first(where: { $0.placeID == self.selectedPlace?.placeID })
+                }
             }
         }
     }
 
+    // MARK: - Selected Place
+
     @Published var showBottomSheet: Bool = false
 
-    @Published var selectedPlace: Place?
+    @Published var selectedID: String? {
+        didSet { printLog(.notice, "selectedID is \(String(describing: selectedID))") }
+    }
 
-    func onDidSelectPlace() {
+    @Published var selectedPlace: Place? {
+        didSet { printLog(.notice, "selectedPlace is \(String(describing: selectedPlace))") }
+    }
+
+    func updateSelectedPlace(withID id: String?) {
+        selectedPlace = places.first(where: { $0.id == id })
+        printLog(.notice, "updatedSelectedPlace is: \(selectedPlace)")
+
+        handleSelectedPlaceUpdated()
+    }
+
+    func handleSelectedPlaceUpdated() {
+        withAnimation { showBottomSheet = selectedPlace != nil }
+
+        guard let selectedPlace else { return }
+
         /// update camera
-        guard let selectedPlaceCoordinate = selectedPlace?.coordinate else { return }
+        guard let selectedPlaceCoordinate = selectedPlace.coordinate else { return }
         let mapItem = MKMapItem(placemark: .init(coordinate: selectedPlaceCoordinate))
         updateCameraPosition(with: .item(mapItem))
 
         /// update place
-        guard let placeID = selectedPlace?.placeID else { return }
+        guard let placeID = selectedPlace.placeID else { return }
         fetchPlace(placeID: placeID) { placeFromGoogle in
             if let placeFromGoogle {
                 DispatchQueue.main.async { [weak self] in
@@ -65,7 +80,6 @@ class MapViewModel: ObservableObject {
                     if let existingPlaceIndex = places.firstIndex(where: { $0.placeID == placeFromGoogle.placeID }) {
                         withAnimation {
                             self.places[existingPlaceIndex].update(placeFromGoogle)
-                            self.updatePlace()
                         }
                     }
                 }
@@ -73,26 +87,30 @@ class MapViewModel: ObservableObject {
         }
     }
 
-    private func updatePlace() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-
-            selectedPlace = places.first(where: { place in
-                place.id == self.selectedID
-            })
-        }
-    }
-
     func onDismissBottomSheet() {
+        guard selectedID != nil else { return }
+
         deselectPlace()
 
-        if let lastRegion {
-            updateCameraPosition(forRegion: lastRegion)
-        }
+        if let lastRegion { updateCameraPosition(forRegion: lastRegion) }
+    }
+    
+    func onBottomSheetCloseButtonTap() {
+        guard selectedID != nil else { return }
+        
+        deselectPlace()
+
+        if let lastRegion { updateCameraPosition(forRegion: lastRegion) }
     }
 
-    func deselectPlace() {
-        withAnimation { selectedID = nil }
+    private func deselectPlace() {
+        withAnimation {
+            self.selectedID = nil
+
+            if showBottomSheet {
+                showBottomSheet = false
+            }
+        }
     }
 
     // MARK: - Find in Area
@@ -116,6 +134,10 @@ class MapViewModel: ObservableObject {
 
     var shouldShowPlacesFromSearch: Bool {
         return !placesFromSearch.isEmpty
+    }
+
+    func onDismissSearch() {
+        deselectPlace()
     }
 
     // MARK: - Route
@@ -144,6 +166,10 @@ class MapViewModel: ObservableObject {
             route = result?.routes.first
             getTravelTime()
         }
+    }
+
+    func onDismissRouteOptions() {
+        withAnimation { showBottomSheet = true }
     }
 
     // MARK: Others
@@ -194,9 +220,9 @@ class MapViewModel: ObservableObject {
 
     func onMapCameraChange(_ context: MapCameraUpdateContext) {
         if position.positionedByUser {
-            lastRegion = context.region
-
             withAnimation {
+                lastRegion = context.region
+
                 if !showFindInAreaButton {
                     showFindInAreaButton.toggle()
                 }
@@ -207,15 +233,15 @@ class MapViewModel: ObservableObject {
         saveLast(context)
     }
 
-    func handleRouteUpdates() {
+    func onShowRouteTap() {
         if isRoutePresenting {
             route = nil
         } else {
-            showMapApps.toggle()
+            showRouteOptions.toggle()
         }
     }
 
-    @Published var showMapApps: Bool = false
+    @Published var showRouteOptions: Bool = false
 
     // MARK: Private
 
@@ -227,7 +253,7 @@ class MapViewModel: ObservableObject {
     
     @Injected private var locationService: LocationService
 
-    @State var userCoordinate: CLLocationCoordinate2D?
+    var userCoordinate: CLLocationCoordinate2D?
 
     private var provider = MoyaProvider<GooglePlacesAPI>(plugins: [NetworkConfig.networkLogger])
     
