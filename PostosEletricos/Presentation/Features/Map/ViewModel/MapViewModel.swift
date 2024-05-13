@@ -25,16 +25,8 @@ class MapViewModel: ObservableObject {
     }
 
     // TODO: check to user .automatic in future
-    @Published var position: MapCameraPosition = .userLocation(
-        followsHeading: true,
-        fallback: .region(
-            .init(center:
-                    .init(latitude: -22.0607781, longitude: -44.2432158),
-                  latitudinalMeters: 3000,
-                  longitudinalMeters: 3000
-            )
-        )
-    )
+
+    @Published var position: MapCameraPosition = .userLocation(fallback: .automatic)
 
     @Published var state: ViewState = .none
 
@@ -44,13 +36,23 @@ class MapViewModel: ObservableObject {
 
     // MARK: - Selected Place
 
-    @Published var selectedPlaceID: String?
-    var selectedPlace: Place? { places.first(where: { $0.id == selectedPlaceID }) }
-    var selectedPlaceCoordinate: CLLocationCoordinate2D? { selectedPlace?.coordinate }
+    @Published var selectedID: String? {
+        didSet {
+            updatePlace()
+
+            withAnimation {
+                showBottomSheet = selectedID != nil
+            }
+        }
+    }
+
+    @Published var showBottomSheet: Bool = false
+
+    @Published var selectedPlace: Place?
 
     func onDidSelectPlace() {
         /// update camera
-        guard let selectedPlaceCoordinate else { return }
+        guard let selectedPlaceCoordinate = selectedPlace?.coordinate else { return }
         let mapItem = MKMapItem(placemark: .init(coordinate: selectedPlaceCoordinate))
         updateCameraPosition(with: .item(mapItem))
 
@@ -63,6 +65,7 @@ class MapViewModel: ObservableObject {
                     if let existingPlaceIndex = places.firstIndex(where: { $0.placeID == placeFromGoogle.placeID }) {
                         withAnimation {
                             self.places[existingPlaceIndex].update(placeFromGoogle)
+                            self.updatePlace()
                         }
                     }
                 }
@@ -70,12 +73,26 @@ class MapViewModel: ObservableObject {
         }
     }
 
-    func onDidClosePlaceDetails() {
+    private func updatePlace() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+
+            selectedPlace = places.first(where: { place in
+                place.id == self.selectedID
+            })
+        }
+    }
+
+    func onDismissBottomSheet() {
         deselectPlace()
+
+        if let lastRegion {
+            updateCameraPosition(forRegion: lastRegion)
+        }
     }
 
     func deselectPlace() {
-        withAnimation { selectedPlaceID = nil }
+        withAnimation { selectedID = nil }
     }
 
     // MARK: - Find in Area
@@ -91,8 +108,6 @@ class MapViewModel: ObservableObject {
 
     // MARK: - Search
 
-    @Published var isSearchBarVisible = false
-
     @Published var searchText: String = "" {
         didSet { findAutocomplete() }
     }
@@ -100,7 +115,7 @@ class MapViewModel: ObservableObject {
     @Published var placesFromSearch: [Place] = []
 
     var shouldShowPlacesFromSearch: Bool {
-        return !placesFromSearch.isEmpty && isSearchBarVisible
+        return !placesFromSearch.isEmpty
     }
 
     // MARK: - Route
@@ -116,7 +131,7 @@ class MapViewModel: ObservableObject {
     var isRoutePresenting: Bool { route != nil }
 
     func getDirections(to destination: CLLocationCoordinate2D?) {
-        guard let userCoordinate = locationService.location?.coordinate else { return }
+        guard let userCoordinate else { return }
         guard let destination else { return }
 
         let request = MKDirections.Request()
@@ -150,29 +165,21 @@ class MapViewModel: ObservableObject {
         lastContext = context
     }
 
-    func handleCamera(with context: MapCameraUpdateContext) {
-        if position.positionedByUser {
-            updateCameraPosition(forContext: context)
-
-            withAnimation { showFindInAreaButton = true }
-        }
-    }
-
     /// Function to update camera position to fit all markers
     func getMapItemsRegion(places: [Place], completion: @escaping (MKCoordinateRegion) -> Void) {
         guard !places.isEmpty else { return }
 
         // Calculate the bounding region for all markers
-        var minLat = places[0].geometry?.location?.lat ?? 0
-        var maxLat = places[0].geometry?.location?.lat ?? 0
-        var minLon = places[0].geometry?.location?.lng ?? 0
-        var maxLon = places[0].geometry?.location?.lng ?? 0
+        var minLat = places[0].coordinate?.latitude ?? 0
+        var maxLat = places[0].coordinate?.latitude ?? 0
+        var minLon = places[0].coordinate?.longitude ?? 0
+        var maxLon = places[0].coordinate?.longitude ?? 0
 
         for item in places {
-            minLat = min(minLat, item.geometry?.location?.lat ?? 0)
-            maxLat = max(maxLat, item.geometry?.location?.lat ?? 0)
-            minLon = min(minLon, item.geometry?.location?.lng ?? 0)
-            maxLon = max(maxLon, item.geometry?.location?.lng ?? 0)
+            minLat = min(minLat, item.coordinate?.latitude ?? 0)
+            maxLat = max(maxLat, item.coordinate?.latitude ?? 0)
+            minLon = min(minLon, item.coordinate?.longitude ?? 0)
+            maxLon = max(maxLon, item.coordinate?.longitude ?? 0)
         }
 
         // Create a region that contains all markers
@@ -180,11 +187,22 @@ class MapViewModel: ObservableObject {
         let span = MKCoordinateSpan(latitudeDelta: (maxLat - minLat) * 1.2, longitudeDelta: (maxLon - minLon) * 1.2)
         let newRegion = MKCoordinateRegion(center: center, span: span)
 
+        self.lastRegion = newRegion
+
         completion(newRegion)
     }
 
     func onMapCameraChange(_ context: MapCameraUpdateContext) {
-        handleCamera(with: context)
+        if position.positionedByUser {
+            lastRegion = context.region
+
+            withAnimation {
+                if !showFindInAreaButton {
+                    showFindInAreaButton.toggle()
+                }
+            }
+        }
+        
         updateDistance(with: context)
         saveLast(context)
     }
@@ -209,41 +227,38 @@ class MapViewModel: ObservableObject {
     
     @Injected private var locationService: LocationService
 
-    private var provider = MoyaProvider<GoogleMapsAPI>(plugins: [NetworkConfig.networkLogger])
+    @State var userCoordinate: CLLocationCoordinate2D?
+
+    private var provider = MoyaProvider<GooglePlacesAPI>(plugins: [NetworkConfig.networkLogger])
     
     private var cancellables = Set<AnyCancellable>()
-    
-    /// indicates if app should send camera update to map or not
-    private var shouldUpdateCamera: Bool = true
-    
+
     /// indicates when need fetch data from API, when it's false should stop fetching.
     private var shouldFetchStations: Bool = true
 
     private func bind() {
         locationService.$location
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] location in
-                guard let self, let location else { return }
+            .sink { location in
+                self.userCoordinate = location?.coordinate
 
-                if shouldUpdateCamera {
-                    shouldUpdateCamera = false
-                    updateCameraPosition(forCoordinate: location.coordinate)
+                if self.shouldFetchStations {
+                    self.shouldFetchStations.toggle()
+
+                    self.performFetchData(in: location?.coordinate)
                 }
-
-                performFetchData(in: location.coordinate)
             }
             .store(in: &cancellables)
     }
 
-    private func performFetchData(in coordinate: CLLocationCoordinate2D) {
-        if shouldFetchStations {
-            shouldFetchStations = false
+    private func performFetchData(in coordinate: CLLocationCoordinate2D?) {
+        guard let coordinate else { return }
 
-            fetchStationsFromGooglePlaces(in: coordinate) { [weak self] places in
-                guard let self, let places else { return }
+        fetchStationsFromGooglePlaces(in: coordinate, radius: CLLocationDistance(3000)) { [weak self] places in
+            guard let self, let places else { return }
 
-                getMapItemsRegion(places: places) { region in
-                    self.updateCameraPosition(forRegion: region)
+            getMapItemsRegion(places: places) { region in
+                self.updateCameraPosition(forRegion: region)
 
 //                    _Concurrency.Task {
 //                        await self.fetchStationsFromMapKit() { itemsFromMapKit in
@@ -254,7 +269,6 @@ class MapViewModel: ObservableObject {
 //                            }
 //                        }
 //                    }
-                }
             }
         }
     }
@@ -272,10 +286,6 @@ class MapViewModel: ObservableObject {
             showToast = bool
         }
     }
-
-    private func updateLastRegion() {
-        lastRegion = position.region
-    }
 }
 
 // MARK: - Commom
@@ -284,10 +294,16 @@ extension MapViewModel {
 
     // MARK: fetchStations from google
 
-    func fetchStationsFromGooglePlaces(in location: CLLocationCoordinate2D, completion: @escaping ([Place]?) -> Void) {
+    func fetchStationsFromGooglePlaces(
+        in location: CLLocationCoordinate2D,
+        radius: CLLocationDistance? = nil,
+        completion: @escaping ([Place]?) -> Void
+    ) {
         isLoading = true
 
-        provider.request(.places(location: location, radius: distance)) { [weak self] result in
+        let expectedRadius = radius ?? distance
+
+        provider.request(.places(location: location, radius: expectedRadius), callbackQueue: .main) { [weak self] result in
             guard let strongSelf = self else { return }
 
             switch result {
@@ -304,11 +320,13 @@ extension MapViewModel {
                         return
                     }
 
+                    
                     places.forEach { place in
                         self?.append(place)
                         self?.appendPlacesInFindedArea(for: place)
-                        completion(self?.placesInFindedArea)
                     }
+
+                    completion(places)
                 }
                 catch {
                     printLog(.error, "\(error)")
@@ -330,7 +348,7 @@ extension MapViewModel {
     // MARK: getPlace from google
 
     func fetchPlace(placeID: String, completion: @escaping (Place?) -> Void) {
-        provider.request(.place(placeID: placeID)) { result in
+        provider.request(.place(placeID: placeID), callbackQueue: .main) { result in
             switch result {
             case let .success(response):
                 do {
@@ -401,7 +419,7 @@ extension MapViewModel {
     // MARK: AutoComplete
 
     func findAutocomplete() {
-        provider.request(.autocomplete(query: searchText, location: locationService.location?.coordinate)) { [weak self] result in
+        provider.request(.autocomplete(query: searchText, location: userCoordinate), callbackQueue: .main) { [weak self] result in
             guard let self else { return }
             switch result {
             case let .success(response):
@@ -440,30 +458,20 @@ extension MapViewModel {
 extension MapViewModel {
     func updateCameraPosition(with position: MapCameraPosition) {
         withAnimation { self.position = position }
-        updateLastRegion()
     }
 
     func updateCameraPosition(forCoordinate coordinate: CLLocationCoordinate2D) {
         guard let span = position.region?.span else { return }
         withAnimation { position = .region(.init(center: coordinate, span: span)) }
-        updateLastRegion()
-    }
-
-    func updateCameraPosition(forContext context: MapCameraUpdateContext) {
-        /// intesionally not applied animation
-        position = .region(.init(center: context.region.center, span: context.region.span))
-        if showToast { setShowToast(false) }
-        updateLastRegion()
     }
 
     func updateCameraPosition(forRegion region: MKCoordinateRegion) {
         withAnimation { position = .region(.init(center: region.center, span: region.span)) }
-        updateLastRegion()
     }
 
     func updateCameraPositionForRoute() {
-        guard let userCoordinate = locationService.location?.coordinate else { return }
-        guard let selectedPlaceCoordinate else { return }
+        guard let userCoordinate else { return }
+        guard let selectedPlaceCoordinate = selectedPlace?.coordinate else { return }
 
         /// Calculate min and max coordinates
         let minLatitude = min(userCoordinate.latitude, selectedPlaceCoordinate.latitude)

@@ -73,19 +73,16 @@ struct MapView: View {
     }
 
     private var map: some View {
-        Map(
-            position: $viewModel.position,
-            selection: $viewModel.selectedPlaceID
-        ) {
+        Map(position: $viewModel.position, selection: $viewModel.selectedID) {
             UserAnnotation()
 
             ForEach(viewModel.places, id: \.id) { place in
                 if let coordinate = place.coordinate {
                     Marker(coordinate: coordinate) {
-                        Label(place.name, systemImage: "bolt.fill")
+                        Label(place.name, systemImage: place.opened ? "bolt.fill" : "bolt.slash.fill")
                     }
                     .tag(place.id)
-                    .tint(.green)
+                    .tint(place.opened ? .accent : .gray.opacity(0.6))
                     .annotationTitles(.hidden)
                 }
             }
@@ -108,28 +105,37 @@ struct MapView: View {
             MapPitchToggle()
             MapUserLocationButton()
         }
-        .onChange(of: viewModel.selectedPlaceID) { _ , _ in
+        .onChange(of: viewModel.selectedPlace) { _, _ in
             viewModel.onDidSelectPlace()
+        }
+        .onChange(of: viewModel.position) { _, newPosition in
+            if newPosition.positionedByUser {
+
+            }
         }
         .onMapCameraChange(frequency: .onEnd) { context in
             viewModel.onMapCameraChange(context)
         }
-        .overlay(alignment: .bottom) {
-            if let selectedPlace = viewModel.selectedPlace {
-                BottomMapDetailsView(
-                    place: selectedPlace,
-                    isRoutePresenting: viewModel.isRoutePresenting,
-                    action: { type in
-                        switch type {
-                        case .close: viewModel.onDidClosePlaceDetails()
-                        case .route: viewModel.handleRouteUpdates()
-                        }
+        .sheet(item: $viewModel.selectedPlace) { place in
+            BottomSheetMapView(
+                place: place,
+                isRoutePresenting: viewModel.isRoutePresenting,
+                action: { type in
+                    switch type {
+                    case .close: viewModel.onDismissBottomSheet()
+                    case .route: viewModel.handleRouteUpdates()
                     }
-                )
-            }
+                }
+            )
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .presentationCornerRadius(20)
+            .presentationDetents([.fraction(0.3), .medium, .large])
+            .presentationDragIndicator(.visible)
+            .presentationBackground(.regularMaterial)
+            .presentationBackgroundInteraction(.enabled(upThrough: .large))
         }
-        .confirmationDialog("Abrir com", isPresented: $viewModel.showMapApps) {
-            if let coordinate = viewModel.selectedPlaceCoordinate {
+        .confirmationDialog("Abrir com", isPresented: $viewModel.showMapApps, titleVisibility: .visible) {
+            if let coordinate = viewModel.selectedPlace?.coordinate {
                 Button(MapApp.apple.title) { 
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     MapApp.apple.open(coordinate: coordinate)
@@ -146,9 +152,13 @@ struct MapView: View {
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     MapApp.waze.open(coordinate: coordinate)
                 }
-                Button("Visualizar caminho") { 
+                Button("Apenas visualizar") {
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     viewModel.getDirections(to: coordinate)
+                    viewModel.showBottomSheet.toggle()
+                }
+                Button("Cancelar", role: .cancel) {
+                    viewModel.showBottomSheet.toggle()
                 }
             }
         }
@@ -159,7 +169,6 @@ struct MapView: View {
         FindInAreaButton(onTap: {
             withAnimation {
                 viewModel.showFindInAreaButton = false
-                viewModel.isSearchBarVisible = false
             }
             guard let center = viewModel.position.region?.center else { return }
 
@@ -170,7 +179,6 @@ struct MapView: View {
                 }
             }
         })
-        .offset(y: viewModel.isSearchBarVisible ? 130 : 80)
         .opacity(viewModel.shouldShowFindInAreaButton ? 0.9 : 0)
         .zIndex(1)
     }

@@ -27,9 +27,10 @@ struct Place: Codable, Identifiable, Equatable, Hashable, Comparable {
     var types: [String]?
     var userRatingsTotal: Double?
     var openingHours: OpeningHours?
-    var currentOpeningHours: CurrentOpeningHours?
+    var currentOpeningHours: OpeningHours?
     var photos: [Photo]?
     var phoneNumber: String?
+    var website: String?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -49,6 +50,7 @@ struct Place: Codable, Identifiable, Equatable, Hashable, Comparable {
         case currentOpeningHours = "current_opening_hours"
         case photos
         case phoneNumber = "formatted_phone_number"
+        case website
     }
 
     init(
@@ -65,10 +67,10 @@ struct Place: Codable, Identifiable, Equatable, Hashable, Comparable {
         types: [String]? = nil,
         userRatingsTotal: Double? = nil,
         openingHours: OpeningHours? = nil,
-        currentOpeningHours: CurrentOpeningHours? = nil,
-        weekdayText: [String]? = nil,
+        currentOpeningHours: OpeningHours? = nil,
         photos: [Photo]? = nil,
-        phoneNumber: String? = nil
+        phoneNumber: String? = nil,
+        website: String? = nil
     ) {
         self.placeID = placeID
         self.name = name
@@ -86,6 +88,7 @@ struct Place: Codable, Identifiable, Equatable, Hashable, Comparable {
         self.currentOpeningHours = currentOpeningHours
         self.photos = photos
         self.phoneNumber = phoneNumber
+        self.website = website
     }
 
     static func == (lhs: Place, rhs: Place) -> Bool {
@@ -107,6 +110,8 @@ extension Place {
 
     /// Returns formattedAddress if exists else return vicinity else return nil
     var fullAddress: String? { formattedAddress ?? vicinity }
+
+    var opened: Bool { currentOpeningHours?.openNow ?? openingHours?.openNow ?? false }
 }
 
 // MARK: - update
@@ -130,6 +135,7 @@ extension Place {
         if let currentOpeningHours = place.currentOpeningHours { self.currentOpeningHours = currentOpeningHours }
         if let photos = place.photos { self.photos = photos }
         if let phoneNumber = place.phoneNumber { self.phoneNumber = phoneNumber }
+        if let website = place.website { self.website = website }
     }
 
     /// Update espefic attributes, excluding ID and placeID
@@ -145,9 +151,10 @@ extension Place {
         types: [String]? = nil,
         userRatingsTotal: Double? = nil,
         openingHours: OpeningHours? = nil,
-        currentOpeningHours: CurrentOpeningHours? = nil,
+        currentOpeningHours: OpeningHours? = nil,
         photos: [Photo]? = nil,
-        phoneNumber: String? = nil
+        phoneNumber: String? = nil,
+        website: String? = nil
     ) {
         if let name { self.name = name }
         if let vicinity { self.vicinity = vicinity }
@@ -164,5 +171,6 @@ extension Place {
         if let currentOpeningHours { self.currentOpeningHours = currentOpeningHours }
         if let photos { self.photos = photos }
         if let phoneNumber { self.phoneNumber = phoneNumber }
+        if let website { self.website = website }
     }
 }

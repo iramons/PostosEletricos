@@ -11,7 +11,7 @@
 		20002FF52B01A14B005C7329 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20002FF42B01A14B005C7329 /* Images.xcassets */; };
 		20002FF82B01A14B005C7329 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20002FF72B01A14B005C7329 /* Preview Assets.xcassets */; };
 		2031333D2B9CFF470093CDC2 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2031333C2B9CFF470093CDC2 /* LocationService.swift */; };
-		2072183A2BA0B6C4005A136A /* BottomMapDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207218392BA0B6C4005A136A /* BottomMapDetailsView.swift */; };
+		2072183A2BA0B6C4005A136A /* BottomSheetMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207218392BA0B6C4005A136A /* BottomSheetMapView.swift */; };
 		207AF3E22B9E804F002AE17D /* MapApps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207AF3E12B9E804F002AE17D /* MapApps.swift */; };
 		207AF3E42B9E80B8002AE17D /* URL+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207AF3E32B9E80B8002AE17D /* URL+Ext.swift */; };
 		207AF3EB2B9E820A002AE17D /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207AF3EA2B9E820A002AE17D /* UIViewController+Ext.swift */; };
@@ -23,7 +23,7 @@
 		207EF3FF2B9CB08900EF46CF /* ReactiveMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF3FE2B9CB08900EF46CF /* ReactiveMoya */; };
 		207EF4012B9CB08900EF46CF /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF4002B9CB08900EF46CF /* RxMoya */; };
 		207EF40D2B9CB2E200EF46CF /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF40C2B9CB2E200EF46CF /* GooglePlaces */; };
-		207EF40F2B9CB32500EF46CF /* GoogleMapsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF40E2B9CB32500EF46CF /* GoogleMapsAPI.swift */; };
+		207EF40F2B9CB32500EF46CF /* GooglePlacesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF40E2B9CB32500EF46CF /* GooglePlacesAPI.swift */; };
 		207EF4112B9CB35000EF46CF /* NetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF4102B9CB35000EF46CF /* NetworkConfig.swift */; };
 		207EF4132B9CB36F00EF46CF /* GooglePlacesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF4122B9CB36F00EF46CF /* GooglePlacesResponse.swift */; };
 		20BA43C82BAF3F1300795AB5 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20BA43C72BAF3F1300795AB5 /* Secrets.plist */; };
@@ -96,7 +96,6 @@
 		277A3CB32BEC63D000174E0F /* GooglePlaceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB22BEC63D000174E0F /* GooglePlaceResponse.swift */; };
 		277A3CB52BEC701100174E0F /* GooglePlacesAutocompleteResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB42BEC701100174E0F /* GooglePlacesAutocompleteResponse.swift */; };
 		277A3CB82BEC71C500174E0F /* Prediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB72BEC71C500174E0F /* Prediction.swift */; };
-		277A3CBA2BED19D700174E0F /* CurrentOpeningHours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB92BED19D700174E0F /* CurrentOpeningHours.swift */; };
 		2784EF682BD5886B00F485CC /* car-charging-station-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF672BD5886B00F485CC /* car-charging-station-anim.json */; };
 		2784EF6A2BD5A22900F485CC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF692BD5A22900F485CC /* Colors.xcassets */; };
 /* End PBXBuildFile section */
@@ -107,13 +106,13 @@
 		20002FF42B01A14B005C7329 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		20002FF72B01A14B005C7329 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2031333C2B9CFF470093CDC2 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
-		207218392BA0B6C4005A136A /* BottomMapDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomMapDetailsView.swift; sourceTree = "<group>"; };
+		207218392BA0B6C4005A136A /* BottomSheetMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetMapView.swift; sourceTree = "<group>"; };
 		207AF3E12B9E804F002AE17D /* MapApps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapApps.swift; sourceTree = "<group>"; };
 		207AF3E32B9E80B8002AE17D /* URL+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Ext.swift"; sourceTree = "<group>"; };
 		207AF3EA2B9E820A002AE17D /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
 		207EF3F52B9CAFD600EF46CF /* SecretsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretsKeys.swift; sourceTree = "<group>"; };
 		207EF3F72B9CAFF500EF46CF /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		207EF40E2B9CB32500EF46CF /* GoogleMapsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapsAPI.swift; sourceTree = "<group>"; };
+		207EF40E2B9CB32500EF46CF /* GooglePlacesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlacesAPI.swift; sourceTree = "<group>"; };
 		207EF4102B9CB35000EF46CF /* NetworkConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfig.swift; sourceTree = "<group>"; };
 		207EF4122B9CB36F00EF46CF /* GooglePlacesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlacesResponse.swift; sourceTree = "<group>"; };
 		20BA43C72BAF3F1300795AB5 /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
@@ -183,7 +182,6 @@
 		277A3CB22BEC63D000174E0F /* GooglePlaceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlaceResponse.swift; sourceTree = "<group>"; };
 		277A3CB42BEC701100174E0F /* GooglePlacesAutocompleteResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlacesAutocompleteResponse.swift; sourceTree = "<group>"; };
 		277A3CB72BEC71C500174E0F /* Prediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prediction.swift; sourceTree = "<group>"; };
-		277A3CB92BED19D700174E0F /* CurrentOpeningHours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentOpeningHours.swift; sourceTree = "<group>"; };
 		2784EF672BD5886B00F485CC /* car-charging-station-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "car-charging-station-anim.json"; sourceTree = "<group>"; };
 		2784EF692BD5A22900F485CC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -332,7 +330,7 @@
 		207AF3E92B9E8196002AE17D /* GoogleMaps */ = {
 			isa = PBXGroup;
 			children = (
-				207EF40E2B9CB32500EF46CF /* GoogleMapsAPI.swift */,
+				207EF40E2B9CB32500EF46CF /* GooglePlacesAPI.swift */,
 			);
 			path = GoogleMaps;
 			sourceTree = "<group>";
@@ -525,12 +523,12 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		271377EB2BD5BED0005F026E /* BottomSheetDetails */ = {
+		271377EB2BD5BED0005F026E /* BottomSheet */ = {
 			isa = PBXGroup;
 			children = (
-				207218392BA0B6C4005A136A /* BottomMapDetailsView.swift */,
+				207218392BA0B6C4005A136A /* BottomSheetMapView.swift */,
 			);
-			path = BottomSheetDetails;
+			path = BottomSheet;
 			sourceTree = "<group>";
 		};
 		271377ED2BD5BEF8005F026E /* FindInAreaButton */ = {
@@ -594,7 +592,6 @@
 				277A3CAE2BEBD3E800174E0F /* PlusCode.swift */,
 				277A3CB02BEBD42D00174E0F /* Viewport.swift */,
 				277A3CB72BEC71C500174E0F /* Prediction.swift */,
-				277A3CB92BED19D700174E0F /* CurrentOpeningHours.swift */,
 			);
 			path = Place;
 			sourceTree = "<group>";
@@ -614,7 +611,7 @@
 			children = (
 				274A5E9F2BDDC75900BFCF43 /* Suggestions */,
 				271377ED2BD5BEF8005F026E /* FindInAreaButton */,
-				271377EB2BD5BED0005F026E /* BottomSheetDetails */,
+				271377EB2BD5BED0005F026E /* BottomSheet */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -762,7 +759,7 @@
 				20BA43D52BAF57AA00795AB5 /* ToastModifier.swift in Sources */,
 				277A3CB12BEBD42D00174E0F /* Viewport.swift in Sources */,
 				20CBCD4B2B9CD36E008D01AA /* Injection+PropertyWrapper.swift in Sources */,
-				2072183A2BA0B6C4005A136A /* BottomMapDetailsView.swift in Sources */,
+				2072183A2BA0B6C4005A136A /* BottomSheetMapView.swift in Sources */,
 				20FCF76A2BAF2AA2004A5495 /* PrintLog.swift in Sources */,
 				20FCF7702BAF2B3B004A5495 /* Logging+Ext.swift in Sources */,
 				207AF3EB2B9E820A002AE17D /* UIViewController+Ext.swift in Sources */,
@@ -778,14 +775,13 @@
 				277A3CA72BEBD38700174E0F /* Geometry.swift in Sources */,
 				277A3CB32BEC63D000174E0F /* GooglePlaceResponse.swift in Sources */,
 				2748008E2BE70A9D00BF4883 /* CircularInfinityProgressView.swift in Sources */,
-				207EF40F2B9CB32500EF46CF /* GoogleMapsAPI.swift in Sources */,
+				207EF40F2B9CB32500EF46CF /* GooglePlacesAPI.swift in Sources */,
 				20C6B1A92BAE20DB00B113F3 /* FindInAreaButton.swift in Sources */,
 				2748008C2BE6A48200BF4883 /* Moya+Ext.swift in Sources */,
 				207EF3F82B9CAFF500EF46CF /* MapView.swift in Sources */,
 				277A3CB52BEC701100174E0F /* GooglePlacesAutocompleteResponse.swift in Sources */,
 				271B50C62BB8A35100C4C684 /* HProgressView.swift in Sources */,
 				271377BC2BD5AFC6005F026E /* AppDelegate.swift in Sources */,
-				277A3CBA2BED19D700174E0F /* CurrentOpeningHours.swift in Sources */,
 				20BA43CF2BAF574800795AB5 /* ToastView.swift in Sources */,
 				274507022BC8BC9E005ED545 /* ViewState.swift in Sources */,
 				277A3CB82BEC71C500174E0F /* Prediction.swift in Sources */,
