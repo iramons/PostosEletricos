@@ -22,6 +22,7 @@ struct BottomSheetMapView: View {
 
     var place: Place
     var isRoutePresenting: Bool
+    var travelTime: String?
     @State var lookAroundScene: MKLookAroundScene?
     var action: ((BottomMapDetailsViewActionType) -> Void)
 
@@ -48,14 +49,25 @@ struct BottomSheetMapView: View {
 
             ScrollView(.vertical) {
                 VStack(alignment: .leading, spacing: .zero) {
-                    Text(place.opened ? "Aberto agora" : "Fechado")
-                        .font(.custom("Roboto-Black", size: 13))
-                        .padding(.vertical, 4)
-                        .padding(.horizontal, 8)
-                        .background(place.opened ? .accent : .red)
-                        .foregroundStyle(.white)
-                        .clipShape(.capsule)
-                        .padding(.bottom, 2)
+                    HStack {
+                        Text(place.opened ? "Aberto agora" : "Fechado")
+                            .font(.custom("Roboto-Black", size: 13))
+                            .padding(.vertical, 4)
+                            .padding(.horizontal, 8)
+                            .background(place.opened ? .accent : .red)
+                            .foregroundStyle(.white)
+                            .clipShape(.capsule)
+                            .padding(.bottom, 2)
+
+                        if isRoutePresenting, let travelTime {
+                            Text("Tempo estimado: ∼\(travelTime)")
+                                .multilineTextAlignment(.leading)
+                                .minimumScaleFactor(0.5)
+                                .font(.custom("Roboto-Bold", size: 14))
+                                .foregroundStyle(.gray)
+                        }
+                    }
+                    .padding(.trailing, 60)
 
                     Text(place.name)
                         .multilineTextAlignment(.leading)
@@ -98,7 +110,7 @@ struct BottomSheetMapView: View {
                     }
 
                     Divider()
-                        .foregroundStyle(.gray.gradient)
+                        .foregroundStyle(.gray)
                         .padding(.vertical, 6)
 
                     HStack(alignment: .top, spacing: 10) {

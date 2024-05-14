@@ -88,7 +88,7 @@ class MapViewModel: ObservableObject {
     }
 
     func onDismissBottomSheet() {
-        guard selectedID != nil else { return }
+        guard selectedID != nil, !showRouteOptions else { return }
 
         deselectPlace()
 
@@ -144,13 +144,21 @@ class MapViewModel: ObservableObject {
 
     @Published var route: MKRoute? {
         didSet {
-            if route != nil {
+            let hasRoute = route != nil
+
+            withAnimation {
+                presentationDetentionSelection = hasRoute ? .fraction(0.15) : .fraction(0.3)
+            }
+
+            if hasRoute {
                 updateCameraPositionForRoute()
             }
         }
     }
 
-    var isRoutePresenting: Bool { route != nil }
+    var isRoutePresenting: Bool {
+        route != nil
+    }
 
     func getDirections(to destination: CLLocationCoordinate2D?) {
         guard let userCoordinate else { return }
@@ -182,6 +190,9 @@ class MapViewModel: ObservableObject {
     @Published var distance: CLLocationDistance = CLLocationDistance(3000)
     @Published var lastRegion: MKCoordinateRegion?
     @Published var lastContext: MapCameraUpdateContext?
+    @Published var presentationDetentionSelection: PresentationDetent = .fraction(0.3)
+
+
 
     func updateDistance(with context: MapCameraUpdateContext) {
         distance = context.camera.distance / 3.8

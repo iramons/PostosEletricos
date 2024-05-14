@@ -63,7 +63,7 @@ struct MapView: View {
                 map
             }
         }
-        .background(Color(colorScheme == .light ? .white : .darknessGray))
+        .background(.regularMaterial)
         .navigationBarTitleDisplayMode(.automatic)
         .navigationTitle("Postos Elétricos")
         .searchable(text: $viewModel.searchText)
@@ -123,6 +123,7 @@ struct MapView: View {
                     BottomSheetMapView(
                         place: selectedPlace,
                         isRoutePresenting: viewModel.isRoutePresenting,
+                        travelTime: viewModel.travelTime,
                         action: { type in
                             switch type {
                             case .close: viewModel.onBottomSheetCloseButtonTap()
@@ -132,7 +133,7 @@ struct MapView: View {
                     )
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                     .presentationCornerRadius(20)
-                    .presentationDetents(viewModel.isRoutePresenting ? [.fraction(0.15)] : [.fraction(0.3), .medium, .large])
+                    .presentationDetents([.fraction(0.15), .fraction(0.3), .medium, .large], selection: $viewModel.presentationDetentionSelection)
                     .presentationDragIndicator(.visible)
                     .presentationBackground(.regularMaterial.shadow(.drop(radius: 4)))
                     .presentationBackgroundInteraction(.enabled(upThrough: .medium))
@@ -144,18 +145,22 @@ struct MapView: View {
                 Button(MapApp.apple.title) { 
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     MapApp.apple.open(coordinate: coordinate)
+                    viewModel.onDismissRouteOptions()
                 }
                 Button(MapApp.googleMaps.title) {
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     MapApp.googleMaps.open(coordinate: coordinate)
+                    viewModel.onDismissRouteOptions()
                 }
                 Button(MapApp.waze.title) {
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     MapApp.waze.open(coordinate: coordinate)
+                    viewModel.onDismissRouteOptions()
                 }
                 Button(MapApp.uber.title) {
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     MapApp.uber.open(coordinate: coordinate, address: viewModel.selectedPlace?.vicinity ?? "")
+                    viewModel.onDismissRouteOptions()
                 }
                 Button("Apenas visualizar") {
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
