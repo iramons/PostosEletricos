@@ -57,11 +57,8 @@ struct MapView: View {
 
     private var content: some View {
         ZStack(alignment: .top) {
-//            findInAreaButton
-
-            VStack(spacing: .zero) {
-                map
-            }
+            findInAreaButton
+            map
         }
         .background(.regularMaterial)
         .navigationBarTitleDisplayMode(.automatic)
@@ -180,7 +177,8 @@ struct MapView: View {
             withAnimation {
                 viewModel.showFindInAreaButton = false
             }
-            guard let center = viewModel.position.region?.center else { return }
+            
+            guard let center = viewModel.lastRegion?.center else { return }
 
             viewModel.fetchStationsFromGooglePlaces(in: center) { items in
                 guard let items else { return }
@@ -189,7 +187,8 @@ struct MapView: View {
                 }
             }
         })
-        .opacity(viewModel.shouldShowFindInAreaButton ? 0.9 : 0)
+        .opacity(viewModel.shouldShowFindInAreaButton ? 1 : 0)
+        .padding(6)
         .zIndex(1)
     }
 }
