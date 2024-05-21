@@ -268,7 +268,7 @@ struct BottomSheetMapView: View {
     )
 
     return ZStack {
-        MapView()
+        MapView(viewModel: MapViewModel())
 
         VStack {
             Spacer()

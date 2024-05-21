@@ -18,9 +18,7 @@ struct SuggestionsListView: View {
     var body: some View {
         ForEach(viewModel.placesFromSearch, id: \.id) { place in
             Button(place.name) {
-                withAnimation {
-                    dismissSearch()
-                }
+                withAnimation { dismissSearch() }
 
                 viewModel.onDismissSearch()
 
@@ -34,16 +32,9 @@ struct SuggestionsListView: View {
         guard let placeID = place.placeID else { return }
         
         viewModel.fetchPlace(placeID: placeID) { place in
-            
             if let coordinate = place?.coordinate {
-                viewModel.updateCameraPosition(forCoordinate: coordinate)
-                
-                viewModel.fetchStationsFromGooglePlaces(in: coordinate) { items in
-                    guard let items else { return }
-                    viewModel.getMapItemsRegion(places: items) { region in
-                        viewModel.updateCameraPosition(forRegion: region)
-                    }
-                }
+                viewModel.updateCameraPosition(forCoordinate: coordinate, withSpan: .init(latitudeDelta: CLLocationDegrees(0.005), longitudeDelta: CLLocationDegrees(0.005)))
+                viewModel.fetchStationsFromGooglePlaces(in: coordinate, radius: CLLocationDistance(300)) { _ in }
             }
         }
     }

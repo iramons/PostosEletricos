@@ -2,24 +2,31 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>comgooglemaps</string>
+		<string>comgooglemaps-x-callback</string>
+		<string>waze</string>
+		<string>uber</string>
+	</array>
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_pulse._tcp</string>
 	</array>
 	<key>UIAppFonts</key>
 	<array>
-        <string>Roboto-Regular.ttf</string>
-        <string>Roboto-Italic.ttf</string>
-        <string>Roboto-Thin.ttf</string>
-        <string>Roboto-ThinItalic.ttf</string>
-        <string>Roboto-Light.ttf</string>
-        <string>Roboto-LightItalic.ttf</string>
-        <string>Roboto-Medium.ttf</string>
-        <string>Roboto-MediumItalic.ttf</string>
-        <string>Roboto-Bold.ttf</string>
-        <string>Roboto-BoldItalic.ttf</string>
-        <string>Roboto-Black.ttf</string>
-        <string>Roboto-BlackItalic.ttf</string>
+		<string>Roboto-Regular.ttf</string>
+		<string>Roboto-Italic.ttf</string>
+		<string>Roboto-Thin.ttf</string>
+		<string>Roboto-ThinItalic.ttf</string>
+		<string>Roboto-Light.ttf</string>
+		<string>Roboto-LightItalic.ttf</string>
+		<string>Roboto-Medium.ttf</string>
+		<string>Roboto-MediumItalic.ttf</string>
+		<string>Roboto-Bold.ttf</string>
+		<string>Roboto-BoldItalic.ttf</string>
+		<string>Roboto-Black.ttf</string>
+		<string>Roboto-BlackItalic.ttf</string>
 		<string>RobotoCondensed-ThinItalic.ttf</string>
 		<string>RobotoCondensed-Thin.ttf</string>
 		<string>RobotoCondensed-SemiBoldItalic.ttf</string>
@@ -40,12 +47,9 @@
 		<string>RobotoCondensed-BlackItalic.ttf</string>
 		<string>CairoPlay-Regular.ttf</string>
 	</array>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>comgooglemaps</string>
-        <string>comgooglemaps-x-callback</string>
-        <string>waze</string>
-        <string>uber</string>
-    </array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
 </dict>
 </plist>

@@ -7,11 +7,22 @@
 
 import SwiftUI
 import Lottie
+import Resolver
 
 struct LaunchView: View {
 
-    @State private var showAppName: Bool = false
-    @Injected private var locationService: LocationService
+    @State private var showAppName: Bool = false {
+        didSet {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                withAnimation(.bouncy) { showMap.toggle() }
+            }
+        }
+    }
+
+    @State private var showMap: Bool = false
+//    @Injected private var locationService: LocationService
+
+    @ObservedObject var locationManager = LocationManager.shared
 
     var body: some View {
         ZStack {
@@ -39,8 +50,10 @@ struct LaunchView: View {
 
             VStack {
                 Spacer()
+
                 HStack {
                     Spacer()
+
                     LottieView(animation: .named("car-charging-station-anim"))
                         .playbackMode(.playing(.fromFrame(0, toFrame: 100, loopMode: .autoReverse)))
                         .resizable()
@@ -66,13 +79,9 @@ struct LaunchView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-
         }
         .ignoresSafeArea(.all)
         .background(.darknessGreen)
-        .task {
-            try? await startCurrentLocationUpdates()
-        }
         .onAppear {
             if !showAppName {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -80,6 +89,13 @@ struct LaunchView: View {
                         showAppName.toggle()
                     }
                 }
+            }
+        }
+        .fullScreenCover(isPresented: $showMap) {
+            if locationManager.isAuthorized || locationManager.isDenied {
+                MapView()
+            } else {
+                RequestLocationView()
             }
         }
     }
@@ -93,10 +109,6 @@ struct LaunchView: View {
         case 932...1366: return 310 // ipad Pro - 12.9 inch
         default: return 200 // iphone 11
         }
-    }
-
-    func startCurrentLocationUpdates() async throws {
-        try? await locationService.startCurrentLocationUpdates()
     }
 }
 

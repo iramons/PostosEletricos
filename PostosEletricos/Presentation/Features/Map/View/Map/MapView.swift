@@ -23,10 +23,18 @@ struct MapView: View {
         NavigationStack {
             content
         }
-        .alert(isPresented: $viewModel.showLocationServicesAlert) {
+        .onAppear {
+            viewModel.checkLocationAuthorization()
+        }
+        .sheet(isPresented: $showPulseUI) {
+            NavigationView {
+                ConsoleView()
+            }
+        }
+        .alert(isPresented: $viewModel.showAlert) {
             Alert(
                 title: Text("Serviços de localização desabilitados"),
-                message: Text("Para utilizar este App é necessário habilitar o serviço de localização! Por favor habilite a localização para o App PostosEletricos nos Ajustes do iPhone."),
+                message: Text("Para uma melhor experiência é necessário permitir que o Postos Elétricos tenha acesso a sua localização nos ajustes do iPhone."),
                 primaryButton: .default(Text("Ajustes")) {
                     /// Direct users to the app's settings
                     if let url = URL(string: UIApplication.openSettingsURLString),
@@ -36,11 +44,6 @@ struct MapView: View {
                 },
                 secondaryButton: .cancel()
             )
-        }
-        .sheet(isPresented: $showPulseUI) {
-            NavigationView {
-                ConsoleView()
-            }
         }
         .onShakeGesture {
             withAnimation {
@@ -72,8 +75,6 @@ struct MapView: View {
     private var map: some View {
         Map(position: $viewModel.position, selection: $viewModel.selectedID) {
             UserAnnotation()
-                .mapOverlayLevel(level: .aboveLabels)
-                .annotationTitles(.visible)
 
             ForEach(viewModel.places, id: \.id) { place in
                 if let coordinate = place.coordinate {

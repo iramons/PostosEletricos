@@ -35,8 +35,7 @@
 		20C5ED622BA9EC640092AB11 /* charger-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 20C5ED612BA9EC640092AB11 /* charger-anim.json */; };
 		20C6B1A92BAE20DB00B113F3 /* FindInAreaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C6B1A82BAE20DA00B113F3 /* FindInAreaButton.swift */; };
 		20CBCD462B9CBE1C008D01AA /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */; };
-		20CBCD482B9CD334008D01AA /* Injection+Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBCD472B9CD334008D01AA /* Injection+Services.swift */; };
-		20CBCD4B2B9CD36E008D01AA /* Injection+PropertyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBCD4A2B9CD36E008D01AA /* Injection+PropertyWrapper.swift */; };
+		20CBCD482B9CD334008D01AA /* AppDelegate+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBCD472B9CD334008D01AA /* AppDelegate+Injection.swift */; };
 		20FCF7632BAF1E33004A5495 /* Pulse in Frameworks */ = {isa = PBXBuildFile; productRef = 20FCF7622BAF1E33004A5495 /* Pulse */; };
 		20FCF7652BAF1E33004A5495 /* PulseUI in Frameworks */ = {isa = PBXBuildFile; productRef = 20FCF7642BAF1E33004A5495 /* PulseUI */; };
 		20FCF7682BAF2361004A5495 /* ShakeDevice+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FCF7672BAF2361004A5495 /* ShakeDevice+Ext.swift */; };
@@ -98,6 +97,10 @@
 		277A3CB82BEC71C500174E0F /* Prediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB72BEC71C500174E0F /* Prediction.swift */; };
 		2784EF682BD5886B00F485CC /* car-charging-station-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF672BD5886B00F485CC /* car-charging-station-anim.json */; };
 		2784EF6A2BD5A22900F485CC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF692BD5A22900F485CC /* Colors.xcassets */; };
+		27AD24E22BF8EE5D007A3A42 /* OriginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AD24E12BF8EE5D007A3A42 /* OriginFlow.swift */; };
+		27AD24E52BFA8D65007A3A42 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AD24E42BFA8D65007A3A42 /* LocationManager.swift */; };
+		27DB53DE2BF5857200897B41 /* RequestLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DB53DD2BF5857200897B41 /* RequestLocationView.swift */; };
+		27DB53E82BF669C400897B41 /* Resolver in Frameworks */ = {isa = PBXBuildFile; productRef = 27DB53E72BF669C400897B41 /* Resolver */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -124,8 +127,7 @@
 		20C5ED612BA9EC640092AB11 /* charger-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "charger-anim.json"; sourceTree = "<group>"; };
 		20C6B1A82BAE20DA00B113F3 /* FindInAreaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindInAreaButton.swift; sourceTree = "<group>"; };
 		20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
-		20CBCD472B9CD334008D01AA /* Injection+Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Injection+Services.swift"; sourceTree = "<group>"; };
-		20CBCD4A2B9CD36E008D01AA /* Injection+PropertyWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Injection+PropertyWrapper.swift"; sourceTree = "<group>"; };
+		20CBCD472B9CD334008D01AA /* AppDelegate+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Injection.swift"; sourceTree = "<group>"; };
 		20FCF7662BAF2140004A5495 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		20FCF7672BAF2361004A5495 /* ShakeDevice+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShakeDevice+Ext.swift"; sourceTree = "<group>"; };
 		20FCF7692BAF2AA2004A5495 /* PrintLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintLog.swift; sourceTree = "<group>"; };
@@ -184,6 +186,9 @@
 		277A3CB72BEC71C500174E0F /* Prediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prediction.swift; sourceTree = "<group>"; };
 		2784EF672BD5886B00F485CC /* car-charging-station-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "car-charging-station-anim.json"; sourceTree = "<group>"; };
 		2784EF692BD5A22900F485CC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		27AD24E12BF8EE5D007A3A42 /* OriginFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginFlow.swift; sourceTree = "<group>"; };
+		27AD24E42BFA8D65007A3A42 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		27DB53DD2BF5857200897B41 /* RequestLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestLocationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +198,7 @@
 			files = (
 				20FCF7732BAF2B5B004A5495 /* Logging in Frameworks */,
 				207EF3FD2B9CB08900EF46CF /* Moya in Frameworks */,
+				27DB53E82BF669C400897B41 /* Resolver in Frameworks */,
 				207EF3FB2B9CB08900EF46CF /* CombineMoya in Frameworks */,
 				207EF4012B9CB08900EF46CF /* RxMoya in Frameworks */,
 				20FCF7632BAF1E33004A5495 /* Pulse in Frameworks */,
@@ -271,6 +277,7 @@
 			children = (
 				20C5ED602BA9E9A60092AB11 /* Launch */,
 				2031333E2B9D040B0093CDC2 /* Map */,
+				27AD24E32BF96EC9007A3A42 /* RequestLocation */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -323,6 +330,7 @@
 			isa = PBXGroup;
 			children = (
 				2031333C2B9CFF470093CDC2 /* LocationService.swift */,
+				27AD24E42BFA8D65007A3A42 /* LocationManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -440,8 +448,7 @@
 		20CBCD492B9CD338008D01AA /* DI */ = {
 			isa = PBXGroup;
 			children = (
-				20CBCD472B9CD334008D01AA /* Injection+Services.swift */,
-				20CBCD4A2B9CD36E008D01AA /* Injection+PropertyWrapper.swift */,
+				20CBCD472B9CD334008D01AA /* AppDelegate+Injection.swift */,
 			);
 			path = DI;
 			sourceTree = "<group>";
@@ -552,6 +559,7 @@
 			children = (
 				20C0EC4B2BAE3A81009C52FF /* FetchState.swift */,
 				274507012BC8BC9E005ED545 /* ViewState.swift */,
+				27AD24E12BF8EE5D007A3A42 /* OriginFlow.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -606,6 +614,14 @@
 			path = GooglePlaces;
 			sourceTree = "<group>";
 		};
+		27AD24E32BF96EC9007A3A42 /* RequestLocation */ = {
+			isa = PBXGroup;
+			children = (
+				27DB53DD2BF5857200897B41 /* RequestLocationView.swift */,
+			);
+			path = RequestLocation;
+			sourceTree = "<group>";
+		};
 		27D1511D2BC31EC2002E4EBD /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -651,6 +667,7 @@
 				20FCF7642BAF1E33004A5495 /* PulseUI */,
 				20FCF7722BAF2B5B004A5495 /* Logging */,
 				20FCF7752BAF2B6D004A5495 /* PulseLogHandler */,
+				27DB53E72BF669C400897B41 /* Resolver */,
 			);
 			productName = PostosEletricos;
 			productReference = 20002FED2B01A149005C7329 /* PostosEletricos.app */;
@@ -688,6 +705,7 @@
 				20FCF7612BAF1E33004A5495 /* XCRemoteSwiftPackageReference "Pulse" */,
 				20FCF7712BAF2B5B004A5495 /* XCRemoteSwiftPackageReference "swift-log" */,
 				20FCF7742BAF2B6D004A5495 /* XCRemoteSwiftPackageReference "PulseLogHandler" */,
+				27DB53E62BF669C400897B41 /* XCRemoteSwiftPackageReference "Resolver" */,
 			);
 			productRefGroup = 20002FEE2B01A149005C7329 /* Products */;
 			projectDirPath = "";
@@ -754,12 +772,13 @@
 			files = (
 				277A3CAF2BEBD3E800174E0F /* PlusCode.swift in Sources */,
 				20BA43D82BAF585500795AB5 /* View+Ext.swift in Sources */,
+				27AD24E22BF8EE5D007A3A42 /* OriginFlow.swift in Sources */,
 				277A3CAD2BEBD3E000174E0F /* Photo.swift in Sources */,
 				207EF4112B9CB35000EF46CF /* NetworkConfig.swift in Sources */,
 				20BA43D52BAF57AA00795AB5 /* ToastModifier.swift in Sources */,
 				277A3CB12BEBD42D00174E0F /* Viewport.swift in Sources */,
-				20CBCD4B2B9CD36E008D01AA /* Injection+PropertyWrapper.swift in Sources */,
 				2072183A2BA0B6C4005A136A /* BottomSheetMapView.swift in Sources */,
+				27DB53DE2BF5857200897B41 /* RequestLocationView.swift in Sources */,
 				20FCF76A2BAF2AA2004A5495 /* PrintLog.swift in Sources */,
 				20FCF7702BAF2B3B004A5495 /* Logging+Ext.swift in Sources */,
 				207AF3EB2B9E820A002AE17D /* UIViewController+Ext.swift in Sources */,
@@ -768,7 +787,7 @@
 				20BA43CA2BAF3FB400795AB5 /* SecretsManager.swift in Sources */,
 				207EF4132B9CB36F00EF46CF /* GooglePlacesResponse.swift in Sources */,
 				20FCF7682BAF2361004A5495 /* ShakeDevice+Ext.swift in Sources */,
-				20CBCD482B9CD334008D01AA /* Injection+Services.swift in Sources */,
+				20CBCD482B9CD334008D01AA /* AppDelegate+Injection.swift in Sources */,
 				273945872BE8343400A1CE4B /* MapKit+Ext.swift in Sources */,
 				207EF3F62B9CAFD600EF46CF /* SecretsKeys.swift in Sources */,
 				20C0EC4C2BAE3A81009C52FF /* FetchState.swift in Sources */,
@@ -787,6 +806,7 @@
 				277A3CB82BEC71C500174E0F /* Prediction.swift in Sources */,
 				277A3CA92BEBD3BA00174E0F /* Location.swift in Sources */,
 				207AF3E22B9E804F002AE17D /* MapApps.swift in Sources */,
+				27AD24E52BFA8D65007A3A42 /* LocationManager.swift in Sources */,
 				20002FF12B01A149005C7329 /* PostosEletricosApp.swift in Sources */,
 				20FCF76C2BAF2AC7004A5495 /* LogHandler.swift in Sources */,
 				272F0A642BD5D79F00EE280F /* SuggestionsListView.swift in Sources */,
@@ -936,7 +956,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Postos Elétricos";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Network usage required for debugging purposes";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Preciso da sua localizacao quando Estiver Usando o APP";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Utilizamos sua localização para mostrar os postos mais próximos.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -970,7 +990,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Postos Elétricos";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Network usage required for debugging purposes";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Preciso da sua localizacao quando Estiver Usando o APP";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Utilizamos sua localização para mostrar os postos mais próximos.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1061,6 +1081,14 @@
 				minimumVersion = 4.0.1;
 			};
 		};
+		27DB53E62BF669C400897B41 /* XCRemoteSwiftPackageReference "Resolver" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hmlongco/Resolver";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1113,6 +1141,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 20FCF7742BAF2B6D004A5495 /* XCRemoteSwiftPackageReference "PulseLogHandler" */;
 			productName = PulseLogHandler;
+		};
+		27DB53E72BF669C400897B41 /* Resolver */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27DB53E62BF669C400897B41 /* XCRemoteSwiftPackageReference "Resolver" */;
+			productName = Resolver;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -1,5 +1,5 @@
 {
-  "originHash" : "efc309ce32e5c22f6deb84b934d7a6e99b13cc24dbff00bc9a61bac93c0f88a2",
+  "originHash" : "2be9da66a87c520a7e4ac99ac2aded8d7b020911ef9d0b46d97d05895fa122d9",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -62,6 +62,15 @@
       "state" : {
         "revision" : "c43bae3dac73fdd3cb906bd5a1914686ca71ed3c",
         "version" : "6.7.0"
+      }
+    },
+    {
+      "identity" : "resolver",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hmlongco/Resolver",
+      "state" : {
+        "revision" : "47602af1ac8d7952299fbd0bda3cfbd12cf3a8ca",
+        "version" : "1.5.1"
       }
     },
     {
