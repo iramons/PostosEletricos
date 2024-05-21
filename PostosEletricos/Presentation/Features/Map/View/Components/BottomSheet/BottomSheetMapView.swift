@@ -113,8 +113,8 @@ struct BottomSheetMapView: View {
                         .foregroundStyle(.gray)
                         .padding(.vertical, 6)
 
-                    HStack(alignment: .top, spacing: 10) {
-                        VStack(alignment: .leading, spacing: 10) {
+                    HStack(alignment: .top, spacing: 4) {
+                        VStack(alignment: .leading, spacing: 4) {
                             /// phoneNumber
                             if let phoneNumber = place.phoneNumber {
                                 VStack(alignment: .leading, spacing: Constants.middleTitleDetailsSpacing) {
@@ -129,6 +129,10 @@ struct BottomSheetMapView: View {
                                         .font(.custom("Roboto-Medium", size: 15))
                                         .foregroundColor(.blue)
                                 }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(8)
+                                .background()
+                                .clipShape(.rect(cornerRadius: 12))
                             }
 
                             /// website
@@ -140,16 +144,23 @@ struct BottomSheetMapView: View {
                                         Text("Website")
                                             .multilineTextAlignment(.leading)
                                             .font(.custom("Roboto-Medium", size: 14))
+                                            .minimumScaleFactor(0.8)
+                                            .lineLimit(1)
                                     }
 
                                     Link(website, destination: URL(string: website)!)
                                         .font(.custom("Roboto-Medium", size: 15))
+                                        .multilineTextAlignment(.leading)
+                                        .minimumScaleFactor(0.8)
+                                        .lineLimit(1)
                                         .foregroundColor(.blue)
                                 }
+                                .frame(maxWidth: .infinity)
+                                .padding(8)
+                                .background()
+                                .clipShape(.rect(cornerRadius: 12))
                             }
                         }
-
-                        Spacer()
 
                         /// schedules
                         if let periods = place.openingHours?.periods {
@@ -161,7 +172,7 @@ struct BottomSheetMapView: View {
                                         .font(.custom("Roboto-Medium", size: 14))
                                 }
 
-                                let columns = [GridItem(.fixed(100)), GridItem(.fixed(50)), GridItem(.fixed(50))]
+                                let columns = [GridItem(.fixed(96)), GridItem(.fixed(40)), GridItem(.fixed(40))]
 
                                 LazyVGrid(columns: columns, alignment: .leading, spacing: .zero) {
                                     ForEach(periods, id: \.self) { period in
@@ -182,24 +193,27 @@ struct BottomSheetMapView: View {
                                     }
                                 }
                             }
+                            .padding(8)
+                            .background()
+                            .clipShape(.rect(cornerRadius: 12))
                         }
                     }
                     .padding(.top, 4)
 
-                    HStack(alignment: .bottom) {
-                        if lookAroundScene != nil {
-                            LookAroundPreview(
-                                initialScene: lookAroundScene,
-                                badgePosition: .bottomTrailing
-                            )
-                            .frame(height: 160)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                            .clipShape(RoundedRectangle(cornerRadius: 16))
-                            .shadow(radius: 4)
-                        }
+                    if lookAroundScene != nil {
+                        LookAroundPreview(
+                            initialScene: lookAroundScene,
+                            badgePosition: .bottomTrailing
+                        )
+                        .frame(height: 100)
+                        .frame(maxWidth: .infinity)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .padding(.top, 16)
+                        .shadow(radius: 4)
                     }
                 }
-                .padding(16)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 16)
             }
         }
         .onChange(of: place) {
@@ -264,11 +278,11 @@ struct BottomSheetMapView: View {
             ]
         ),
         phoneNumber: "(21) 9999-9999",
-        website: "https://github.com/iramons"
+        website: "https://github.com/iramons.comfddfdf"
     )
 
     return ZStack {
-        MapView(viewModel: MapViewModel())
+//        MapView(viewModel: MapViewModel())
 
         VStack {
             Spacer()
