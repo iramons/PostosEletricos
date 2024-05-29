@@ -97,6 +97,8 @@
 		277A3CB82BEC71C500174E0F /* Prediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB72BEC71C500174E0F /* Prediction.swift */; };
 		2784EF682BD5886B00F485CC /* car-charging-station-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF672BD5886B00F485CC /* car-charging-station-anim.json */; };
 		2784EF6A2BD5A22900F485CC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF692BD5A22900F485CC /* Colors.xcassets */; };
+		27A698462BFED34A007A6E79 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 27A698452BFED34A007A6E79 /* GoogleMobileAds */; };
+		27A698482BFEDE11007A6E79 /* BannerAdsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A698472BFEDE11007A6E79 /* BannerAdsView.swift */; };
 		27AD24E22BF8EE5D007A3A42 /* OriginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AD24E12BF8EE5D007A3A42 /* OriginFlow.swift */; };
 		27AD24E52BFA8D65007A3A42 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AD24E42BFA8D65007A3A42 /* LocationManager.swift */; };
 		27DB53DE2BF5857200897B41 /* RequestLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DB53DD2BF5857200897B41 /* RequestLocationView.swift */; };
@@ -186,6 +188,7 @@
 		277A3CB72BEC71C500174E0F /* Prediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prediction.swift; sourceTree = "<group>"; };
 		2784EF672BD5886B00F485CC /* car-charging-station-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "car-charging-station-anim.json"; sourceTree = "<group>"; };
 		2784EF692BD5A22900F485CC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		27A698472BFEDE11007A6E79 /* BannerAdsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdsView.swift; sourceTree = "<group>"; };
 		27AD24E12BF8EE5D007A3A42 /* OriginFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginFlow.swift; sourceTree = "<group>"; };
 		27AD24E42BFA8D65007A3A42 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		27DB53DD2BF5857200897B41 /* RequestLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestLocationView.swift; sourceTree = "<group>"; };
@@ -196,6 +199,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27A698462BFED34A007A6E79 /* GoogleMobileAds in Frameworks */,
 				20FCF7732BAF2B5B004A5495 /* Logging in Frameworks */,
 				207EF3FD2B9CB08900EF46CF /* Moya in Frameworks */,
 				27DB53E82BF669C400897B41 /* Resolver in Frameworks */,
@@ -534,6 +538,7 @@
 			isa = PBXGroup;
 			children = (
 				207218392BA0B6C4005A136A /* BottomSheetMapView.swift */,
+				27A698472BFEDE11007A6E79 /* BannerAdsView.swift */,
 			);
 			path = BottomSheet;
 			sourceTree = "<group>";
@@ -668,6 +673,7 @@
 				20FCF7722BAF2B5B004A5495 /* Logging */,
 				20FCF7752BAF2B6D004A5495 /* PulseLogHandler */,
 				27DB53E72BF669C400897B41 /* Resolver */,
+				27A698452BFED34A007A6E79 /* GoogleMobileAds */,
 			);
 			productName = PostosEletricos;
 			productReference = 20002FED2B01A149005C7329 /* PostosEletricos.app */;
@@ -706,6 +712,7 @@
 				20FCF7712BAF2B5B004A5495 /* XCRemoteSwiftPackageReference "swift-log" */,
 				20FCF7742BAF2B6D004A5495 /* XCRemoteSwiftPackageReference "PulseLogHandler" */,
 				27DB53E62BF669C400897B41 /* XCRemoteSwiftPackageReference "Resolver" */,
+				27A698442BFED34A007A6E79 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = 20002FEE2B01A149005C7329 /* Products */;
 			projectDirPath = "";
@@ -806,6 +813,7 @@
 				277A3CB82BEC71C500174E0F /* Prediction.swift in Sources */,
 				277A3CA92BEBD3BA00174E0F /* Location.swift in Sources */,
 				207AF3E22B9E804F002AE17D /* MapApps.swift in Sources */,
+				27A698482BFEDE11007A6E79 /* BannerAdsView.swift in Sources */,
 				27AD24E52BFA8D65007A3A42 /* LocationManager.swift in Sources */,
 				20002FF12B01A149005C7329 /* PostosEletricosApp.swift in Sources */,
 				20FCF76C2BAF2AC7004A5495 /* LogHandler.swift in Sources */,
@@ -1081,6 +1089,14 @@
 				minimumVersion = 4.0.1;
 			};
 		};
+		27A698442BFED34A007A6E79 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.5.0;
+			};
+		};
 		27DB53E62BF669C400897B41 /* XCRemoteSwiftPackageReference "Resolver" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hmlongco/Resolver";
@@ -1141,6 +1157,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 20FCF7742BAF2B6D004A5495 /* XCRemoteSwiftPackageReference "PulseLogHandler" */;
 			productName = PulseLogHandler;
+		};
+		27A698452BFED34A007A6E79 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27A698442BFED34A007A6E79 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 		27DB53E72BF669C400897B41 /* Resolver */ = {
 			isa = XCSwiftPackageProductDependency;

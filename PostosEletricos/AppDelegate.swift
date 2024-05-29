@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import GooglePlaces
 import Resolver
+import GoogleMobileAds
 
 #if DEBUG
 import Pulse
@@ -24,6 +25,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
                      launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         configureGooglePlaces()
         enablePulseLogs()
+
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+
 //
 //        /// If location updates were previously active, restart them after the background launch.
 //        if locationService.updatesStarted {

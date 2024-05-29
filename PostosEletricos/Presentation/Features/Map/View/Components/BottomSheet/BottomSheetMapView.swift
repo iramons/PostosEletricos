@@ -23,6 +23,7 @@ struct BottomSheetMapView: View {
     var place: Place
     var isRoutePresenting: Bool
     var travelTime: String?
+    var showBannerAds: Bool
     @State var lookAroundScene: MKLookAroundScene?
     var action: ((BottomMapDetailsViewActionType) -> Void)
 
@@ -172,23 +173,26 @@ struct BottomSheetMapView: View {
                                         .font(.custom("Roboto-Medium", size: 14))
                                 }
 
-                                let columns = [GridItem(.fixed(96)), GridItem(.fixed(40)), GridItem(.fixed(40))]
+                                let columns = [GridItem(.fixed(100)), GridItem(.fixed(50)), GridItem(.fixed(50))]
 
                                 LazyVGrid(columns: columns, alignment: .leading, spacing: .zero) {
                                     ForEach(periods, id: \.self) { period in
                                         Text(period.dayOfWeek())
                                             .multilineTextAlignment(.leading)
                                             .font(.custom("Roboto-Medium", size: 15))
+                                            .minimumScaleFactor(0.8)
                                             .foregroundStyle(.secondary)
 
                                         Text(period.formattedOpenTime())
                                             .multilineTextAlignment(.leading)
                                             .font(.custom("Roboto-Medium", size: 15))
+                                            .minimumScaleFactor(0.8)
                                             .foregroundStyle(.secondary)
 
                                         Text(period.formattedCloseTime())
                                             .multilineTextAlignment(.leading)
                                             .font(.custom("Roboto-Medium", size: 15))
+                                            .minimumScaleFactor(0.8)
                                             .foregroundStyle(.secondary)
                                     }
                                 }
@@ -211,6 +215,15 @@ struct BottomSheetMapView: View {
                         .padding(.top, 16)
                         .shadow(radius: 4)
                     }
+
+                    if showBannerAds {
+                        BannerAdsView()
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .frame(height: 60)
+                            .clipShape(.rect(cornerRadius: 12))
+                            .padding(.top, 16)
+                    }
+
                 }
                 .padding(.horizontal, 8)
                 .padding(.vertical, 16)
@@ -290,6 +303,7 @@ struct BottomSheetMapView: View {
             BottomSheetMapView(
                 place: place,
                 isRoutePresenting: false,
+                showBannerAds: true,
                 action: { _ in }
             )
         }

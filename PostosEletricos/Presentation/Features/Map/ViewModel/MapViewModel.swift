@@ -11,6 +11,7 @@ import SwiftUI
 import Moya
 import Combine
 import Resolver
+import AppTrackingTransparency
 
 @MainActor
 class MapViewModel: ObservableObject {
@@ -34,7 +35,8 @@ class MapViewModel: ObservableObject {
     @Published var showFindInAreaButton: Bool = false
     @Published var placesInFindedArea: [Place]?
     @Published var placesFromSearch: [Place] = []
-
+    @Published var shouldShowBannerAds: Bool = false
+    
     @Published var searchText: String = "" {
         didSet { findAutocomplete() }
     }
@@ -230,6 +232,16 @@ class MapViewModel: ObservableObject {
 
     func checkLocationAuthorization() {
         locationManager.handleAuthorizationStatus()
+    }
+
+    func requestAppTrackingAuthorizationIfNeeded() {
+        if ATTrackingManager.trackingAuthorizationStatus == .notDetermined {
+            DispatchQueue.main.async {
+                ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
+                    withAnimation { self.shouldShowBannerAds = (status == .authorized) }
+                })
+            }
+        }
     }
 
     // MARK: Private methods

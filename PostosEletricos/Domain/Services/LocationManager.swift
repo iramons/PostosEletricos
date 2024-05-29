@@ -50,19 +50,19 @@ final class LocationManager: NSObject, ObservableObject {
 
         switch currentStatus {
         case .notDetermined:
-            withAnimation { isAuthorized = false }
+            DispatchQueue.main.async { self.isAuthorized = false }
             /// Note: should not requestWhenInUseAuthorization() here
 
         case .restricted, .denied:
             locationManager.stopUpdatingLocation()
 
-            withAnimation {
-                isDenied = true
-                isAuthorized = false
+            DispatchQueue.main.async {
+                self.isDenied = true
+                self.isAuthorized = false
             }
 
             if currentStatus == lastAuthorizationStatus {
-                withAnimation { showSecondAlert = true }
+                DispatchQueue.main.async { self.showSecondAlert = true }
             }
 
         case .authorizedAlways, .authorizedWhenInUse:
@@ -72,10 +72,10 @@ final class LocationManager: NSObject, ObservableObject {
                 locationManager.startUpdatingHeading()
             }
 
-            withAnimation { isAuthorized = true }
+            DispatchQueue.main.async { self.isAuthorized = true }
 
         @unknown default:
-            withAnimation { isAuthorized = false }
+            DispatchQueue.main.async { self.isAuthorized = false }
             fatalError("Unhandled case in userLocation authorization status: \(currentStatus)")
         }
     }
@@ -142,7 +142,7 @@ extension LocationManager: CLLocationManagerDelegate {
 
         case .denied:
             printLog(.error, "Location services denied: \(clError.localizedDescription)", verbose: true)
-            withAnimation { showSecondAlert = true }
+            DispatchQueue.main.async { self.showSecondAlert = true }
 
         case .network:
             printLog(.error, "Network error: \(clError.localizedDescription)", verbose: true)

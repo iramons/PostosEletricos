@@ -11,6 +11,9 @@ import OSLog
 import Pulse
 import PulseUI
 
+import AdSupport
+import AppTrackingTransparency
+
 // MARK: MapView
 
 struct MapView: View {
@@ -111,36 +114,36 @@ struct MapView: View {
         .onChange(of: viewModel.selectedID) { _, newSelectedID in
             viewModel.updateSelectedPlace(withID: newSelectedID)
         }
+        .onChange(of: viewModel.showBottomSheet) {
+            viewModel.requestAppTrackingAuthorizationIfNeeded()
+        }
         .sheet(
             isPresented: $viewModel.showBottomSheet,
-            onDismiss: {
-                viewModel.onDismissBottomSheet()
-            },
+            onDismiss: { viewModel.onDismissBottomSheet() },
             content: {
                 if let selectedPlace = viewModel.selectedPlace {
                     BottomSheetMapView(
                         place: selectedPlace,
                         isRoutePresenting: viewModel.isRoutePresenting,
                         travelTime: viewModel.travelTime,
-                        action: { type in
+                        showBannerAds: viewModel.shouldShowBannerAds) { type in
                             switch type {
                             case .close: viewModel.onBottomSheetCloseButtonTap()
                             case .route: viewModel.onShowRouteTap()
                             }
                         }
-                    )
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                    .presentationCornerRadius(20)
-                    .presentationDetents([.fraction(0.15), .fraction(0.3), .medium, .large], selection: $viewModel.presentationDetentionSelection)
-                    .presentationDragIndicator(.visible)
-                    .presentationBackground(.regularMaterial.shadow(.drop(radius: 4)))
-                    .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                        .presentationCornerRadius(26)
+                        .presentationDetents([.fraction(0.15), .fraction(0.3), .medium, .fraction(0.8)], selection: $viewModel.presentationDetentionSelection)
+                        .presentationDragIndicator(.visible)
+                        .presentationBackground(.regularMaterial.shadow(.drop(radius: 4)))
+                        .presentationBackgroundInteraction(.enabled(upThrough: .medium))
                 }
             }
         )
         .confirmationDialog("Abrir com", isPresented: $viewModel.showRouteOptions, titleVisibility: .visible) {
             if let coordinate = viewModel.selectedPlace?.coordinate {
-                Button(MapApp.apple.title) { 
+                Button(MapApp.apple.title) {
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     MapApp.apple.open(coordinate: coordinate)
                     viewModel.onDismissRouteOptions()
@@ -178,7 +181,7 @@ struct MapView: View {
             withAnimation {
                 viewModel.showFindInAreaButton = false
             }
-            
+
             guard let center = viewModel.lastRegion?.center else { return }
 
             viewModel.fetchStationsFromGooglePlaces(in: center) { items in
