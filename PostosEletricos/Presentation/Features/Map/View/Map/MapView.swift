@@ -15,9 +15,32 @@ import AdSupport
 import AppTrackingTransparency
 import GoogleMobileAds
 
+import UIKit
+
 // MARK: MapView
 
 struct MapView: View {
+
+//    init() {
+//        // Customize navigation bar appearance
+//        let appearance = UINavigationBarAppearance()
+//        appearance.configureWithOpaqueBackground()
+//        appearance.backgroundColor = UIColor.systemBlue
+//
+//        appearance.largeTitleTextAttributes = [
+//            .foregroundColor: UIColor.red, // Set your desired title color
+//            .font: UIFont(name: "Roboto-Black", size: 24)! // Set your desired title font
+//        ]
+//
+//        appearance.titleTextAttributes = [
+//            .foregroundColor: UIColor.red, // Set your desired title color
+//            .font: UIFont(name: "Roboto-Black", size: 24)! // Set your desired title font
+//        ]
+//
+//        UINavigationBar.appearance().standardAppearance = appearance
+//        UINavigationBar.appearance().compactAppearance = appearance
+//        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+//    }
 
     @StateObject var viewModel = MapViewModel()
     @State private var showPulseUI: Bool = false
@@ -39,7 +62,7 @@ struct MapView: View {
         .alert(isPresented: $viewModel.showAlert) {
             Alert(
                 title: Text("Serviços de localização desabilitados"),
-                message: Text("Para uma melhor experiência é necessário permitir que o Postos Elétricos tenha acesso a sua localização nos ajustes do iPhone."),
+                message: Text("Para uma melhor experiência é necessário permitir que o \(Bundle.main.appName) tenha acesso a sua localização nos ajustes do iPhone."),
                 primaryButton: .default(Text("Ajustes")) {
                     /// Direct users to the app's settings
                     if let url = URL(string: UIApplication.openSettingsURLString),
@@ -67,7 +90,18 @@ struct MapView: View {
         }
         .background(.regularMaterial)
         .navigationBarTitleDisplayMode(.automatic)
-        .navigationTitle("Postos Elétricos")
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                VStack(alignment: .leading) {
+                    Text(Bundle.main.appName)
+                      .font(.custom("Roboto-Black", size: 34))
+                      .multilineTextAlignment(.leading)
+                      .foregroundColor(.primary)
+                      .padding(.top, 96)
+
+                }
+            }
+        }
         .searchable(text: $viewModel.searchText)
         .searchSuggestions {
             SuggestionsListView(viewModel: viewModel)
@@ -132,11 +166,7 @@ struct MapView: View {
                             }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                        .presentationCornerRadius(26)
                         .presentationDetents([.fraction(0.18), .fraction(0.3), .medium, .fraction(0.8)], selection: $viewModel.presentationDetentionSelection)
-                        .presentationDragIndicator(.visible)
-                        .presentationBackground(.regularMaterial.shadow(.drop(radius: 4)))
-                        .presentationBackgroundInteraction(.enabled(upThrough: .large))
                 }
             }
         )

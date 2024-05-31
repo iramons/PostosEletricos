@@ -20,13 +20,11 @@ struct LaunchView: View {
     }
 
     @State private var showMap: Bool = false
-//    @Injected private var locationService: LocationService
-
     @ObservedObject var locationManager = LocationManager.shared
 
     var body: some View {
         ZStack {
-            Text("Postos Elétricos")
+            Text(Bundle.main.appName)
                 .font(.custom("CairoPlay-Regular", size: 36))
                 .foregroundStyle(.darknessGreen)
                 .offset(y: showAppName ? -60 : 0)

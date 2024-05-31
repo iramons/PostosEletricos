@@ -85,6 +85,7 @@
 		274800A72BE8208A00BF4883 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2748009A2BE8208A00BF4883 /* Roboto-Bold.ttf */; };
 		274800A82BE8208A00BF4883 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2748009B2BE8208A00BF4883 /* Roboto-Medium.ttf */; };
 		274800A92BE8208A00BF4883 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2748009C2BE8208A00BF4883 /* LICENSE.txt */; };
+		27512B9B2C0A8B3700C821B0 /* Bundle+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27512B9A2C0A8B3700C821B0 /* Bundle+Ext.swift */; };
 		277A3CA42BEBD32C00174E0F /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CA32BEBD32C00174E0F /* Place.swift */; };
 		277A3CA72BEBD38700174E0F /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CA62BEBD38700174E0F /* Geometry.swift */; };
 		277A3CA92BEBD3BA00174E0F /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CA82BEBD3BA00174E0F /* Location.swift */; };
@@ -176,6 +177,7 @@
 		2748009A2BE8208A00BF4883 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		2748009B2BE8208A00BF4883 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		2748009C2BE8208A00BF4883 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		27512B9A2C0A8B3700C821B0 /* Bundle+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Ext.swift"; sourceTree = "<group>"; };
 		277A3CA32BEBD32C00174E0F /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		277A3CA62BEBD38700174E0F /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
 		277A3CA82BEBD3BA00174E0F /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 				20FCF7672BAF2361004A5495 /* ShakeDevice+Ext.swift */,
 				20BA43D72BAF585500795AB5 /* View+Ext.swift */,
 				273945862BE8343400A1CE4B /* MapKit+Ext.swift */,
+				27512B9A2C0A8B3700C821B0 /* Bundle+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -782,6 +785,7 @@
 				27AD24E22BF8EE5D007A3A42 /* OriginFlow.swift in Sources */,
 				277A3CAD2BEBD3E000174E0F /* Photo.swift in Sources */,
 				207EF4112B9CB35000EF46CF /* NetworkConfig.swift in Sources */,
+				27512B9B2C0A8B3700C821B0 /* Bundle+Ext.swift in Sources */,
 				20BA43D52BAF57AA00795AB5 /* ToastModifier.swift in Sources */,
 				277A3CB12BEBD42D00174E0F /* Viewport.swift in Sources */,
 				2072183A2BA0B6C4005A136A /* BottomSheetMapView.swift in Sources */,
