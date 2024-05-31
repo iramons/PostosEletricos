@@ -30,7 +30,7 @@ class MapViewModel: ObservableObject {
     @Published var distance: CLLocationDistance = CLLocationDistance(10000)
     @Published var lastRegion: MKCoordinateRegion?
     @Published var lastContext: MapCameraUpdateContext?
-    @Published var presentationDetentionSelection: PresentationDetent = .fraction(0.3)
+    @Published var presentationDetentionSelection: PresentationDetent = .fraction(0.18)
     @Published var showRouteOptions: Bool = false
     @Published var showFindInAreaButton: Bool = false
     @Published var placesInFindedArea: [Place]?
@@ -82,18 +82,44 @@ class MapViewModel: ObservableObject {
                 }
             }
             .store(in: &cancellables)
+
+        adCoordinator.$onDismissAd
+            .dropFirst()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] dismissed in
+                guard let self else { return }
+
+                if dismissed {
+                    showRouteOptions.toggle()
+                }
+            }
+            .store(in: &cancellables)
+
+        adCoordinator.$failedToLoadAd
+            .dropFirst()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] dismissed in
+                guard let self else { return }
+
+                if dismissed {
+                    showRouteOptions.toggle()
+                }
+            }
+            .store(in: &cancellables)
     }
 
     // MARK: - Selected Place
 
     func updateSelectedPlace(withID id: String?) {
         selectedPlace = places.first(where: { $0.id == id })
-
+        presentationDetentionSelection = .fraction(0.15)
         handleSelectedPlaceUpdated()
+        adCoordinator.loadAd()
     }
 
     func handleSelectedPlaceUpdated() {
         withAnimation { showBottomSheet = selectedPlace != nil }
+
 
         guard let selectedPlace else { return }
 
@@ -226,9 +252,16 @@ class MapViewModel: ObservableObject {
         if isRoutePresenting {
             route = nil
         } else {
-            showRouteOptions.toggle()
+            showAd()
         }
     }
+
+
+    private func showAd() {
+        adCoordinator.presentAd()
+    }
+
+    @Published private var adCoordinator = AdCoordinator()
 
     func checkLocationAuthorization() {
         locationManager.handleAuthorizationStatus()
@@ -307,7 +340,7 @@ class MapViewModel: ObservableObject {
 
     private func updatePresentationDetentionSelection() {
         withAnimation {
-            presentationDetentionSelection = isRoutePresenting ? .fraction(0.15) : .fraction(0.3)
+            presentationDetentionSelection = isRoutePresenting ? .fraction(0.18) : .fraction(0.3)
         }
     }
 

@@ -13,6 +13,7 @@ import PulseUI
 
 import AdSupport
 import AppTrackingTransparency
+import GoogleMobileAds
 
 // MARK: MapView
 
@@ -21,6 +22,7 @@ struct MapView: View {
     @StateObject var viewModel = MapViewModel()
     @State private var showPulseUI: Bool = false
     @Environment(\.colorScheme) var colorScheme
+    private var interstitial: GADInterstitialAd?
 
     var body: some View {
         NavigationStack {
@@ -49,10 +51,7 @@ struct MapView: View {
             )
         }
         .onShakeGesture {
-            withAnimation {
-                showPulseUI.toggle()
-            }
-
+            withAnimation { showPulseUI.toggle() }
             UIImpactFeedbackGenerator(style: .soft).impactOccurred()
         }
         .toast(
@@ -134,10 +133,10 @@ struct MapView: View {
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                         .presentationCornerRadius(26)
-                        .presentationDetents([.fraction(0.15), .fraction(0.3), .medium, .fraction(0.8)], selection: $viewModel.presentationDetentionSelection)
+                        .presentationDetents([.fraction(0.18), .fraction(0.3), .medium, .fraction(0.8)], selection: $viewModel.presentationDetentionSelection)
                         .presentationDragIndicator(.visible)
                         .presentationBackground(.regularMaterial.shadow(.drop(radius: 4)))
-                        .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+                        .presentationBackgroundInteraction(.enabled(upThrough: .large))
                 }
             }
         )
@@ -199,4 +198,54 @@ struct MapView: View {
 
 #Preview {
     MapView()
+}
+
+// MARK: AdCoordinator
+
+class AdCoordinator: NSObject, ObservableObject {
+    private var ad: GADInterstitialAd?
+    @Published var onDismissAd: Bool = false
+    @Published var failedToLoadAd: Bool = false
+
+    func loadAd() {
+        GADInterstitialAd.load(
+            withAdUnitID: "ca-app-pub-3940256099942544/4411468910", request: GADRequest()
+        ) { ad, error in
+            if let error {
+                self.failedToLoadAd = true
+                return printLog(.error, String(describing: error), verbose: true)
+            }
+
+            self.ad = ad
+            self.ad?.fullScreenContentDelegate = self
+        }
+    }
+
+    func presentAd() {
+        guard let ad else {
+            return print("Ad wasn't ready")
+        }
+        ad.present(fromRootViewController: nil)
+    }
+}
+
+// MARK: GADFullScreenContentDelegate
+
+extension AdCoordinator: GADFullScreenContentDelegate {
+    func adDidRecordImpression(_ ad: GADFullScreenPresentingAd) {}
+
+    func adDidRecordClick(_ ad: GADFullScreenPresentingAd) {}
+
+    func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
+        onDismissAd = true
+    }
+
+    func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {}
+
+    func adWillDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {}
+
+    func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        onDismissAd = true
+        loadAd()
+    }
 }
