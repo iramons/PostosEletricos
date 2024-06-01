@@ -116,7 +116,7 @@ public enum MapApps {
 // MARK: Refactored
 
 enum MapApp: CaseIterable {
-    case apple, googleMaps, uber, waze
+    case apple, googleMaps, waze, uber
 
     var title: String {
         switch self {
@@ -171,40 +171,5 @@ enum MapApp: CaseIterable {
     func open(coordinate: CLLocationCoordinate2D, address: String = "") {
         guard let url = url(for: coordinate, address: address) else { return }
         url.openURL()
-    }
-}
-
-extension View {
-    func opensMap(at location: CLLocationCoordinate2D?) -> some View {
-        return self.modifier(OpenMapViewModifier(location: location))
-    }
-}
-
-struct OpenMapViewModifier: ViewModifier {
-
-    var location: CLLocationCoordinate2D?
-
-    @State private var showingAlert: Bool = false
-    private let installedApps = MapApp.allCases.filter { $0.isInstalled }
-
-    func body(content: Content) -> some View {
-        Button(action: {
-            if installedApps.count > 1 {
-                showingAlert = true
-            } else if let app = installedApps.first, let url = app.url(for: location) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-        }) {
-            content.confirmationDialog("Abrir com", isPresented: $showingAlert) {
-
-                let appButtons: [ActionSheet.Button] = self.installedApps.compactMap { app in
-                    guard let url = app.url(for: self.location) else { return nil }
-                    return .default(Text(app.title)) {
-                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                    }
-                }
-//                return ActionSheet(title: Text("Navigate"), message: Text("Select an app..."), buttons: appButtons + [.cancel()])
-            }
-        }
     }
 }

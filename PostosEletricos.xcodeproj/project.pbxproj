@@ -35,7 +35,6 @@
 		20C5ED622BA9EC640092AB11 /* charger-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 20C5ED612BA9EC640092AB11 /* charger-anim.json */; };
 		20C6B1A92BAE20DB00B113F3 /* FindInAreaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C6B1A82BAE20DA00B113F3 /* FindInAreaButton.swift */; };
 		20CBCD462B9CBE1C008D01AA /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */; };
-		20CBCD482B9CD334008D01AA /* AppDelegate+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBCD472B9CD334008D01AA /* AppDelegate+Injection.swift */; };
 		20FCF7632BAF1E33004A5495 /* Pulse in Frameworks */ = {isa = PBXBuildFile; productRef = 20FCF7622BAF1E33004A5495 /* Pulse */; };
 		20FCF7652BAF1E33004A5495 /* PulseUI in Frameworks */ = {isa = PBXBuildFile; productRef = 20FCF7642BAF1E33004A5495 /* PulseUI */; };
 		20FCF7682BAF2361004A5495 /* ShakeDevice+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FCF7672BAF2361004A5495 /* ShakeDevice+Ext.swift */; };
@@ -86,6 +85,9 @@
 		274800A82BE8208A00BF4883 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2748009B2BE8208A00BF4883 /* Roboto-Medium.ttf */; };
 		274800A92BE8208A00BF4883 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2748009C2BE8208A00BF4883 /* LICENSE.txt */; };
 		27512B9B2C0A8B3700C821B0 /* Bundle+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27512B9A2C0A8B3700C821B0 /* Bundle+Ext.swift */; };
+		27512B9D2C0A9A4600C821B0 /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27512B9C2C0A9A4600C821B0 /* NavigationManager.swift */; };
+		27512BA12C0A9A9200C821B0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27512BA02C0A9A9200C821B0 /* ContentView.swift */; };
+		27512BA42C0B823C00C821B0 /* AdCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27512BA32C0B823C00C821B0 /* AdCoordinator.swift */; };
 		277A3CA42BEBD32C00174E0F /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CA32BEBD32C00174E0F /* Place.swift */; };
 		277A3CA72BEBD38700174E0F /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CA62BEBD38700174E0F /* Geometry.swift */; };
 		277A3CA92BEBD3BA00174E0F /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CA82BEBD3BA00174E0F /* Location.swift */; };
@@ -103,7 +105,6 @@
 		27AD24E22BF8EE5D007A3A42 /* OriginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AD24E12BF8EE5D007A3A42 /* OriginFlow.swift */; };
 		27AD24E52BFA8D65007A3A42 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AD24E42BFA8D65007A3A42 /* LocationManager.swift */; };
 		27DB53DE2BF5857200897B41 /* RequestLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DB53DD2BF5857200897B41 /* RequestLocationView.swift */; };
-		27DB53E82BF669C400897B41 /* Resolver in Frameworks */ = {isa = PBXBuildFile; productRef = 27DB53E72BF669C400897B41 /* Resolver */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -130,7 +131,6 @@
 		20C5ED612BA9EC640092AB11 /* charger-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "charger-anim.json"; sourceTree = "<group>"; };
 		20C6B1A82BAE20DA00B113F3 /* FindInAreaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindInAreaButton.swift; sourceTree = "<group>"; };
 		20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
-		20CBCD472B9CD334008D01AA /* AppDelegate+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Injection.swift"; sourceTree = "<group>"; };
 		20FCF7662BAF2140004A5495 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		20FCF7672BAF2361004A5495 /* ShakeDevice+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShakeDevice+Ext.swift"; sourceTree = "<group>"; };
 		20FCF7692BAF2AA2004A5495 /* PrintLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintLog.swift; sourceTree = "<group>"; };
@@ -178,6 +178,9 @@
 		2748009B2BE8208A00BF4883 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		2748009C2BE8208A00BF4883 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		27512B9A2C0A8B3700C821B0 /* Bundle+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Ext.swift"; sourceTree = "<group>"; };
+		27512B9C2C0A9A4600C821B0 /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
+		27512BA02C0A9A9200C821B0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		27512BA32C0B823C00C821B0 /* AdCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdCoordinator.swift; sourceTree = "<group>"; };
 		277A3CA32BEBD32C00174E0F /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		277A3CA62BEBD38700174E0F /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
 		277A3CA82BEBD3BA00174E0F /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
@@ -204,7 +207,6 @@
 				27A698462BFED34A007A6E79 /* GoogleMobileAds in Frameworks */,
 				20FCF7732BAF2B5B004A5495 /* Logging in Frameworks */,
 				207EF3FD2B9CB08900EF46CF /* Moya in Frameworks */,
-				27DB53E82BF669C400897B41 /* Resolver in Frameworks */,
 				207EF3FB2B9CB08900EF46CF /* CombineMoya in Frameworks */,
 				207EF4012B9CB08900EF46CF /* RxMoya in Frameworks */,
 				20FCF7632BAF1E33004A5495 /* Pulse in Frameworks */,
@@ -242,10 +244,10 @@
 				20BA43C72BAF3F1300795AB5 /* Secrets.plist */,
 				20002FF02B01A149005C7329 /* PostosEletricosApp.swift */,
 				271377BB2BD5AFC6005F026E /* AppDelegate.swift */,
+				27512BA02C0A9A9200C821B0 /* ContentView.swift */,
 				203133422B9D04550093CDC2 /* Data */,
 				203133412B9D04440093CDC2 /* Domain */,
 				2031333F2B9D041A0093CDC2 /* Presentation */,
-				20CBCD492B9CD338008D01AA /* DI */,
 				20FCF7772BAF2BDF004A5495 /* Common */,
 				20002FF62B01A14B005C7329 /* Preview Content */,
 			);
@@ -294,7 +296,6 @@
 				20CB5BBF2B9D0C5000C42659 /* Network */,
 				207AF3E82B9E8187002AE17D /* Services */,
 				207AF3E92B9E8196002AE17D /* GoogleMaps */,
-				207AF3E12B9E804F002AE17D /* MapApps.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -452,14 +453,6 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		20CBCD492B9CD338008D01AA /* DI */ = {
-			isa = PBXGroup;
-			children = (
-				20CBCD472B9CD334008D01AA /* AppDelegate+Injection.swift */,
-			);
-			path = DI;
-			sourceTree = "<group>";
-		};
 		20FCF76D2BAF2B1D004A5495 /* PrintLog */ = {
 			isa = PBXGroup;
 			children = (
@@ -473,6 +466,7 @@
 		20FCF76E2BAF2B28004A5495 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				27512BA62C0B83A500C821B0 /* MapApps */,
 				20FCF76D2BAF2B1D004A5495 /* PrintLog */,
 			);
 			path = Utils;
@@ -481,9 +475,11 @@
 		20FCF7772BAF2BDF004A5495 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				203133432B9D04A50093CDC2 /* Resources */,
+				27512BA22C0B822C00C821B0 /* Coordinator */,
+				27512B9E2C0A9A5A00C821B0 /* Manager */,
 				207AF3E72B9E8165002AE17D /* Extensions */,
 				20BA43D62BAF57CB00795AB5 /* Modifiers */,
-				203133432B9D04A50093CDC2 /* Resources */,
 				20FCF76E2BAF2B28004A5495 /* Utils */,
 				274507032BC8BCA4005ED545 /* Enum */,
 			);
@@ -596,6 +592,38 @@
 			path = Suggestions;
 			sourceTree = "<group>";
 		};
+		27512B9E2C0A9A5A00C821B0 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				27512B9C2C0A9A4600C821B0 /* NavigationManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		27512BA22C0B822C00C821B0 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				27512BA52C0B829000C821B0 /* Ad */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		27512BA52C0B829000C821B0 /* Ad */ = {
+			isa = PBXGroup;
+			children = (
+				27512BA32C0B823C00C821B0 /* AdCoordinator.swift */,
+			);
+			path = Ad;
+			sourceTree = "<group>";
+		};
+		27512BA62C0B83A500C821B0 /* MapApps */ = {
+			isa = PBXGroup;
+			children = (
+				207AF3E12B9E804F002AE17D /* MapApps.swift */,
+			);
+			path = MapApps;
+			sourceTree = "<group>";
+		};
 		277A3CA52BEBD35C00174E0F /* Place */ = {
 			isa = PBXGroup;
 			children = (
@@ -675,7 +703,6 @@
 				20FCF7642BAF1E33004A5495 /* PulseUI */,
 				20FCF7722BAF2B5B004A5495 /* Logging */,
 				20FCF7752BAF2B6D004A5495 /* PulseLogHandler */,
-				27DB53E72BF669C400897B41 /* Resolver */,
 				27A698452BFED34A007A6E79 /* GoogleMobileAds */,
 			);
 			productName = PostosEletricos;
@@ -714,7 +741,6 @@
 				20FCF7612BAF1E33004A5495 /* XCRemoteSwiftPackageReference "Pulse" */,
 				20FCF7712BAF2B5B004A5495 /* XCRemoteSwiftPackageReference "swift-log" */,
 				20FCF7742BAF2B6D004A5495 /* XCRemoteSwiftPackageReference "PulseLogHandler" */,
-				27DB53E62BF669C400897B41 /* XCRemoteSwiftPackageReference "Resolver" */,
 				27A698442BFED34A007A6E79 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = 20002FEE2B01A149005C7329 /* Products */;
@@ -782,6 +808,7 @@
 			files = (
 				277A3CAF2BEBD3E800174E0F /* PlusCode.swift in Sources */,
 				20BA43D82BAF585500795AB5 /* View+Ext.swift in Sources */,
+				27512BA12C0A9A9200C821B0 /* ContentView.swift in Sources */,
 				27AD24E22BF8EE5D007A3A42 /* OriginFlow.swift in Sources */,
 				277A3CAD2BEBD3E000174E0F /* Photo.swift in Sources */,
 				207EF4112B9CB35000EF46CF /* NetworkConfig.swift in Sources */,
@@ -792,13 +819,13 @@
 				27DB53DE2BF5857200897B41 /* RequestLocationView.swift in Sources */,
 				20FCF76A2BAF2AA2004A5495 /* PrintLog.swift in Sources */,
 				20FCF7702BAF2B3B004A5495 /* Logging+Ext.swift in Sources */,
+				27512B9D2C0A9A4600C821B0 /* NavigationManager.swift in Sources */,
 				207AF3EB2B9E820A002AE17D /* UIViewController+Ext.swift in Sources */,
 				207AF3E42B9E80B8002AE17D /* URL+Ext.swift in Sources */,
 				277A3CA42BEBD32C00174E0F /* Place.swift in Sources */,
 				20BA43CA2BAF3FB400795AB5 /* SecretsManager.swift in Sources */,
 				207EF4132B9CB36F00EF46CF /* GooglePlacesResponse.swift in Sources */,
 				20FCF7682BAF2361004A5495 /* ShakeDevice+Ext.swift in Sources */,
-				20CBCD482B9CD334008D01AA /* AppDelegate+Injection.swift in Sources */,
 				273945872BE8343400A1CE4B /* MapKit+Ext.swift in Sources */,
 				207EF3F62B9CAFD600EF46CF /* SecretsKeys.swift in Sources */,
 				20C0EC4C2BAE3A81009C52FF /* FetchState.swift in Sources */,
@@ -818,6 +845,7 @@
 				277A3CA92BEBD3BA00174E0F /* Location.swift in Sources */,
 				207AF3E22B9E804F002AE17D /* MapApps.swift in Sources */,
 				27A698482BFEDE11007A6E79 /* BannerAdsView.swift in Sources */,
+				27512BA42C0B823C00C821B0 /* AdCoordinator.swift in Sources */,
 				27AD24E52BFA8D65007A3A42 /* LocationManager.swift in Sources */,
 				20002FF12B01A149005C7329 /* PostosEletricosApp.swift in Sources */,
 				20FCF76C2BAF2AC7004A5495 /* LogHandler.swift in Sources */,
@@ -968,7 +996,8 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Postos Elétricos";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Network usage required for debugging purposes";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Utilizamos sua localização para mostrar os postos mais próximos.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Utilizamos sua localização para mostrar os postos mais próximos de você.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Precisamos de sua permissão para mostrar os melhores anúncios de acordo com seu perfil.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1002,7 +1031,8 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Postos Elétricos";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Network usage required for debugging purposes";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Utilizamos sua localização para mostrar os postos mais próximos.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Utilizamos sua localização para mostrar os postos mais próximos de você.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Precisamos de sua permissão para mostrar os melhores anúncios de acordo com seu perfil.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1101,14 +1131,6 @@
 				minimumVersion = 11.5.0;
 			};
 		};
-		27DB53E62BF669C400897B41 /* XCRemoteSwiftPackageReference "Resolver" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/hmlongco/Resolver";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.5.1;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1166,11 +1188,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 27A698442BFED34A007A6E79 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
 			productName = GoogleMobileAds;
-		};
-		27DB53E72BF669C400897B41 /* Resolver */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 27DB53E62BF669C400897B41 /* XCRemoteSwiftPackageReference "Resolver" */;
-			productName = Resolver;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

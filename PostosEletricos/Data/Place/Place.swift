@@ -121,7 +121,6 @@ extension Place {
     /// Update all element, excluding ID and placeID
     mutating func update(_ place: Place) {
         self.name = place.name
-        if let vicinity = place.vicinity { self.vicinity = vicinity }
         if let formattedAddress = place.formattedAddress { self.formattedAddress = formattedAddress }
         if let geometry = place.geometry { self.geometry = geometry }
         if let businessStatus = place.businessStatus { self.businessStatus = businessStatus }

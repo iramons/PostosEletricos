@@ -11,16 +11,9 @@ import Resolver
 
 struct LaunchView: View {
 
-    @State private var showAppName: Bool = false {
-        didSet {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                withAnimation(.bouncy) { showMap.toggle() }
-            }
-        }
-    }
-
-    @State private var showMap: Bool = false
+    @EnvironmentObject var navigationManager: NavigationManager
     @ObservedObject var locationManager = LocationManager.shared
+    @State private var showAppName: Bool = false
 
     var body: some View {
         ZStack {
@@ -30,7 +23,7 @@ struct LaunchView: View {
                 .offset(y: showAppName ? -60 : 0)
                 .opacity(showAppName ? 1 : 0)
                 .scaleEffect(showAppName ? 1.1 : 1)
-                .animation(.easeIn(duration: 0.8), value: showAppName)
+                .animation(.easeIn(duration: 0.6), value: showAppName)
                 .zIndex(1)
 
             GeometryReader { geo in
@@ -81,19 +74,17 @@ struct LaunchView: View {
         .ignoresSafeArea(.all)
         .background(.darknessGreen)
         .onAppear {
-            if !showAppName {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    withAnimation(.easeIn) {
-                        showAppName.toggle()
-                    }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                withAnimation(.easeIn) {
+                    showAppName.toggle()
                 }
             }
         }
-        .fullScreenCover(isPresented: $showMap) {
-            if locationManager.isAuthorized || locationManager.isDenied {
-                MapView()
-            } else {
-                RequestLocationView()
+        .onChange(of: showAppName) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                withAnimation {
+                    navigationManager.currentView = .map
+                }
             }
         }
     }
@@ -111,5 +102,8 @@ struct LaunchView: View {
 }
 
 #Preview {
-    LaunchView()
+    @StateObject var navigationManager = NavigationManager()
+
+    return LaunchView()
+        .environmentObject(navigationManager)
 }

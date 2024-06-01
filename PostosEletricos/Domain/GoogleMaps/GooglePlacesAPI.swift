@@ -12,7 +12,7 @@ import MapKit
 enum GooglePlacesAPI {
     case places(location: CLLocationCoordinate2D, radius: Double)
     case place(placeID: String)
-    case autocomplete(query: String, location: CLLocationCoordinate2D? = nil, radius: Double = 100000)
+    case autocomplete(query: String, location: CLLocationCoordinate2D? = nil, radius: Double = 4000)
     case photo(maxWidth: Double, photoReference: String)
 }
 

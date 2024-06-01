@@ -21,6 +21,8 @@ final class LocationManager: NSObject, ObservableObject {
     @Published var isAuthorized: Bool = false
     @Published var isDenied: Bool = false
     @Published var showSecondAlert: Bool = false
+    @Published var authorizationStatusHasChanged: Bool = false
+    @Published var shouldRequestAuthorization: Bool = false
 
     private var locationManager = CLLocationManager()
     private var authorizationStatus: CLAuthorizationStatus?
@@ -50,7 +52,10 @@ final class LocationManager: NSObject, ObservableObject {
 
         switch currentStatus {
         case .notDetermined:
-            DispatchQueue.main.async { self.isAuthorized = false }
+            DispatchQueue.main.async {
+                self.shouldRequestAuthorization = true
+                self.isAuthorized = false
+            }
             /// Note: should not requestWhenInUseAuthorization() here
 
         case .restricted, .denied:
@@ -81,7 +86,7 @@ final class LocationManager: NSObject, ObservableObject {
     }
 
     private func isValid(_ location: CLLocation) -> Bool {
-        // Should check if new location is different of the last
+        /// Should check if new location is different of the last
         location.coordinate.latitude != lastLocation.coordinate.latitude &&
         location.coordinate.longitude != lastLocation.coordinate.longitude
     }
@@ -102,7 +107,7 @@ extension LocationManager: CLLocationManagerDelegate {
                 self.lastLocation = location
                 self.userRegion = CLCircularRegion(
                     center: location.coordinate,
-                    radius: CLLocationDistance(10000),
+                    radius: CLLocationDistance(4000),
                     identifier: "userRegion"
                 )
             }
@@ -112,6 +117,7 @@ extension LocationManager: CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        authorizationStatusHasChanged = true
         authorizationStatus = status
         handleAuthorizationStatus(status)
     }

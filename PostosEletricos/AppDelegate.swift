@@ -17,33 +17,30 @@ import Pulse
 
 class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
 
-//    @Injected private var locationService: LocationService
-    
     var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions
-                     launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+    func application(
+        _ application: UIApplication, didFinishLaunchingWithOptions
+        launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+    ) -> Bool {
+
         configureGooglePlaces()
+        configureGoogleAds()
         enablePulseLogs()
 
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
-
-//
-//        /// If location updates were previously active, restart them after the background launch.
-//        if locationService.updatesStarted {
-//            locationService.startLiveUpdates()
-//        }
-//
-//        /// If a background activity session was previously active, reinstantiate it after the background launch.
-//        if locationService.backgroundActivity {
-//            locationService.backgroundActivity = true
-//        }
-        
         return true
     }
+}
 
+// MARK: Configurations
+
+extension AppDelegate {
     private func configureGooglePlaces() {
         GMSPlacesClient.provideAPIKey(SecretsKeys.googlePlaces.key)
+    }
+
+    private func configureGoogleAds() {
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
     }
 }
 
@@ -51,9 +48,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
 
 private extension AppDelegate {
     func enablePulseLogs() {
-    #if DEBUG
+        #if DEBUG
         Experimental.URLSessionProxy.shared.isEnabled = true
         URLSessionProxyDelegate.enableAutomaticRegistration()
-    #endif
+        #endif
     }
 }

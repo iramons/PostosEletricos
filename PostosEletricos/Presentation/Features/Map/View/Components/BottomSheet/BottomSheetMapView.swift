@@ -10,33 +10,33 @@ import SwiftUI
 import MapKit
 
 struct BottomSheetMapView: View {
-
+    
     enum BottomMapDetailsViewActionType {
         case close
         case route
     }
-
+    
     private enum Constants {
         static let middleTitleDetailsSpacing: CGFloat = 2
     }
-
+    
     var place: Place
     var isRoutePresenting: Bool
     var travelTime: String?
     var showBannerAds: Bool
     @State var lookAroundScene: MKLookAroundScene?
     var action: ((BottomMapDetailsViewActionType) -> Void)
-
+    
     var placeCoordinate: CLLocationCoordinate2D? {
         guard let lat = place.geometry?.location?.lat,
               let lng = place.geometry?.location?.lng
         else { return nil }
-
+        
         return CLLocationCoordinate2D(latitude: lat, longitude: lng)
     }
-
+    
     // MARK: body
-
+    
     var body: some View {
         ZStack(alignment: .topTrailing) {
             Button(action: {
@@ -49,39 +49,25 @@ struct BottomSheetMapView: View {
                     .padding(16)
             })
             .zIndex(1)
-
+            
             ScrollView(.vertical) {
                 VStack(alignment: .leading, spacing: .zero) {
                     header
-
-                    Divider()
-                        .foregroundStyle(.gray)
-                        .padding(.vertical, 6)
-
                     middle
-
                     footer
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 16)
             }
         }
-        .presentationCornerRadius(26)
-        .presentationDragIndicator(.visible)
-        .presentationBackground(.regularMaterial.shadow(.drop(radius: 4)))
-        .presentationBackgroundInteraction(.enabled(upThrough: .large))
-        .onChange(of: place) {
-            getLookAroundScene()
-        }
-        .onAppear {
-            getLookAroundScene()
-        }
+        .onAppear { getLookAroundScene() }
+        .onChange(of: place) { getLookAroundScene() }
     }
-
+    
     // MARK: header
-
+    
     private var header: some View {
-        VStack(alignment: .leading, spacing: .zero) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text(place.opened ? "Aberto agora" : "Fechado")
                     .font(.custom("Roboto-Black", size: 13))
@@ -90,7 +76,7 @@ struct BottomSheetMapView: View {
                     .background(place.opened ? .accent : .red)
                     .foregroundStyle(.white)
                     .clipShape(.capsule)
-
+                
                 if isRoutePresenting, let travelTime {
                     Text("Tempo estimado: ∼\(travelTime)")
                         .multilineTextAlignment(.leading)
@@ -99,25 +85,24 @@ struct BottomSheetMapView: View {
                         .foregroundStyle(.gray)
                 }
             }
-            .padding(.bottom, 8)
             .padding(.trailing, 60)
-
+            
             Text(place.name)
                 .multilineTextAlignment(.leading)
                 .minimumScaleFactor(0.5)
                 .font(.custom("Roboto-Bold", size: 18))
                 .foregroundStyle(.primary)
-
+            
             HStack(alignment: .bottom, spacing: 6) {
-                if let fullAddress = place.fullAddress {
-                    Text(fullAddress)
+                if let vicinity = place.vicinity {
+                    Text(vicinity)
                         .multilineTextAlignment(.leading)
                         .font(.custom("Roboto-Medium", size: 14))
                         .foregroundStyle(.secondary)
                 }
-
+                
                 Spacer()
-
+                
                 Button(
                     action: {
                         UIImpactFeedbackGenerator(style: .light).impactOccurred()
@@ -130,7 +115,7 @@ struct BottomSheetMapView: View {
                             .foregroundStyle(.white)
                             .padding(.leading, 12)
                             .padding(.vertical, 6)
-
+                        
                         Image(systemName: "arrow.triangle.turn.up.right.diamond.fill")
                             .foregroundStyle(.yellow)
                             .padding(.vertical, 6)
@@ -143,83 +128,80 @@ struct BottomSheetMapView: View {
             }
         }
     }
-
+    
     // MARK: middle
-
+    
     private var middle: some View {
-            VStack(alignment: .leading, spacing: 4) {
-                /// phoneNumber
-                if let phoneNumber = place.phoneNumber {
-                    VStack(alignment: .leading, spacing: Constants.middleTitleDetailsSpacing) {
-                        HStack {
-                            Image(systemName: "phone")
-                                .frame(alignment: .leading)
-
-                            Text("Telefones")
-                                .font(.custom("Roboto-Medium", size: 14))
-                                .multilineTextAlignment(.leading)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-
-                        Link(phoneNumber, destination: URL(string: "tel:\(phoneNumber)")!)
-                            .font(.custom("Roboto-Medium", size: 15))
-                            .multilineTextAlignment(.leading)
-                            .foregroundColor(.blue)
+        VStack(alignment: .leading, spacing: 8) {
+            // phoneNumber
+            if let phoneNumber = place.phoneNumber {
+                VStack(alignment: .leading, spacing: Constants.middleTitleDetailsSpacing) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "phone")
                             .frame(alignment: .leading)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(8)
-                    .background()
-                    .clipShape(.rect(cornerRadius: 12))
-                }
-
-                /// website
-                if let website = place.website {
-                    VStack(alignment: .leading, spacing: Constants.middleTitleDetailsSpacing) {
-                        HStack {
-                            Image(systemName: "globe")
-                                .frame(alignment: .leading)
-
-                            Text("Website")
-                                .multilineTextAlignment(.leading)
-                                .font(.custom("Roboto-Medium", size: 14))
-                                .minimumScaleFactor(0.8)
-                                .lineLimit(1)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-
-                        Link(website, destination: URL(string: website)!)
-                            .font(.custom("Roboto-Medium", size: 15))
+                        
+                        Text("Telefones")
+                            .font(.custom("Roboto-Medium", size: 14))
                             .multilineTextAlignment(.leading)
-                            .minimumScaleFactor(0.9)
-                            .lineLimit(1)
-                            .foregroundColor(.blue)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(8)
-                    .background()
-                    .clipShape(.rect(cornerRadius: 12))
+                    
+                    Link(phoneNumber, destination: URL(string: "tel:\(phoneNumber)")!)
+                        .font(.custom("Roboto-Medium", size: 15))
+                        .multilineTextAlignment(.leading)
+                        .foregroundColor(.blue)
+                        .frame(alignment: .leading)
                 }
-
-            /// schedules
-            let openingHours = place.openingHours
-            let periods = place.openingHours?.periods
+                .padding(8)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(.gray.opacity(0.1))
+                .clipShape(.rect(cornerRadius: 12))
+            }
+            
+            // website
+            if let website = place.website {
+                VStack(alignment: .leading, spacing: Constants.middleTitleDetailsSpacing) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "globe")
+                            .frame(alignment: .leading)
+                        
+                        Text("Site")
+                            .multilineTextAlignment(.leading)
+                            .font(.custom("Roboto-Medium", size: 14))
+                            .minimumScaleFactor(0.8)
+                            .lineLimit(2)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    
+                    Link(website, destination: URL(string: website)!)
+                        .font(.custom("Roboto-Medium", size: 15))
+                        .multilineTextAlignment(.leading)
+                        .minimumScaleFactor(0.9)
+                        .lineLimit(1)
+                        .foregroundColor(.blue)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .padding(8)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(.gray.opacity(0.1))
+                .clipShape(.rect(cornerRadius: 12))
+            }
+            
+            // schedules
             let weekdayText = place.openingHours?.weekdayText ?? place.currentOpeningHours?.weekdayText
-
             if let weekdayText {
                 VStack(alignment: .leading, spacing: Constants.middleTitleDetailsSpacing) {
-                    HStack {
+                    HStack(spacing: 4) {
                         Image(systemName: "clock")
                             .frame(alignment: .leading)
-
+                        
                         Text("Horários")
                             .font(.custom("Roboto-Medium", size: 14))
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
-
+                    
                     let columns = [GridItem()]
-
+                    
                     LazyVGrid(columns: columns, alignment: .leading, spacing: .zero) {
                         ForEach(weekdayText, id: \.self) { text in
                             Text(text)
@@ -231,53 +213,54 @@ struct BottomSheetMapView: View {
                     }
                 }
                 .padding(8)
-                .background()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(.gray.opacity(0.1))
                 .clipShape(.rect(cornerRadius: 12))
-            } else if let periods = place.openingHours?.periods {
-                VStack(alignment: .leading, spacing: Constants.middleTitleDetailsSpacing) {
-                    HStack {
-                        Image(systemName: "clock")
-                            .frame(alignment: .leading)
-
-                        Text("Horários")
-                            .font(.custom("Roboto-Medium", size: 14))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-
-                    let columns = [GridItem(.fixed(100)), GridItem(.fixed(50)), GridItem(.fixed(50))]
-
-                    LazyVGrid(columns: columns, alignment: .leading, spacing: .zero) {
-                        ForEach(periods, id: \.self) { period in
-                            Text(period.dayOfWeek())
-                                .multilineTextAlignment(.leading)
-                                .font(.custom("Roboto-Medium", size: 15))
-                                .minimumScaleFactor(0.8)
-                                .foregroundStyle(.secondary)
-
-                            Text(period.formattedOpenTime())
-                                .multilineTextAlignment(.leading)
-                                .font(.custom("Roboto-Medium", size: 15))
-                                .minimumScaleFactor(0.8)
-                                .foregroundStyle(.secondary)
-
-                            Text(period.formattedCloseTime())
-                                .multilineTextAlignment(.leading)
-                                .font(.custom("Roboto-Medium", size: 15))
-                                .minimumScaleFactor(0.8)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                }
-                .padding(8)
-                .background()
-                .clipShape(.rect(cornerRadius: 12))
+                //            } else if let periods = place.openingHours?.periods {
+                //                VStack(alignment: .leading, spacing: Constants.middleTitleDetailsSpacing) {
+                //                    HStack {
+                //                        Image(systemName: "clock")
+                //                            .frame(alignment: .leading)
+                //
+                //                        Text("Horários")
+                //                            .font(.custom("Roboto-Medium", size: 14))
+                //                            .frame(maxWidth: .infinity, alignment: .leading)
+                //                    }
+                //
+                //                    let columns = [GridItem(.fixed(100)), GridItem(.fixed(50)), GridItem(.fixed(50))]
+                //
+                //                    LazyVGrid(columns: columns, alignment: .leading, spacing: .zero) {
+                //                        ForEach(periods, id: \.self) { period in
+                //                            Text(period.dayOfWeek())
+                //                                .multilineTextAlignment(.leading)
+                //                                .font(.custom("Roboto-Medium", size: 15))
+                //                                .minimumScaleFactor(0.8)
+                //                                .foregroundStyle(.secondary)
+                //
+                //                            Text(period.formattedOpenTime())
+                //                                .multilineTextAlignment(.leading)
+                //                                .font(.custom("Roboto-Medium", size: 15))
+                //                                .minimumScaleFactor(0.8)
+                //                                .foregroundStyle(.secondary)
+                //
+                //                            Text(period.formattedCloseTime())
+                //                                .multilineTextAlignment(.leading)
+                //                                .font(.custom("Roboto-Medium", size: 15))
+                //                                .minimumScaleFactor(0.8)
+                //                                .foregroundStyle(.secondary)
+                //                        }
+                //                    }
+                //                }
+                //                .padding(8)
+                ////                .background()
+                //                .clipShape(.rect(cornerRadius: 12))
             }
         }
-        .padding(.top, 4)
+        .padding(.top, 20)
     }
-
+    
     // MARK: footer
-
+    
     private var footer: some View {
         VStack(alignment: .leading, spacing: .zero) {
             if lookAroundScene != nil {
@@ -291,32 +274,26 @@ struct BottomSheetMapView: View {
                 .padding(.top, 16)
                 .shadow(radius: 4)
             }
-
-            if showBannerAds {
-                BannerAdsView()
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .frame(height: 60)
-                    .clipShape(.rect(cornerRadius: 12))
-                    .padding(.top, 16)
-            }
+            
+            BannerAdsView()
+                .frame(maxWidth: .infinity, alignment: .center)
+                .frame(height: 60)
+                .clipShape(.rect(cornerRadius: 12))
+                .padding(.top, 16)
+                .opacity(showBannerAds ? 1 : 0)
         }
     }
-
+    
     private func getLookAroundScene() {
-        withAnimation {
-            lookAroundScene = nil
-        }
-
+        withAnimation { lookAroundScene = nil }
+        
         guard let location = place.geometry?.location else { return }
         let coordinate = CLLocationCoordinate2D(latitude: location.lat, longitude: location.lng)
         let request = MKLookAroundSceneRequest(coordinate: coordinate)
-
+        
         Task {
             let scene = try? await request.scene
-
-            withAnimation {
-                lookAroundScene = scene
-            }
+            withAnimation { lookAroundScene = scene }
         }
     }
 }
@@ -358,15 +335,13 @@ struct BottomSheetMapView: View {
             ]
         ),
         phoneNumber: "(21) 9999-9999",
-        website: "https://github.com/iramons.comfddfdf"
+        website: "https://github.com/iramons"
     )
-
+    
     return ZStack {
-//        MapView(viewModel: MapViewModel())
-
         VStack {
             Spacer()
-
+            
             BottomSheetMapView(
                 place: place,
                 isRoutePresenting: false,

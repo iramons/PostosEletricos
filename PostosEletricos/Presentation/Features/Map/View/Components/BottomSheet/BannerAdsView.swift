@@ -10,6 +10,8 @@ import SwiftUI
 import GoogleMobileAds
 import UIKit
 
+// MARK: - BannerAdsView
+
 struct BannerAdsView: UIViewControllerRepresentable {
 
     let bannerView = GADBannerView(adSize: GADAdSizeBanner)
@@ -34,6 +36,8 @@ struct BannerAdsView: UIViewControllerRepresentable {
         bannerView.load(GADRequest())
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     BannerAdsView()

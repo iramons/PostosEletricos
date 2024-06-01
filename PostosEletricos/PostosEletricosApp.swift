@@ -12,10 +12,14 @@ import Resolver
 struct PostosEletricosApp: App {
 
     @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
+    @StateObject private var navigationManager = NavigationManager()
 
     var body: some Scene {
         WindowGroup {
-            LaunchView()
+            ContentView()
+                .environmentObject(navigationManager)
         }
     }
 }
+
+

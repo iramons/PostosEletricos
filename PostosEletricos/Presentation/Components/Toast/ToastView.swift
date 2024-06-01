@@ -13,13 +13,13 @@ struct ToastView: View {
 
     var body: some View {
         Text(message)
+            .font(.custom("Roboto-Medium", size: 16))
             .accessibilityLabel(message)
             .multilineTextAlignment(.center)
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
+            .padding(16)
             .background(.orange.opacity(0.8))
             .foregroundColor(.black)
-            .cornerRadius(20)
-            .shadow(radius: 2)
+            .cornerRadius(12)
+            .shadow(radius: 4)
     }
 }

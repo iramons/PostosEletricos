@@ -10,13 +10,8 @@ import Resolver
 
 struct RequestLocationView: View {
 
-//    @Injected var locationService: LocationService
     @ObservedObject var locationManager = LocationManager.shared
-
     @Environment(\.dismiss) var dismiss
-    @State var origin: OriginFlow = .none
-    @State var showLaunchView: Bool = false
-    @State var showMapView: Bool = false
 
     var body: some View {
         ZStack {
@@ -75,13 +70,10 @@ struct RequestLocationView: View {
         }
         .ignoresSafeArea()
         .onChange(of: locationManager.isAuthorized) {
-            withAnimation { showMapView.toggle() }
+            withAnimation { dismiss() }
         }
         .onChange(of: locationManager.isDenied) {
-            withAnimation { showMapView.toggle() }
-        }
-        .fullScreenCover(isPresented: $showMapView) {
-            MapView()
+            withAnimation { dismiss() }
         }
     }
 }

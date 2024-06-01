@@ -7,75 +7,38 @@
 
 import SwiftUI
 import MapKit
-import OSLog
-import Pulse
-import PulseUI
-
 import AdSupport
 import AppTrackingTransparency
 import GoogleMobileAds
-
 import UIKit
 
 // MARK: MapView
 
 struct MapView: View {
 
-//    init() {
-//        // Customize navigation bar appearance
-//        let appearance = UINavigationBarAppearance()
-//        appearance.configureWithOpaqueBackground()
-//        appearance.backgroundColor = UIColor.systemBlue
-//
-//        appearance.largeTitleTextAttributes = [
-//            .foregroundColor: UIColor.red, // Set your desired title color
-//            .font: UIFont(name: "Roboto-Black", size: 24)! // Set your desired title font
-//        ]
-//
-//        appearance.titleTextAttributes = [
-//            .foregroundColor: UIColor.red, // Set your desired title color
-//            .font: UIFont(name: "Roboto-Black", size: 24)! // Set your desired title font
-//        ]
-//
-//        UINavigationBar.appearance().standardAppearance = appearance
-//        UINavigationBar.appearance().compactAppearance = appearance
-//        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-//    }
-
     @StateObject var viewModel = MapViewModel()
-    @State private var showPulseUI: Bool = false
-    @Environment(\.colorScheme) var colorScheme
     private var interstitial: GADInterstitialAd?
 
     var body: some View {
         NavigationStack {
             content
         }
-        .onAppear {
-            viewModel.checkLocationAuthorization()
-        }
-        .sheet(isPresented: $showPulseUI) {
-            NavigationView {
-                ConsoleView()
-            }
-        }
+        .onAppear { viewModel.checkLocationAuthorization() }
         .alert(isPresented: $viewModel.showAlert) {
             Alert(
-                title: Text("Serviços de localização desabilitados"),
-                message: Text("Para uma melhor experiência é necessário permitir que o \(Bundle.main.appName) tenha acesso a sua localização nos ajustes do iPhone."),
-                primaryButton: .default(Text("Ajustes")) {
-                    /// Direct users to the app's settings
+                title: Text(viewModel.alertTitle),
+                message: Text(viewModel.alertMessage),
+                primaryButton: .default(Text(viewModel.alertButtonTitle)) {
                     if let url = URL(string: UIApplication.openSettingsURLString),
                        UIApplication.shared.canOpenURL(url) {
-                        UIApplication.shared.open(url)
+                        url.openURL()
                     }
                 },
                 secondaryButton: .cancel()
             )
         }
-        .onShakeGesture {
-            withAnimation { showPulseUI.toggle() }
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+        .fullScreenCover(isPresented: $viewModel.showRequestLocationAuthorization) {
+            RequestLocationView()
         }
         .toast(
             isShowing: $viewModel.showToast,
@@ -103,14 +66,20 @@ struct MapView: View {
             }
         }
         .searchable(text: $viewModel.searchText)
-        .searchSuggestions {
-            SuggestionsListView(viewModel: viewModel)
-        }
+        .searchSuggestions { SuggestionsListView(viewModel: viewModel) }
     }
 
     private var map: some View {
         Map(position: $viewModel.position, selection: $viewModel.selectedID) {
             UserAnnotation()
+
+            if let coordinate = viewModel.userCoordinate {
+                MapCircle(
+                    center: coordinate,
+                    radius: CLLocationDistance(4000)
+                )
+                .foregroundStyle(.orange.opacity(0.5))
+            }
 
             ForEach(viewModel.places, id: \.id) { place in
                 if let coordinate = place.coordinate {
@@ -118,7 +87,7 @@ struct MapView: View {
                         Label(place.name, systemImage: place.opened ? "bolt.fill" : "bolt.slash.fill")
                     }
                     .tag(place.id)
-                    .tint(place.opened ? .accent : .gray.opacity(0.6))
+                    .tint(place.opened ? .accent : .lightnessGray)
                     .annotationTitles(.hidden)
                 }
             }
@@ -159,14 +128,19 @@ struct MapView: View {
                         place: selectedPlace,
                         isRoutePresenting: viewModel.isRoutePresenting,
                         travelTime: viewModel.travelTime,
-                        showBannerAds: viewModel.shouldShowBannerAds) { type in
+                        showBannerAds: viewModel.shouldShowBannerAds,
+                        action: { type in
                             switch type {
                             case .close: viewModel.onBottomSheetCloseButtonTap()
                             case .route: viewModel.onShowRouteTap()
                             }
-                        }
+                        })
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                        .presentationDetents([.fraction(0.18), .fraction(0.3), .medium, .fraction(0.8)], selection: $viewModel.presentationDetentionSelection)
+                        .presentationDetents([.fraction(0.18), .fraction(0.3), .fraction(0.8)], selection: $viewModel.presentationDetentionSelection)
+                        .presentationBackgroundInteraction(.enabled)
+                        .presentationCornerRadius(26)
+                        .presentationDragIndicator(.automatic)
+                        .presentationBackground(.regularMaterial.shadow(.drop(radius: 4)))
                 }
             }
         )
@@ -228,54 +202,4 @@ struct MapView: View {
 
 #Preview {
     MapView()
-}
-
-// MARK: AdCoordinator
-
-class AdCoordinator: NSObject, ObservableObject {
-    private var ad: GADInterstitialAd?
-    @Published var onDismissAd: Bool = false
-    @Published var failedToLoadAd: Bool = false
-
-    func loadAd() {
-        GADInterstitialAd.load(
-            withAdUnitID: "ca-app-pub-3940256099942544/4411468910", request: GADRequest()
-        ) { ad, error in
-            if let error {
-                self.failedToLoadAd = true
-                return printLog(.error, String(describing: error), verbose: true)
-            }
-
-            self.ad = ad
-            self.ad?.fullScreenContentDelegate = self
-        }
-    }
-
-    func presentAd() {
-        guard let ad else {
-            return print("Ad wasn't ready")
-        }
-        ad.present(fromRootViewController: nil)
-    }
-}
-
-// MARK: GADFullScreenContentDelegate
-
-extension AdCoordinator: GADFullScreenContentDelegate {
-    func adDidRecordImpression(_ ad: GADFullScreenPresentingAd) {}
-
-    func adDidRecordClick(_ ad: GADFullScreenPresentingAd) {}
-
-    func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
-        onDismissAd = true
-    }
-
-    func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {}
-
-    func adWillDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {}
-
-    func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-        onDismissAd = true
-        loadAd()
-    }
 }

@@ -27,7 +27,7 @@ class MapViewModel: ObservableObject {
     @Published var showAlert: Bool = false
     @Published var isLoading: Bool = false
     @Published var isFirstLoading: Bool = true
-    @Published var distance: CLLocationDistance = CLLocationDistance(10000)
+    @Published var distance: CLLocationDistance = CLLocationDistance(4000)
     @Published var lastRegion: MKCoordinateRegion?
     @Published var lastContext: MapCameraUpdateContext?
     @Published var presentationDetentionSelection: PresentationDetent = .fraction(0.18)
@@ -36,7 +36,9 @@ class MapViewModel: ObservableObject {
     @Published var placesInFindedArea: [Place]?
     @Published var placesFromSearch: [Place] = []
     @Published var shouldShowBannerAds: Bool = false
-    
+    @Published var showRequestLocationAuthorization: Bool = false
+    @Published private var adCoordinator = AdCoordinator()
+
     @Published var searchText: String = "" {
         didSet { findAutocomplete() }
     }
@@ -57,10 +59,13 @@ class MapViewModel: ObservableObject {
     var toastMessage: String = "Nenhum posto de recarga elétrica encontrado nesta área."
     var userCoordinate: CLLocationCoordinate2D?
     var isRoutePresenting: Bool { route != nil }
+    var alertTitle: String = ""
+    var alertMessage: String = ""
+    var alertButtonTitle: String = ""
     private var provider = MoyaProvider<GooglePlacesAPI>(plugins: [NetworkConfig.networkLogger])
     private var cancellables = Set<AnyCancellable>()
     private var shouldFetchStations: Bool = true
-
+    
     // MARK: Lifecycle
 
     init() {
@@ -80,6 +85,14 @@ class MapViewModel: ObservableObject {
                     shouldFetchStations.toggle()
                     performFetchData(in: userCoordinate)
                 }
+            }
+            .store(in: &cancellables)
+
+        locationManager.$shouldRequestAuthorization
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] bool in
+                guard let self else { return }
+                showRequestLocationAuthorization = bool
             }
             .store(in: &cancellables)
 
@@ -112,7 +125,7 @@ class MapViewModel: ObservableObject {
 
     func updateSelectedPlace(withID id: String?) {
         selectedPlace = places.first(where: { $0.id == id })
-        presentationDetentionSelection = .fraction(0.15)
+        presentationDetentionSelection = .fraction(0.18)
         handleSelectedPlaceUpdated()
         adCoordinator.loadAd()
     }
@@ -131,12 +144,9 @@ class MapViewModel: ObservableObject {
         /// update place
         guard let placeID = selectedPlace.placeID else { return }
         fetchPlace(placeID: placeID) { placeFromGoogle in
-            if let placeFromGoogle {
-
-                if let existingPlaceIndex = self.places.firstIndex(where: { $0.placeID == placeFromGoogle.placeID }) {
-                    withAnimation {
-                        self.places[existingPlaceIndex].update(placeFromGoogle)
-                    }
+            if let placeFromGoogle, let existingPlaceIndex = self.places.firstIndex(where: { $0.placeID == placeFromGoogle.placeID }) {
+                withAnimation {
+                    self.places[existingPlaceIndex].update(placeFromGoogle)
                 }
             }
         }
@@ -147,7 +157,9 @@ class MapViewModel: ObservableObject {
 
         deselectPlace()
 
-        if let lastRegion { updateCameraPosition(forRegion: lastRegion) }
+        if let lastRegion {
+            updateCameraPosition(forRegion: lastRegion)
+        }
     }
 
     func onBottomSheetCloseButtonTap() {
@@ -155,7 +167,9 @@ class MapViewModel: ObservableObject {
 
         deselectPlace()
 
-        if let lastRegion { updateCameraPosition(forRegion: lastRegion) }
+        if let lastRegion {
+            updateCameraPosition(forRegion: lastRegion)
+        }
     }
 
     private func deselectPlace() {
@@ -256,12 +270,9 @@ class MapViewModel: ObservableObject {
         }
     }
 
-
     private func showAd() {
         adCoordinator.presentAd()
     }
-
-    @Published private var adCoordinator = AdCoordinator()
 
     func checkLocationAuthorization() {
         locationManager.handleAuthorizationStatus()
@@ -282,13 +293,13 @@ class MapViewModel: ObservableObject {
     private func performFetchData(in coordinate: CLLocationCoordinate2D?) {
         guard let coordinate else { return }
 
-        fetchStationsFromGooglePlaces(in: coordinate, radius: distance) { [weak self] places in
+        fetchStationsFromGooglePlaces(in: coordinate, radius: CLLocationDistance(4000)) { [weak self] places in
             guard let self, let places else { return }
 
             getMapItemsRegion(places: places) { region in
 //                self.updateCameraPosition(forRegion: region)
                 if let userCoordinate = self.userCoordinate {
-                    self.updateCameraPositionForTwoRegions(region, MKCoordinateRegion(center: userCoordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)))
+                    self.updateCameraPositionForTwoRegions(region, MKCoordinateRegion(center: userCoordinate, span: MKCoordinateSpan(latitudeDelta: 0.020, longitudeDelta: 0.020)))
                 }
                 //                    _Concurrency.Task {
                 //                        await self.fetchStationsFromMapKit() { itemsFromMapKit in
@@ -346,20 +357,19 @@ class MapViewModel: ObservableObject {
 
     private func checkIfLocationIsDenied() {
         if locationManager.isDenied {
-            withAnimation { showAlert = true }
+            setAlert(
+                title: "Serviços de localização desabilitados",
+                message: "Para uma melhor experiência é necessário permitir que o \(Bundle.main.appName) tenha acesso a sua localização nos ajustes do iPhone.",
+                actionButtonTitle: "ir para Ajustes"
+            )
         }
     }
 
-    func calculateBoundingBoxCenterAndRadius(topLeft: CLLocationCoordinate2D, bottomRight: CLLocationCoordinate2D) -> (center: CLLocationCoordinate2D, radius: CLLocationDistance) {
-        let centerLatitude = (topLeft.latitude + bottomRight.latitude) / 2
-        let centerLongitude = (topLeft.longitude + bottomRight.longitude) / 2
-        let center = CLLocationCoordinate2D(latitude: centerLatitude, longitude: centerLongitude)
-
-        let topLeftLocation = CLLocation(latitude: topLeft.latitude, longitude: topLeft.longitude)
-        let centerLocation = CLLocation(latitude: center.latitude, longitude: center.longitude)
-        let radius = topLeftLocation.distance(from: centerLocation)
-
-        return (center, radius)
+    private func setAlert(title: String, message: String, actionButtonTitle: String) {
+        alertTitle = title
+        alertMessage = message
+        alertButtonTitle = actionButtonTitle
+        withAnimation { showAlert = true }
     }
 }
 
@@ -378,7 +388,7 @@ extension MapViewModel {
 
         let expectedRadius = radius ?? distance
 
-        provider.request(.places(location: location, radius: expectedRadius), callbackQueue: .main) { [weak self] result in
+        provider.request(.places(location: location, radius: expectedRadius)) { [weak self] result in
             guard let strongSelf = self else { return }
 
             switch result {
@@ -388,7 +398,7 @@ extension MapViewModel {
                 do {
                     let response = try response.map(GooglePlacesResponse.self, failsOnEmptyData: true)
 
-                    guard let places = response.results else {
+                    guard let places = response.results, !places.isEmpty else {
                         printLog(.warning, "No results found in this area.")
                         strongSelf.setShowToast(true)
                         completion(nil)
@@ -423,7 +433,7 @@ extension MapViewModel {
     // MARK: getPlace from google
 
     func fetchPlace(placeID: String, completion: @escaping (Place?) -> Void) {
-        provider.request(.place(placeID: placeID), callbackQueue: .main) { result in
+        provider.request(.place(placeID: placeID)) { result in
             switch result {
             case let .success(response):
                 do {
@@ -450,7 +460,7 @@ extension MapViewModel {
     // MARK: AutoComplete
 
     func findAutocomplete() {
-        provider.request(.autocomplete(query: searchText, location: userCoordinate), callbackQueue: .main) { [weak self] result in
+        provider.request(.autocomplete(query: searchText, location: userCoordinate)) { [weak self] result in
             guard let self else { return }
             switch result {
             case let .success(response):
@@ -506,14 +516,19 @@ extension MapViewModel {
 
 // MARK: - Update Camera Position
 
+@MainActor
 extension MapViewModel {
     func updateCameraPosition(with position: MapCameraPosition) {
         withAnimation { self.position = position }
     }
 
     func updateCameraPosition(forCoordinate coordinate: CLLocationCoordinate2D, withSpan: MKCoordinateSpan? = nil) {
-        guard let span = position.region?.span else { return }
-        withAnimation { position = .region(.init(center: coordinate, span: withSpan ?? span)) }
+        if let withSpan {
+            withAnimation { position = .region(.init(center: coordinate, span: withSpan)) }
+        } else {
+            guard let span = position.region?.span else { return }
+            withAnimation { position = .region(.init(center: coordinate, span: span)) }
+        }
     }
 
     func updateCameraPosition(forRegion region: MKCoordinateRegion) {
@@ -563,5 +578,17 @@ extension MapViewModel {
         let span = MKCoordinateSpan(latitudeDelta: spanLatitude, longitudeDelta: spanLongitude)
 
         updateCameraPosition(forRegion: MKCoordinateRegion(center: center, span: span))
+    }
+
+    func calculateBoundingBoxCenterAndRadius(topLeft: CLLocationCoordinate2D, bottomRight: CLLocationCoordinate2D) -> (center: CLLocationCoordinate2D, radius: CLLocationDistance) {
+        let centerLatitude = (topLeft.latitude + bottomRight.latitude) / 2
+        let centerLongitude = (topLeft.longitude + bottomRight.longitude) / 2
+        let center = CLLocationCoordinate2D(latitude: centerLatitude, longitude: centerLongitude)
+
+        let topLeftLocation = CLLocation(latitude: topLeft.latitude, longitude: topLeft.longitude)
+        let centerLocation = CLLocation(latitude: center.latitude, longitude: center.longitude)
+        let radius = topLeftLocation.distance(from: centerLocation)
+
+        return (center, radius)
     }
 }
