@@ -73,14 +73,6 @@ struct MapView: View {
         Map(position: $viewModel.position, selection: $viewModel.selectedID) {
             UserAnnotation()
 
-            if let coordinate = viewModel.userCoordinate {
-                MapCircle(
-                    center: coordinate,
-                    radius: CLLocationDistance(4000)
-                )
-                .foregroundStyle(.orange.opacity(0.5))
-            }
-
             ForEach(viewModel.places, id: \.id) { place in
                 if let coordinate = place.coordinate {
                     Marker(coordinate: coordinate) {
@@ -91,18 +83,13 @@ struct MapView: View {
                     .annotationTitles(.hidden)
                 }
             }
-
-            if let route = viewModel.route {
-                MapPolyline(route.polyline)
-                    .stroke(.blue, lineWidth: 8)
-            }
         }
         .mapStyle(
             .standard(
                 elevation: .realistic,
                 emphasis: .automatic,
                 pointsOfInterest: .all,
-                showsTraffic: viewModel.isRoutePresenting
+                showsTraffic: true
             )
         )
         .mapControls {
@@ -126,7 +113,6 @@ struct MapView: View {
                 if let selectedPlace = viewModel.selectedPlace {
                     BottomSheetMapView(
                         place: selectedPlace,
-                        isRoutePresenting: viewModel.isRoutePresenting,
                         travelTime: viewModel.travelTime,
                         showBannerAds: viewModel.shouldShowBannerAds,
                         action: { type in
@@ -166,11 +152,6 @@ struct MapView: View {
                     MapApp.uber.open(coordinate: coordinate, address: viewModel.selectedPlace?.vicinity ?? "")
                     viewModel.onDismissRouteOptions()
                 }
-                Button("Apenas visualizar") {
-                    UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-                    viewModel.getDirections(to: coordinate)
-                    viewModel.onDismissRouteOptions()
-                }
                 Button("Cancelar", role: .cancel) {
                     viewModel.onDismissRouteOptions()
                 }
@@ -180,18 +161,16 @@ struct MapView: View {
     }
 
     private var findInAreaButton: some View {
-        FindInAreaButton(onTap: {
-            withAnimation {
-                viewModel.showFindInAreaButton = false
-            }
+        FindInAreaButton(action: {
+            withAnimation { viewModel.showFindInAreaButton = false }
 
             guard let center = viewModel.lastRegion?.center else { return }
 
             viewModel.fetchStationsFromGooglePlaces(in: center) { items in
                 guard let items else { return }
-                viewModel.getMapItemsRegion(places: items) { region in
-                    viewModel.updateCameraPosition(forRegion: region)
-                }
+//                viewModel.getMapItemsRegion(places: items) { region in
+//                    viewModel.updateCameraPosition(forRegion: region)
+//                }
             }
         })
         .opacity(viewModel.shouldShowFindInAreaButton ? 1 : 0)

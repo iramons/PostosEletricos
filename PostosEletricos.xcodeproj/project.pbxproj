@@ -101,7 +101,7 @@
 		2784EF682BD5886B00F485CC /* car-charging-station-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF672BD5886B00F485CC /* car-charging-station-anim.json */; };
 		2784EF6A2BD5A22900F485CC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF692BD5A22900F485CC /* Colors.xcassets */; };
 		27A698462BFED34A007A6E79 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 27A698452BFED34A007A6E79 /* GoogleMobileAds */; };
-		27A698482BFEDE11007A6E79 /* BannerAdsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A698472BFEDE11007A6E79 /* BannerAdsView.swift */; };
+		27A698482BFEDE11007A6E79 /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A698472BFEDE11007A6E79 /* BannerAdView.swift */; };
 		27AD24E22BF8EE5D007A3A42 /* OriginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AD24E12BF8EE5D007A3A42 /* OriginFlow.swift */; };
 		27AD24E52BFA8D65007A3A42 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AD24E42BFA8D65007A3A42 /* LocationManager.swift */; };
 		27DB53DE2BF5857200897B41 /* RequestLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DB53DD2BF5857200897B41 /* RequestLocationView.swift */; };
@@ -193,7 +193,7 @@
 		277A3CB72BEC71C500174E0F /* Prediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prediction.swift; sourceTree = "<group>"; };
 		2784EF672BD5886B00F485CC /* car-charging-station-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "car-charging-station-anim.json"; sourceTree = "<group>"; };
 		2784EF692BD5A22900F485CC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
-		27A698472BFEDE11007A6E79 /* BannerAdsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdsView.swift; sourceTree = "<group>"; };
+		27A698472BFEDE11007A6E79 /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
 		27AD24E12BF8EE5D007A3A42 /* OriginFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginFlow.swift; sourceTree = "<group>"; };
 		27AD24E42BFA8D65007A3A42 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		27DB53DD2BF5857200897B41 /* RequestLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestLocationView.swift; sourceTree = "<group>"; };
@@ -537,7 +537,7 @@
 			isa = PBXGroup;
 			children = (
 				207218392BA0B6C4005A136A /* BottomSheetMapView.swift */,
-				27A698472BFEDE11007A6E79 /* BannerAdsView.swift */,
+				27A698472BFEDE11007A6E79 /* BannerAdView.swift */,
 			);
 			path = BottomSheet;
 			sourceTree = "<group>";
@@ -844,7 +844,7 @@
 				277A3CB82BEC71C500174E0F /* Prediction.swift in Sources */,
 				277A3CA92BEBD3BA00174E0F /* Location.swift in Sources */,
 				207AF3E22B9E804F002AE17D /* MapApps.swift in Sources */,
-				27A698482BFEDE11007A6E79 /* BannerAdsView.swift in Sources */,
+				27A698482BFEDE11007A6E79 /* BannerAdView.swift in Sources */,
 				27512BA42C0B823C00C821B0 /* AdCoordinator.swift in Sources */,
 				27AD24E52BFA8D65007A3A42 /* LocationManager.swift in Sources */,
 				20002FF12B01A149005C7329 /* PostosEletricosApp.swift in Sources */,

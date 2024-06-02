@@ -21,7 +21,6 @@ struct BottomSheetMapView: View {
     }
     
     var place: Place
-    var isRoutePresenting: Bool
     var travelTime: String?
     var showBannerAds: Bool
     @State var lookAroundScene: MKLookAroundScene?
@@ -77,7 +76,7 @@ struct BottomSheetMapView: View {
                     .foregroundStyle(.white)
                     .clipShape(.capsule)
                 
-                if isRoutePresenting, let travelTime {
+                if let travelTime {
                     Text("Tempo estimado: ∼\(travelTime)")
                         .multilineTextAlignment(.leading)
                         .minimumScaleFactor(0.5)
@@ -109,7 +108,7 @@ struct BottomSheetMapView: View {
                         action(.route)
                     },
                     label: {
-                        Text(isRoutePresenting ? "Remover rota" : "Mostrar rota")
+                        Text("Mostrar rota")
                             .multilineTextAlignment(.center)
                             .font(.custom("RobotoCondensed-Bold", size: 15))
                             .foregroundStyle(.white)
@@ -122,7 +121,7 @@ struct BottomSheetMapView: View {
                             .padding(.trailing, 12)
                     }
                 )
-                .background(isRoutePresenting ? .red : .indigo)
+                .background(.indigo)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .shadow(radius: 4)
             }
@@ -275,7 +274,7 @@ struct BottomSheetMapView: View {
                 .shadow(radius: 4)
             }
             
-            BannerAdsView()
+            BannerAdView()
                 .frame(maxWidth: .infinity, alignment: .center)
                 .frame(height: 60)
                 .clipShape(.rect(cornerRadius: 12))
@@ -344,7 +343,6 @@ struct BottomSheetMapView: View {
             
             BottomSheetMapView(
                 place: place,
-                isRoutePresenting: false,
                 showBannerAds: true,
                 action: { _ in }
             )

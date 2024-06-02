@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 import GooglePlaces
-import Resolver
 import GoogleMobileAds
 
 #if DEBUG

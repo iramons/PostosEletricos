@@ -10,7 +10,6 @@ import MapKit
 import SwiftUI
 import Moya
 import Combine
-import Resolver
 import AppTrackingTransparency
 
 @MainActor
@@ -30,6 +29,7 @@ class MapViewModel: ObservableObject {
     @Published var distance: CLLocationDistance = CLLocationDistance(4000)
     @Published var lastRegion: MKCoordinateRegion?
     @Published var lastContext: MapCameraUpdateContext?
+    @Published var currentMapRect: MKMapRect?
     @Published var presentationDetentionSelection: PresentationDetent = .fraction(0.18)
     @Published var showRouteOptions: Bool = false
     @Published var showFindInAreaButton: Bool = false
@@ -47,18 +47,10 @@ class MapViewModel: ObservableObject {
         didSet { updateSelectedPlaceWhenPlacesUpdate() }
     }
 
-    @Published var route: MKRoute? {
-        didSet {
-            updatePresentationDetentionSelection()
-            if isRoutePresenting { updateCameraPositionForRoute() }
-        }
-    }
-
     var shouldShowPlacesFromSearch: Bool { !placesFromSearch.isEmpty }
     var shouldShowFindInAreaButton: Bool { !shouldShowPlacesFromSearch && showFindInAreaButton }
     var toastMessage: String = "Nenhum posto de recarga elétrica encontrado nesta área."
     var userCoordinate: CLLocationCoordinate2D?
-    var isRoutePresenting: Bool { route != nil }
     var alertTitle: String = ""
     var alertMessage: String = ""
     var alertButtonTitle: String = ""
@@ -128,6 +120,7 @@ class MapViewModel: ObservableObject {
         presentationDetentionSelection = .fraction(0.18)
         handleSelectedPlaceUpdated()
         adCoordinator.loadAd()
+        getDirections(to: selectedPlace?.coordinate)
     }
 
     func handleSelectedPlaceUpdated() {
@@ -199,21 +192,13 @@ class MapViewModel: ObservableObject {
 
         _Concurrency.Task {
             let result = try? await MKDirections(request: request).calculate()
-            route = result?.routes.first
-            getTravelTime()
+            guard let route = result?.routes.first else { return }
+            getTravelTime(forRoute: route)
         }
     }
 
     func onDismissRouteOptions() {
         withAnimation { showBottomSheet = true }
-    }
-
-    func updateDistance(with context: MapCameraUpdateContext) {
-        distance = context.camera.distance / 3.8
-    }
-
-    func saveLast(_ context: MapCameraUpdateContext) {
-        lastContext = context
     }
 
     /// Function to update camera position to fit all markers
@@ -258,16 +243,13 @@ class MapViewModel: ObservableObject {
             }
         }
 
-        updateDistance(with: context)
+        update(context.rect)
+        update(context.camera.distance)
         saveLast(context)
     }
 
     func onShowRouteTap() {
-        if isRoutePresenting {
-            route = nil
-        } else {
-            showAd()
-        }
+        showAd()
     }
 
     private func showAd() {
@@ -299,7 +281,17 @@ class MapViewModel: ObservableObject {
             getMapItemsRegion(places: places) { region in
 //                self.updateCameraPosition(forRegion: region)
                 if let userCoordinate = self.userCoordinate {
-                    self.updateCameraPositionForTwoRegions(region, MKCoordinateRegion(center: userCoordinate, span: MKCoordinateSpan(latitudeDelta: 0.020, longitudeDelta: 0.020)))
+
+                    // Find the farthest place
+                    if let farthestPlaceCoordinate = farthestPlaceCoordinate(from: userCoordinate, places: places) {
+                        let distance = distanceBetween(userCoordinate, farthestPlaceCoordinate)
+                        let distanceInMeters: Double = distance
+                        self.updateCameraDistance(distanceInMeters)
+                    } else {
+                        print("No places provided.")
+                    }
+
+//                    self.updateCameraPositionForTwoRegions(region, MKCoordinateRegion(center: userCoordinate, span: MKCoordinateSpan(latitudeDelta: 0.020, longitudeDelta: 0.020)))
                 }
                 //                    _Concurrency.Task {
                 //                        await self.fetchStationsFromMapKit() { itemsFromMapKit in
@@ -314,8 +306,7 @@ class MapViewModel: ObservableObject {
         }
     }
 
-    private func getTravelTime() {
-        guard let route else { return }
+    private func getTravelTime(forRoute route: MKRoute) {
         let formatter = DateComponentsFormatter()
         formatter.unitsStyle = .abbreviated
         formatter.allowedUnits = [.hour, .minute]
@@ -349,12 +340,6 @@ class MapViewModel: ObservableObject {
         }
     }
 
-    private func updatePresentationDetentionSelection() {
-        withAnimation {
-            presentationDetentionSelection = isRoutePresenting ? .fraction(0.18) : .fraction(0.3)
-        }
-    }
-
     private func checkIfLocationIsDenied() {
         if locationManager.isDenied {
             setAlert(
@@ -370,6 +355,18 @@ class MapViewModel: ObservableObject {
         alertMessage = message
         alertButtonTitle = actionButtonTitle
         withAnimation { showAlert = true }
+    }
+
+    private func update(_ rect: MKMapRect) {
+        currentMapRect = rect
+    }
+
+    private func update(_ distance: Double) {
+        self.distance = distance / 3.8
+    }
+
+    private func saveLast(_ context: MapCameraUpdateContext) {
+        lastContext = context
     }
 }
 
@@ -535,6 +532,11 @@ extension MapViewModel {
         withAnimation { position = .region(.init(center: region.center, span: region.span)) }
     }
 
+    func updateCameraDistance(_ distance: Double) {
+        guard let centerCoordinate = lastContext?.camera.centerCoordinate else { return }
+        withAnimation { position = .camera(.init(centerCoordinate: centerCoordinate, distance: distance * 4)) }
+    }
+
     func updateCameraPositionForRoute() {
         guard let userCoordinate else { return }
         guard let selectedPlaceCoordinate = selectedPlace?.coordinate else { return }
@@ -579,16 +581,25 @@ extension MapViewModel {
 
         updateCameraPosition(forRegion: MKCoordinateRegion(center: center, span: span))
     }
+}
 
-    func calculateBoundingBoxCenterAndRadius(topLeft: CLLocationCoordinate2D, bottomRight: CLLocationCoordinate2D) -> (center: CLLocationCoordinate2D, radius: CLLocationDistance) {
-        let centerLatitude = (topLeft.latitude + bottomRight.latitude) / 2
-        let centerLongitude = (topLeft.longitude + bottomRight.longitude) / 2
-        let center = CLLocationCoordinate2D(latitude: centerLatitude, longitude: centerLongitude)
+func distanceBetween(_ coord1: CLLocationCoordinate2D, _ coord2: CLLocationCoordinate2D) -> CLLocationDistance {
+    let location1 = CLLocation(latitude: coord1.latitude, longitude: coord1.longitude)
+    let location2 = CLLocation(latitude: coord2.latitude, longitude: coord2.longitude)
+    return location1.distance(from: location2)
+}
 
-        let topLeftLocation = CLLocation(latitude: topLeft.latitude, longitude: topLeft.longitude)
-        let centerLocation = CLLocation(latitude: center.latitude, longitude: center.longitude)
-        let radius = topLeftLocation.distance(from: centerLocation)
+func farthestPlaceCoordinate(from userLocation: CLLocationCoordinate2D, places: [Place]) -> CLLocationCoordinate2D? {
+    let coordinates = places.map({ $0.coordinate })
 
-        return (center, radius)
+    guard let farthestPlace = coordinates.max(by: {
+        if let coordA = $0, let coordB = $1 {
+            return distanceBetween(userLocation, coordA) < distanceBetween(userLocation, coordB)
+        } else {
+            return false
+        }
+    }) else {
+        return nil
     }
+    return farthestPlace
 }

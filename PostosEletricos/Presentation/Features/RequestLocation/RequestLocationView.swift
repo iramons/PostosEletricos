@@ -2,11 +2,10 @@
 //  RequestLocationView.swift
 //  PostosEletricos
 //
-//  Created by Sportheca Brasil on 15/05/24.
+//  Created by Ramon Santos on 15/05/24.
 //
 
 import SwiftUI
-import Resolver
 
 struct RequestLocationView: View {
 

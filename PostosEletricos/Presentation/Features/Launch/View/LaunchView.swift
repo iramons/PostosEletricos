@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Lottie
-import Resolver
 
 struct LaunchView: View {
 
