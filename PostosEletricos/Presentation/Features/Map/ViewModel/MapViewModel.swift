@@ -290,8 +290,6 @@ class MapViewModel: ObservableObject {
                     } else {
                         print("No places provided.")
                     }
-
-//                    self.updateCameraPositionForTwoRegions(region, MKCoordinateRegion(center: userCoordinate, span: MKCoordinateSpan(latitudeDelta: 0.020, longitudeDelta: 0.020)))
                 }
                 //                    _Concurrency.Task {
                 //                        await self.fetchStationsFromMapKit() { itemsFromMapKit in

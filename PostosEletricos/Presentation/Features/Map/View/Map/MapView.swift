@@ -166,11 +166,17 @@ struct MapView: View {
 
             guard let center = viewModel.lastRegion?.center else { return }
 
-            viewModel.fetchStationsFromGooglePlaces(in: center) { items in
-                guard let items else { return }
-//                viewModel.getMapItemsRegion(places: items) { region in
-//                    viewModel.updateCameraPosition(forRegion: region)
-//                }
+            viewModel.fetchStationsFromGooglePlaces(in: center) { places in
+                guard let places else { return }
+                viewModel.getMapItemsRegion(places: places) { region in
+                    if let farthestPlaceCoordinate = farthestPlaceCoordinate(from: center, places: places) {
+                        let distance = distanceBetween(center, farthestPlaceCoordinate)
+                        let distanceInMeters: Double = distance + 2000
+                        viewModel.updateCameraDistance(distanceInMeters)
+                    } else {
+                        print("No places provided.")
+                    }
+                }
             }
         })
         .opacity(viewModel.shouldShowFindInAreaButton ? 1 : 0)

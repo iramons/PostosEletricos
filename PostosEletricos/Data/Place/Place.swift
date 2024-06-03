@@ -7,7 +7,6 @@
 
 import Foundation
 import MapKit
-import GooglePlaces
 
 // MARK: - Place
 

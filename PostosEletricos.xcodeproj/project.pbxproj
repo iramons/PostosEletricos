@@ -295,7 +295,7 @@
 			children = (
 				20CB5BBF2B9D0C5000C42659 /* Network */,
 				207AF3E82B9E8187002AE17D /* Services */,
-				207AF3E92B9E8196002AE17D /* GoogleMaps */,
+				207AF3E92B9E8196002AE17D /* GooglePlaces */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -343,12 +343,12 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		207AF3E92B9E8196002AE17D /* GoogleMaps */ = {
+		207AF3E92B9E8196002AE17D /* GooglePlaces */ = {
 			isa = PBXGroup;
 			children = (
 				207EF40E2B9CB32500EF46CF /* GooglePlacesAPI.swift */,
 			);
-			path = GoogleMaps;
+			path = GooglePlaces;
 			sourceTree = "<group>";
 		};
 		207AF3F52B9EA8C0002AE17D /* Anim */ = {
