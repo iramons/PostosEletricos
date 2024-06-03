@@ -22,7 +22,6 @@
 		207EF3FD2B9CB08900EF46CF /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF3FC2B9CB08900EF46CF /* Moya */; };
 		207EF3FF2B9CB08900EF46CF /* ReactiveMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF3FE2B9CB08900EF46CF /* ReactiveMoya */; };
 		207EF4012B9CB08900EF46CF /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF4002B9CB08900EF46CF /* RxMoya */; };
-		207EF40D2B9CB2E200EF46CF /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF40C2B9CB2E200EF46CF /* GooglePlaces */; };
 		207EF40F2B9CB32500EF46CF /* GooglePlacesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF40E2B9CB32500EF46CF /* GooglePlacesAPI.swift */; };
 		207EF4112B9CB35000EF46CF /* NetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF4102B9CB35000EF46CF /* NetworkConfig.swift */; };
 		207EF4132B9CB36F00EF46CF /* GooglePlacesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF4122B9CB36F00EF46CF /* GooglePlacesResponse.swift */; };
@@ -210,7 +209,6 @@
 				207EF3FB2B9CB08900EF46CF /* CombineMoya in Frameworks */,
 				207EF4012B9CB08900EF46CF /* RxMoya in Frameworks */,
 				20FCF7632BAF1E33004A5495 /* Pulse in Frameworks */,
-				207EF40D2B9CB2E200EF46CF /* GooglePlaces in Frameworks */,
 				207EF3FF2B9CB08900EF46CF /* ReactiveMoya in Frameworks */,
 				20FCF7652BAF1E33004A5495 /* PulseUI in Frameworks */,
 				20FCF7762BAF2B6D004A5495 /* PulseLogHandler in Frameworks */,
@@ -697,7 +695,6 @@
 				207EF3FC2B9CB08900EF46CF /* Moya */,
 				207EF3FE2B9CB08900EF46CF /* ReactiveMoya */,
 				207EF4002B9CB08900EF46CF /* RxMoya */,
-				207EF40C2B9CB2E200EF46CF /* GooglePlaces */,
 				207AF3ED2B9EA109002AE17D /* Lottie */,
 				20FCF7622BAF1E33004A5495 /* Pulse */,
 				20FCF7642BAF1E33004A5495 /* PulseUI */,
@@ -736,7 +733,6 @@
 			mainGroup = 20002FE42B01A149005C7329;
 			packageReferences = (
 				207EF3F92B9CB08900EF46CF /* XCRemoteSwiftPackageReference "Moya" */,
-				207EF40B2B9CB2E200EF46CF /* XCRemoteSwiftPackageReference "ios-places-sdk" */,
 				207AF3EC2B9EA109002AE17D /* XCRemoteSwiftPackageReference "lottie-spm" */,
 				20FCF7612BAF1E33004A5495 /* XCRemoteSwiftPackageReference "Pulse" */,
 				20FCF7712BAF2B5B004A5495 /* XCRemoteSwiftPackageReference "swift-log" */,
@@ -1091,14 +1087,6 @@
 				minimumVersion = 15.0.3;
 			};
 		};
-		207EF40B2B9CB2E200EF46CF /* XCRemoteSwiftPackageReference "ios-places-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/googlemaps/ios-places-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 8.3.0;
-			};
-		};
 		20FCF7612BAF1E33004A5495 /* XCRemoteSwiftPackageReference "Pulse" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kean/Pulse";
@@ -1158,11 +1146,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 207EF3F92B9CB08900EF46CF /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = RxMoya;
-		};
-		207EF40C2B9CB2E200EF46CF /* GooglePlaces */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 207EF40B2B9CB2E200EF46CF /* XCRemoteSwiftPackageReference "ios-places-sdk" */;
-			productName = GooglePlaces;
 		};
 		20FCF7622BAF1E33004A5495 /* Pulse */ = {
 			isa = XCSwiftPackageProductDependency;
