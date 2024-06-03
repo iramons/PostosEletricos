@@ -6,35 +6,19 @@
 //
 
 import SwiftUI
-import GooglePlaces
-import Pulse
-import PulseUI
 
 @main
 struct PostosEletricosApp: App {
 
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @State var showMap: Bool = false
+    @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
+    @StateObject private var navigationManager = NavigationManager()
 
     var body: some Scene {
         WindowGroup {
-            VStack(spacing: .zero) {
-                if showMap {
-                    MapView()
-                } else {
-                    LaunchView()
-                }
-            }
-            .background(.darknessGreen)
-            .onAppear {
-                if !showMap {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                        withAnimation(.easeIn) {
-                            showMap.toggle()
-                        }
-                    }
-                }
-            }
+            ContentView()
+                .environmentObject(navigationManager)
         }
     }
 }
+
+

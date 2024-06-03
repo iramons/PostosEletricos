@@ -18,31 +18,23 @@ struct SuggestionsListView: View {
     var body: some View {
         ForEach(viewModel.placesFromSearch, id: \.id) { place in
             Button(place.name) {
-                withAnimation {
-                    dismissSearch()
-                }
-
-                viewModel.deselectPlace()
-
-                handleSelection(place)
+                withAnimation { dismissSearch() }
+                viewModel.onDismissSearch()
+                onSuggestionSelected(place)
             }
             .foregroundStyle(.foreground)
         }
     }
 
-    private func handleSelection(_ place: Place) {
+    private func onSuggestionSelected(_ place: Place) {
         guard let placeID = place.placeID else { return }
         
         viewModel.fetchPlace(placeID: placeID) { place in
-            
             if let coordinate = place?.coordinate {
-                viewModel.updateCameraPosition(forCoordinate: coordinate)
-                
-                viewModel.fetchStationsFromGooglePlaces(in: coordinate) { items in
-                    guard let items else { return }
-                    viewModel.getMapItemsRegion(places: items) { region in
-                        viewModel.updateCameraPosition(forRegion: region)
-                    }
+                viewModel.updateCameraPosition(forCoordinate: coordinate, withSpan: .init(latitudeDelta: CLLocationDegrees(0.03), longitudeDelta: CLLocationDegrees(0.03)))
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                    viewModel.fetchStationsFromGooglePlaces(in: coordinate, radius: CLLocationDistance(4000)) { _ in }
                 }
             }
         }

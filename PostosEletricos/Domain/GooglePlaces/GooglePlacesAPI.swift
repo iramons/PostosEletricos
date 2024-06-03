@@ -1,5 +1,5 @@
 //
-//  GoogleMapsAPI.swift
+//  GooglePlacesAPI.swift
 //  PostosEletricos
 //
 //  Created by Ramon Santos on 12/11/23.
@@ -9,13 +9,14 @@ import Foundation
 import Moya
 import MapKit
 
-enum GoogleMapsAPI {
+enum GooglePlacesAPI {
     case places(location: CLLocationCoordinate2D, radius: Double)
     case place(placeID: String)
-    case autocomplete(query: String, location: CLLocationCoordinate2D? = nil, radius: Double = 100000)
+    case autocomplete(query: String, location: CLLocationCoordinate2D? = nil, radius: Double = 4000)
+    case photo(maxWidth: Double, photoReference: String)
 }
 
-extension GoogleMapsAPI: TargetType {
+extension GooglePlacesAPI: TargetType {
 
     var baseURL: URL {
         return URL(string: "https://maps.googleapis.com/maps/api/place")!
@@ -23,20 +24,16 @@ extension GoogleMapsAPI: TargetType {
 
     var path: String {
         switch self {
-        case .places:
-            return "/nearbysearch/json"
-        case .place:
-            return "/details/json"
-        case .autocomplete:
-            return "/autocomplete/json"
+        case .places: return "/nearbysearch/json"
+        case .place: return "/details/json"
+        case .autocomplete: return "/autocomplete/json"
+        case .photo: return "/photo"
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .places,
-             .place,
-             .autocomplete:
+        case .places, .place, .autocomplete, .photo:
             return .get
         }
     }
@@ -87,6 +84,16 @@ extension GoogleMapsAPI: TargetType {
                     encoding: URLEncoding.default
                 )
             }
+
+        case let .photo(maxWidth, photoReference):
+            return .requestParameters(
+                parameters: [
+                    "maxwidth": maxWidth,
+                    "photoreference": photoReference,
+                    "key" : SecretsKeys.googlePlaces.key,
+                ],
+                encoding: URLEncoding.default
+            )
         }
     }
     
@@ -99,8 +106,10 @@ extension GoogleMapsAPI: TargetType {
 
 private extension String {
     var urlEscaped: String {
-        addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        return addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
     }
 
-    var utf8Encoded: Data { Data(self.utf8) }
+    var utf8Encoded: Data {
+        return Data(utf8)
+    }
 }

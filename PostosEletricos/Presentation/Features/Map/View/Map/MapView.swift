@@ -7,47 +7,38 @@
 
 import SwiftUI
 import MapKit
-import OSLog
-import Pulse
-import PulseUI
+import AdSupport
+import AppTrackingTransparency
+import GoogleMobileAds
+import UIKit
 
 // MARK: MapView
 
 struct MapView: View {
 
     @StateObject var viewModel = MapViewModel()
-    @State private var showPulseUI: Bool = false
-    @Environment(\.colorScheme) var colorScheme
+    private var interstitial: GADInterstitialAd?
 
     var body: some View {
         NavigationStack {
             content
         }
-        .alert(isPresented: $viewModel.showLocationServicesAlert) {
+        .onAppear { viewModel.checkLocationAuthorization() }
+        .alert(isPresented: $viewModel.showAlert) {
             Alert(
-                title: Text("Serviços de localização desabilitados"),
-                message: Text("Para utilizar este App é necessário habilitar o serviço de localização! Por favor habilite a localização para o App PostosEletricos nos Ajustes do iPhone."),
-                primaryButton: .default(Text("Ajustes")) {
-                    /// Direct users to the app's settings
+                title: Text(viewModel.alertTitle),
+                message: Text(viewModel.alertMessage),
+                primaryButton: .default(Text(viewModel.alertButtonTitle)) {
                     if let url = URL(string: UIApplication.openSettingsURLString),
                        UIApplication.shared.canOpenURL(url) {
-                        UIApplication.shared.open(url)
+                        url.openURL()
                     }
                 },
                 secondaryButton: .cancel()
             )
         }
-        .sheet(isPresented: $showPulseUI) {
-            NavigationView {
-                ConsoleView()
-            }
-        }
-        .onShakeGesture {
-            withAnimation {
-                showPulseUI.toggle()
-            }
-
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+        .fullScreenCover(isPresented: $viewModel.showRequestLocationAuthorization) {
+            RequestLocationView()
         }
         .toast(
             isShowing: $viewModel.showToast,
@@ -57,42 +48,40 @@ struct MapView: View {
 
     private var content: some View {
         ZStack(alignment: .top) {
-//            findInAreaButton
+            findInAreaButton
+            map
+        }
+        .background(.regularMaterial)
+        .navigationBarTitleDisplayMode(.automatic)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                VStack(alignment: .leading) {
+                    Text(Bundle.main.appName)
+                      .font(.custom("Roboto-Black", size: 34))
+                      .multilineTextAlignment(.leading)
+                      .foregroundColor(.primary)
+                      .padding(.top, 96)
 
-            VStack(spacing: .zero) {
-                map
+                }
             }
         }
-        .background(Color(colorScheme == .light ? .white : .darknessGray))
-        .navigationBarTitleDisplayMode(.automatic)
-        .navigationTitle("Postos Elétricos")
         .searchable(text: $viewModel.searchText)
-        .searchSuggestions {
-            SuggestionsListView(viewModel: viewModel)
-        }
+        .searchSuggestions { SuggestionsListView(viewModel: viewModel) }
     }
 
     private var map: some View {
-        Map(
-            position: $viewModel.position,
-            selection: $viewModel.selectedPlaceID
-        ) {
+        Map(position: $viewModel.position, selection: $viewModel.selectedID) {
             UserAnnotation()
 
             ForEach(viewModel.places, id: \.id) { place in
                 if let coordinate = place.coordinate {
                     Marker(coordinate: coordinate) {
-                        Label(place.name, systemImage: "bolt.fill")
+                        Label(place.name, systemImage: place.opened ? "bolt.fill" : "bolt.slash.fill")
                     }
                     .tag(place.id)
-                    .tint(.green)
+                    .tint(place.opened ? .accent : .lightnessGray)
                     .annotationTitles(.hidden)
                 }
-            }
-
-            if let route = viewModel.route {
-                MapPolyline(route.polyline)
-                    .stroke(.blue, lineWidth: 8)
             }
         }
         .mapStyle(
@@ -100,7 +89,7 @@ struct MapView: View {
                 elevation: .realistic,
                 emphasis: .automatic,
                 pointsOfInterest: .all,
-                showsTraffic: viewModel.isRoutePresenting
+                showsTraffic: true
             )
         )
         .mapControls {
@@ -108,47 +97,63 @@ struct MapView: View {
             MapPitchToggle()
             MapUserLocationButton()
         }
-        .onChange(of: viewModel.selectedPlaceID) { _ , _ in
-            viewModel.onDidSelectPlace()
-        }
         .onMapCameraChange(frequency: .onEnd) { context in
             viewModel.onMapCameraChange(context)
         }
-        .overlay(alignment: .bottom) {
-            if let selectedPlace = viewModel.selectedPlace {
-                BottomMapDetailsView(
-                    place: selectedPlace,
-                    isRoutePresenting: viewModel.isRoutePresenting,
-                    action: { type in
-                        switch type {
-                        case .close: viewModel.onDidClosePlaceDetails()
-                        case .route: viewModel.handleRouteUpdates()
-                        }
-                    }
-                )
-            }
+        .onChange(of: viewModel.selectedID) { _, newSelectedID in
+            viewModel.updateSelectedPlace(withID: newSelectedID)
         }
-        .confirmationDialog("Abrir com", isPresented: $viewModel.showMapApps) {
-            if let coordinate = viewModel.selectedPlaceCoordinate {
-                Button(MapApp.apple.title) { 
+        .onChange(of: viewModel.showBottomSheet) {
+            viewModel.requestAppTrackingAuthorizationIfNeeded()
+        }
+        .sheet(
+            isPresented: $viewModel.showBottomSheet,
+            onDismiss: { viewModel.onDismissBottomSheet() },
+            content: {
+                if let selectedPlace = viewModel.selectedPlace {
+                    BottomSheetMapView(
+                        place: selectedPlace,
+                        travelTime: viewModel.travelTime,
+                        showBannerAds: viewModel.shouldShowBannerAds,
+                        action: { type in
+                            switch type {
+                            case .close: viewModel.onBottomSheetCloseButtonTap()
+                            case .route: viewModel.onShowRouteTap()
+                            }
+                        })
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                        .presentationDetents([.fraction(0.18), .fraction(0.3), .fraction(0.8)], selection: $viewModel.presentationDetentionSelection)
+                        .presentationBackgroundInteraction(.enabled)
+                        .presentationCornerRadius(26)
+                        .presentationDragIndicator(.automatic)
+                        .presentationBackground(.regularMaterial.shadow(.drop(radius: 4)))
+                }
+            }
+        )
+        .confirmationDialog("Abrir com", isPresented: $viewModel.showRouteOptions, titleVisibility: .visible) {
+            if let coordinate = viewModel.selectedPlace?.coordinate {
+                Button(MapApp.apple.title) {
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     MapApp.apple.open(coordinate: coordinate)
+                    viewModel.onDismissRouteOptions()
                 }
                 Button(MapApp.googleMaps.title) {
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     MapApp.googleMaps.open(coordinate: coordinate)
-                }
-                Button(MapApp.uber.title) {
-                    UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-                    MapApp.uber.open(coordinate: coordinate, address: viewModel.selectedPlace?.vicinity ?? "")
+                    viewModel.onDismissRouteOptions()
                 }
                 Button(MapApp.waze.title) {
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     MapApp.waze.open(coordinate: coordinate)
+                    viewModel.onDismissRouteOptions()
                 }
-                Button("Visualizar caminho") { 
+                Button(MapApp.uber.title) {
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-                    viewModel.getDirections(to: coordinate)
+                    MapApp.uber.open(coordinate: coordinate, address: viewModel.selectedPlace?.vicinity ?? "")
+                    viewModel.onDismissRouteOptions()
+                }
+                Button("Cancelar", role: .cancel) {
+                    viewModel.onDismissRouteOptions()
                 }
             }
         }
@@ -156,22 +161,26 @@ struct MapView: View {
     }
 
     private var findInAreaButton: some View {
-        FindInAreaButton(onTap: {
-            withAnimation {
-                viewModel.showFindInAreaButton = false
-                viewModel.isSearchBarVisible = false
-            }
-            guard let center = viewModel.position.region?.center else { return }
+        FindInAreaButton(action: {
+            withAnimation { viewModel.showFindInAreaButton = false }
 
-            viewModel.fetchStationsFromGooglePlaces(in: center) { items in
-                guard let items else { return }
-                viewModel.getMapItemsRegion(places: items) { region in
-                    viewModel.updateCameraPosition(forRegion: region)
+            guard let center = viewModel.lastRegion?.center else { return }
+
+            viewModel.fetchStationsFromGooglePlaces(in: center) { places in
+                guard let places else { return }
+                viewModel.getMapItemsRegion(places: places) { region in
+                    if let farthestPlaceCoordinate = farthestPlaceCoordinate(from: center, places: places) {
+                        let distance = distanceBetween(center, farthestPlaceCoordinate)
+                        let distanceInMeters: Double = distance + 2000
+                        viewModel.updateCameraDistance(distanceInMeters)
+                    } else {
+                        print("No places provided.")
+                    }
                 }
             }
         })
-        .offset(y: viewModel.isSearchBarVisible ? 130 : 80)
-        .opacity(viewModel.shouldShowFindInAreaButton ? 0.9 : 0)
+        .opacity(viewModel.shouldShowFindInAreaButton ? 1 : 0)
+        .padding(6)
         .zIndex(1)
     }
 }

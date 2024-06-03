@@ -116,14 +116,14 @@ public enum MapApps {
 // MARK: Refactored
 
 enum MapApp: CaseIterable {
-    case apple, googleMaps, uber, waze
+    case apple, googleMaps, waze, uber
 
     var title: String {
         switch self {
         case .apple: return "Apple Maps"
         case .googleMaps: return "Google Maps"
-        case .uber: return "Uber"
         case .waze: return "Waze"
+        case .uber: return "Uber"
         }
     }
 
@@ -131,8 +131,8 @@ enum MapApp: CaseIterable {
         switch self {
         case .apple: return "http"
         case .googleMaps: return "comgooglemaps"
-        case .uber: return "uber"
         case .waze: return "waze"
+        case .uber: return "uber"
         }
     }
 
@@ -156,11 +156,11 @@ enum MapApp: CaseIterable {
         case .googleMaps:
             urlString = "\(scheme)://?daddr=\(latitude),\(longitude)&directionsmode=driving"
 
-        case .uber:
-            urlString = "\(scheme)://?action=setPickup&dropoff[latitude]=\(latitude)&dropoff[longitude]=\(longitude)&dropoff[formatted_address]=\(address)"
-
         case .waze:
             urlString = "\(scheme)://?ll=\(latitude),\(longitude)navigate=yes"
+
+        case .uber:
+            urlString = "\(scheme)://?action=setPickup&dropoff[latitude]=\(latitude)&dropoff[longitude]=\(longitude)&dropoff[formatted_address]=\(address)"
         }
 
         let urlwithPercentEscapes = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? urlString
@@ -171,40 +171,5 @@ enum MapApp: CaseIterable {
     func open(coordinate: CLLocationCoordinate2D, address: String = "") {
         guard let url = url(for: coordinate, address: address) else { return }
         url.openURL()
-    }
-}
-
-extension View {
-    func opensMap(at location: CLLocationCoordinate2D?) -> some View {
-        return self.modifier(OpenMapViewModifier(location: location))
-    }
-}
-
-struct OpenMapViewModifier: ViewModifier {
-
-    var location: CLLocationCoordinate2D?
-
-    @State private var showingAlert: Bool = false
-    private let installedApps = MapApp.allCases.filter { $0.isInstalled }
-
-    func body(content: Content) -> some View {
-        Button(action: {
-            if installedApps.count > 1 {
-                showingAlert = true
-            } else if let app = installedApps.first, let url = app.url(for: location) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-        }) {
-            content.confirmationDialog("Abrir com", isPresented: $showingAlert) {
-
-                let appButtons: [ActionSheet.Button] = self.installedApps.compactMap { app in
-                    guard let url = app.url(for: self.location) else { return nil }
-                    return .default(Text(app.title)) {
-                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                    }
-                }
-//                return ActionSheet(title: Text("Navigate"), message: Text("Select an app..."), buttons: appButtons + [.cancel()])
-            }
-        }
     }
 }

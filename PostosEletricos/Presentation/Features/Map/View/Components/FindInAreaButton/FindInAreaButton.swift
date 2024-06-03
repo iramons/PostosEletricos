@@ -9,10 +9,8 @@ import SwiftUI
 
 struct FindInAreaButton: View {
 
-    let onTap: (() -> Void)
-
     @State private var animate: Bool = false
-    @Environment(\.colorScheme) var colorScheme
+    let action: (() -> Void)
 
     var body: some View {
         Button(action: {
@@ -25,21 +23,22 @@ struct FindInAreaButton: View {
                 }
             }
 
-            onTap()
+            action()
         }, label: {
             Text("Buscar nesta área")
         })
-        .font(.headline)
-        .padding(.horizontal, 24)
+        .font(.custom("Roboto-Medium", size: 13))
+        .padding(.horizontal, 20)
         .padding(.vertical, 8)
-        .background(colorScheme == .light ? .white : .darknessGray)
+        .background(.thinMaterial)
+        .foregroundStyle(.primary)
         .cornerRadius(26)
-        .shadow(radius: 3)
+        .shadow(radius: 2)
         .scaleEffect(animate ? 1.2 : 1)
         .animation(.spring(response: 0.4, dampingFraction: 0.6), value: animate)
     }
 }
 
 #Preview {
-    FindInAreaButton(onTap: {})
+    FindInAreaButton(action: {})
 }

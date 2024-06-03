@@ -8,28 +8,38 @@
 import Foundation
 import UIKit
 import GooglePlaces
+import GoogleMobileAds
 
 #if DEBUG
 import Pulse
 #endif
 
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
 
     var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        configureGooglePlaces()
-        registerAllServices()
-        enablePulseLogs()
+    func application(
+        _ application: UIApplication, didFinishLaunchingWithOptions
+        launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+    ) -> Bool {
 
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithTransparentBackground()
+        configureGooglePlaces()
+        configureGoogleAds()
+        enablePulseLogs()
 
         return true
     }
+}
 
+// MARK: Configurations
+
+extension AppDelegate {
     private func configureGooglePlaces() {
         GMSPlacesClient.provideAPIKey(SecretsKeys.googlePlaces.key)
+    }
+
+    private func configureGoogleAds() {
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
     }
 }
 
@@ -37,9 +47,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 private extension AppDelegate {
     func enablePulseLogs() {
-    #if DEBUG
+        #if DEBUG
         Experimental.URLSessionProxy.shared.isEnabled = true
         URLSessionProxyDelegate.enableAutomaticRegistration()
-    #endif
+        #endif
     }
 }

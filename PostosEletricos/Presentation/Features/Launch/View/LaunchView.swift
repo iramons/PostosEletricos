@@ -10,18 +10,19 @@ import Lottie
 
 struct LaunchView: View {
 
+    @EnvironmentObject var navigationManager: NavigationManager
+    @ObservedObject var locationManager = LocationManager.shared
     @State private var showAppName: Bool = false
-    @Injected private var locationService: LocationService
 
     var body: some View {
         ZStack {
-            Text("Postos Elétricos")
+            Text(Bundle.main.appName)
                 .font(.custom("CairoPlay-Regular", size: 36))
                 .foregroundStyle(.darknessGreen)
                 .offset(y: showAppName ? -60 : 0)
                 .opacity(showAppName ? 1 : 0)
                 .scaleEffect(showAppName ? 1.1 : 1)
-                .animation(.easeIn(duration: 0.8), value: showAppName)
+                .animation(.easeIn(duration: 0.6), value: showAppName)
                 .zIndex(1)
 
             GeometryReader { geo in
@@ -39,8 +40,10 @@ struct LaunchView: View {
 
             VStack {
                 Spacer()
+
                 HStack {
                     Spacer()
+
                     LottieView(animation: .named("car-charging-station-anim"))
                         .playbackMode(.playing(.fromFrame(0, toFrame: 100, loopMode: .autoReverse)))
                         .resizable()
@@ -66,19 +69,20 @@ struct LaunchView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-
         }
         .ignoresSafeArea(.all)
         .background(.darknessGreen)
-        .task {
-            try? await startCurrentLocationUpdates()
-        }
         .onAppear {
-            if !showAppName {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    withAnimation(.easeIn) {
-                        showAppName.toggle()
-                    }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                withAnimation(.easeIn) {
+                    showAppName.toggle()
+                }
+            }
+        }
+        .onChange(of: showAppName) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                withAnimation {
+                    navigationManager.currentView = .map
                 }
             }
         }
@@ -94,12 +98,11 @@ struct LaunchView: View {
         default: return 200 // iphone 11
         }
     }
-
-    func startCurrentLocationUpdates() async throws {
-        try? await locationService.startCurrentLocationUpdates()
-    }
 }
 
 #Preview {
-    LaunchView()
+    @StateObject var navigationManager = NavigationManager()
+
+    return LaunchView()
+        .environmentObject(navigationManager)
 }
