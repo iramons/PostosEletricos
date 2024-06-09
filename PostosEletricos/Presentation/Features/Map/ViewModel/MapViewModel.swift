@@ -506,7 +506,13 @@ extension MapViewModel {
                     guard let suggestions = response.suggestions else { return }
 
                     let places: [Place] = suggestions.map { suggestion in
-                        Place(placeID: suggestion.placePrediction?.placeID, name: suggestion.placePrediction?.text?.text ?? "")
+                        Place(
+                            placeID: suggestion.placePrediction?.placeID,
+                            displayName: DisplayName(
+                                languageCode: "pt-br",
+                                text: suggestion.placePrediction?.text?.text ?? ""
+                            )
+                        )
                     }
 
                     let sortedPlaces = places.sorted {

@@ -293,7 +293,10 @@ struct BottomSheetMapView: View {
 
 #Preview {
     let place = Place(
-        name: "Posto elétrico com nome muito grande e estrondoso",
+        displayName: DisplayName(
+            languageCode: "pt-br",
+            text: "Posto elétrico com nome muito grande e estrondoso"
+        ),
         formattedAddress: "Rua das Pedras de São Pedro de Rio, número 1245, cep 22343445. Brasil,Mundo",
         location: Location(latitude: 48.856788, longitude: 2.351077),
 //        openingHours: OpeningHours(

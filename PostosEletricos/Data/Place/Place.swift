@@ -13,7 +13,6 @@ import MapKit
 struct Place: Codable, Identifiable, Equatable, Comparable {
     let id: String = UUID().uuidString
     var placeID: String?
-    var name: String = "Postos Elétricos"
     var addressComponents: [AddressComponent]?
     var businessStatus: String?// BusinessStatus?
     var displayName: DisplayName?
@@ -43,14 +42,13 @@ struct Place: Codable, Identifiable, Equatable, Comparable {
         case iconBackgroundColor
         case iconMaskBaseURI = "iconMaskBaseUri"
         case placeID = "id"
-        case location, name, plusCode, primaryType, primaryTypeDisplayName, shortFormattedAddress, types, utcOffsetMinutes, viewport
+        case location, plusCode, primaryType, primaryTypeDisplayName, shortFormattedAddress, types, utcOffsetMinutes, viewport
         case websiteURI = "websiteUri"
         case currentOpeningHours, regularOpeningHours, internationalPhoneNumber, nationalPhoneNumber, photos
     }
 
     init(
         placeID: String? = nil,
-        name: String = "Postos Elétricos",
         addressComponents: [AddressComponent]? = nil,
         businessStatus: String? = nil,
         displayName: DisplayName? = nil,
@@ -86,7 +84,6 @@ struct Place: Codable, Identifiable, Equatable, Comparable {
             self.iconBackgroundColor = iconBackgroundColor
             self.iconMaskBaseURI = iconMaskBaseURI
             self.location = location
-            self.name = name
             self.plusCode = plusCode
             self.primaryType = primaryType
             self.primaryTypeDisplayName = primaryTypeDisplayName
@@ -116,6 +113,10 @@ struct Place: Codable, Identifiable, Equatable, Comparable {
 
 extension Place {
 
+    var name: String {
+        displayName?.text ?? "Posto Elétrico"
+    }
+
     /// Return coordinate base on Geometry and Location results
     var coordinate: CLLocationCoordinate2D? {
         guard let location,
@@ -138,7 +139,6 @@ extension Place {
 
     /// Update all element, excluding ID and placeID
     mutating func update(_ place: Place) {
-        self.name = place.name
         if let formattedAddress = place.formattedAddress { self.formattedAddress = formattedAddress }
         if let location = place.location { self.location = location }
         if let businessStatus = place.businessStatus { self.businessStatus = businessStatus }
@@ -153,7 +153,6 @@ extension Place {
 
     /// Update espefic attributes, excluding ID and placeID
     mutating func update(
-        name: String? = nil,
         location: Location? = nil,
         businessStatus: String? = nil,
         plusCode: PlusCode? = nil,
@@ -164,7 +163,6 @@ extension Place {
         phoneNumber: String? = nil,
         website: String? = nil
     ) {
-        if let name { self.name = name }
         if let formattedAddress { self.formattedAddress = formattedAddress }
         if let location { self.location = location }
         if let businessStatus { self.businessStatus = businessStatus }

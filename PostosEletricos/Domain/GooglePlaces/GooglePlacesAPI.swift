@@ -69,7 +69,7 @@ extension GooglePlacesAPI: TargetType {
                     AutoCompleteRequest(
                         input: query,
                         locationBias: .init(circle: .init(center: .init(latitude: location.latitude, longitude: location.longitude), radius: radius)),
-                        languageCode: "pt-BR",
+                        languageCode: LanguageCodeEnum.pt.rawValue,
                         origin: RequestCoordinate(latitude: LocationManager.shared.userLocation?.coordinate.latitude, longitude: LocationManager.shared.userLocation?.coordinate.longitude)
                     )
                 )
@@ -77,7 +77,7 @@ extension GooglePlacesAPI: TargetType {
                 return .requestJSONEncodable(
                     AutoCompleteRequest(
                         input: query,
-                        languageCode: "pt-BR",
+                        languageCode: LanguageCodeEnum.pt.rawValue,
                         origin: RequestCoordinate(latitude: LocationManager.shared.userLocation?.coordinate.latitude, longitude: LocationManager.shared.userLocation?.coordinate.longitude)
                     )
                 )
@@ -112,21 +112,11 @@ extension GooglePlacesAPI: TargetType {
     }
 
     var headers: [String : String]? {
-        /// default
-        var header = ["Content-Type": "application/json"]
-
-        switch self {
-        case .searchNearby, .searchText, .details, .autocomplete:
-            header.merge([
-                "X-Goog-Api-Key": SecretsKeys.googlePlaces.key,
-                "X-Goog-FieldMask": "*"
-            ]) { (current, _) in current }
-            return header
-
-        default: break
-        }
-
-        return header
+        [
+            "Content-Type": "application/json",
+            "X-Goog-Api-Key": SecretsKeys.googlePlaces.key,
+            "X-Goog-FieldMask": "*"
+        ]
     }
 }
 
