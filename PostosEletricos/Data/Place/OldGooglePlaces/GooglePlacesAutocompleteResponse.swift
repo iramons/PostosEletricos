@@ -9,8 +9,6 @@ import Foundation
 
 // MARK: - GooglePlacesAutocompleteResponse
 
-struct GooglePlacesAutocompleteResponse: Codable {
-
-    let predictions: [Prediction]?
-    let status: String?
+struct GooglePlacesAutocompleteResponse: Decodable {
+    let suggestions: [Suggestion]?
 }

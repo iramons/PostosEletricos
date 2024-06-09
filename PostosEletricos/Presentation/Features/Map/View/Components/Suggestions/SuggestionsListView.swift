@@ -34,7 +34,7 @@ struct SuggestionsListView: View {
                 viewModel.updateCameraPosition(forCoordinate: coordinate, withSpan: .init(latitudeDelta: CLLocationDegrees(0.03), longitudeDelta: CLLocationDegrees(0.03)))
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                    viewModel.fetchStationsFromGooglePlaces(in: coordinate, radius: CLLocationDistance(4000)) { _ in }
+                    viewModel.searchNearBy(in: coordinate, radius: CLLocationDistance(4000)) { _ in }
                 }
             }
         }

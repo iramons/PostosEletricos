@@ -275,7 +275,7 @@ class MapViewModel: ObservableObject {
     private func performFetchData(in coordinate: CLLocationCoordinate2D?) {
         guard let coordinate else { return }
 
-        fetchStationsFromGooglePlaces(in: coordinate, radius: CLLocationDistance(4000)) { [weak self] places in
+        searchNearBy(in: coordinate, radius: CLLocationDistance(4000)) { [weak self] places in
             guard let self, let places else { return }
 
             getMapItemsRegion(places: places) { region in
@@ -321,7 +321,6 @@ class MapViewModel: ObservableObject {
         } else {
             places.append(place)
         }
-
     }
 
     private func appendPlacesInFindedArea(for place: Place) {
@@ -374,7 +373,7 @@ extension MapViewModel {
 
     // MARK: fetchStations from google
 
-    func fetchStationsFromGooglePlaces(
+    func searchNearBy(
         in location: CLLocationCoordinate2D,
         radius: CLLocationDistance? = nil,
         completion: @escaping ([Place]?) -> Void
@@ -383,7 +382,7 @@ extension MapViewModel {
 
         let expectedRadius = radius ?? distance
 
-        provider.request(.places(location: location, radius: expectedRadius)) { [weak self] result in
+        provider.request(.searchNearby(location: location, radius: expectedRadius)) { [weak self] result in
             guard let strongSelf = self else { return }
 
             switch result {
@@ -393,7 +392,7 @@ extension MapViewModel {
                 do {
                     let response = try response.map(GooglePlacesResponse.self, failsOnEmptyData: true)
 
-                    guard let places = response.results, !places.isEmpty else {
+                    guard let places = response.places, !places.isEmpty else {
                         printLog(.warning, "No results found in this area.")
                         strongSelf.setShowToast(true)
                         completion(nil)
@@ -425,20 +424,62 @@ extension MapViewModel {
         }
     }
 
-    // MARK: getPlace from google
+    func searchInArea(
+        northEastCoordinate: CLLocationCoordinate2D,
+        southWestCoordinate: CLLocationCoordinate2D,
+        completion: @escaping ([Place]?) -> Void
+    ) {
+        isLoading = true
 
-    func fetchPlace(placeID: String, completion: @escaping (Place?) -> Void) {
-        provider.request(.place(placeID: placeID)) { result in
+        provider.request(.searchText(northEastCoordinate: northEastCoordinate, southWestCoordinate: southWestCoordinate)) { [weak self] result in
+            guard let strongSelf = self else { return }
+
             switch result {
             case let .success(response):
-                do {
-                    let response = try response.map(GooglePlaceResponse.self, failsOnEmptyData: true)
+                strongSelf.placesInFindedArea = []
 
-                    guard let place = response.result else {
+                do {
+                    let result = try response.map(GooglePlacesResponse.self, failsOnEmptyData: true)
+
+                    guard let places = result.places, !places.isEmpty else {
+                        printLog(.warning, "No results found in this area.")
+                        strongSelf.setShowToast(true)
                         completion(nil)
                         return
                     }
 
+                    places.forEach { place in
+                        self?.append(place)
+                        self?.appendPlacesInFindedArea(for: place)
+                    }
+
+                    completion(places)
+                }
+                catch {
+                    printLog(.error, "\(error)")
+                    completion(nil)
+                }
+
+                strongSelf.isLoading = false
+
+            case let .failure(error):
+                printLog(.error, "failure request: \(error)")
+                strongSelf.isLoading = false
+                completion(nil)
+            }
+
+            strongSelf.isFirstLoading = false
+        }
+    }
+
+    // MARK: getPlace from google
+
+    func fetchPlace(placeID: String, completion: @escaping (Place?) -> Void) {
+        provider.request(.details(id: placeID)) { result in
+            switch result {
+            case let .success(response):
+                do {
+                    let place = try response.map(Place.self, failsOnEmptyData: true)
                     completion(place)
                 } catch {
                     printLog(.error, String(describing: error))
@@ -462,10 +503,10 @@ extension MapViewModel {
                 do {
                     let response = try response.map(GooglePlacesAutocompleteResponse.self, failsOnEmptyData: true)
 
-                    guard let predictions = response.predictions else { return }
+                    guard let suggestions = response.suggestions else { return }
 
-                    let places: [Place] = predictions.map { prediction in
-                        Place(placeID: prediction.placeID, name: prediction.description ?? "")
+                    let places: [Place] = suggestions.map { suggestion in
+                        Place(placeID: suggestion.placePrediction?.placeID, name: suggestion.placePrediction?.text?.text ?? "")
                     }
 
                     let sortedPlaces = places.sorted {

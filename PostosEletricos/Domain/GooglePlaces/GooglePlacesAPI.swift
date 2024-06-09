@@ -10,78 +10,76 @@ import Moya
 import MapKit
 
 enum GooglePlacesAPI {
-    case places(location: CLLocationCoordinate2D, radius: Double)
-    case place(placeID: String)
+    case searchNearby(location: CLLocationCoordinate2D, radius: Double)
+    case details(id: String)
     case autocomplete(query: String, location: CLLocationCoordinate2D? = nil, radius: Double = 4000)
     case photo(maxWidth: Double, photoReference: String)
+    case searchText(northEastCoordinate: CLLocationCoordinate2D, southWestCoordinate: CLLocationCoordinate2D)
 }
 
 extension GooglePlacesAPI: TargetType {
 
-    var baseURL: URL {
-        return URL(string: "https://maps.googleapis.com/maps/api/place")!
-    }
+    var baseURL: URL { URL(string: "https://places.googleapis.com/v1")! }
 
     var path: String {
         switch self {
-        case .places: return "/nearbysearch/json"
-        case .place: return "/details/json"
-        case .autocomplete: return "/autocomplete/json"
+        case .searchNearby: return "places:searchNearby"
+        case let .details(id): return "/places/\(id)"
+        case .autocomplete: return "places:autocomplete"
         case .photo: return "/photo"
+        case .searchText: return "/places:searchText"
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .places, .place, .autocomplete, .photo:
+        case .details, .photo:
             return .get
+
+        case .searchNearby, .searchText, .autocomplete:
+            return .post
         }
     }
-    
+
     var task: Moya.Task {
         switch self {
-        case let .places(location, radius):
-            return .requestParameters(
-                parameters: [
-                    "location": "\(location.latitude), \(location.longitude)",
-                    "radius": "\(radius)",
-                    "key": SecretsKeys.googlePlaces.key,
-                    "keyword": "electric+vehicle+charging+station+postos+eletricos",
-                    "language": "pt-br"
-                ],
-                encoding: URLEncoding.default
+        case let .searchNearby(location, radius):
+            return .requestJSONEncodable(
+                SearchNearbyRequest(
+                    includedTypes: [PrimaryTypeEnum.electricVehicleChargingStation.rawValue],
+                    locationRestriction: CircleLocationRestriction(
+                        circle: LocationRestrictionCircle(
+                            center: RequestCoordinate(latitude: location.latitude, longitude: location.longitude),
+                            radius: radius
+                        )
+                    ),
+                    languageCode: LanguageCodeEnum.pt.rawValue
+                )
             )
 
-        case let .place(placeID):
+        case .details:
             return .requestParameters(
-                parameters: [
-                    "place_id": placeID,
-                    "key" : SecretsKeys.googlePlaces.key,
-                    "language": "pt-br"
-                ],
-                encoding: URLEncoding.default
+                parameters: ["languageCode": "pt-BR"],
+                encoding: URLEncoding.queryString
             )
 
         case let .autocomplete(query, location, radius):
             if let location {
-                return .requestParameters(
-                    parameters: [
-                        "input": query,
-                        "location": "\(location.latitude), \(location.longitude)",
-                        "radius": "\(radius)",
-                        "key": SecretsKeys.googlePlaces.key,
-                        "language": "pt-br"
-                    ],
-                    encoding: URLEncoding.default
+                return .requestJSONEncodable(
+                    AutoCompleteRequest(
+                        input: query,
+                        locationBias: .init(circle: .init(center: .init(latitude: location.latitude, longitude: location.longitude), radius: radius)),
+                        languageCode: "pt-BR",
+                        origin: RequestCoordinate(latitude: LocationManager.shared.userLocation?.coordinate.latitude, longitude: LocationManager.shared.userLocation?.coordinate.longitude)
+                    )
                 )
             } else {
-                return .requestParameters(
-                    parameters: [
-                        "input": query,
-                        "key": SecretsKeys.googlePlaces.key,
-                        "language": "pt-br"
-                    ],
-                    encoding: URLEncoding.default
+                return .requestJSONEncodable(
+                    AutoCompleteRequest(
+                        input: query,
+                        languageCode: "pt-BR",
+                        origin: RequestCoordinate(latitude: LocationManager.shared.userLocation?.coordinate.latitude, longitude: LocationManager.shared.userLocation?.coordinate.longitude)
+                    )
                 )
             }
 
@@ -94,11 +92,41 @@ extension GooglePlacesAPI: TargetType {
                 ],
                 encoding: URLEncoding.default
             )
+
+        case let .searchText(northEastCoordinate, southWestCoordinate):
+            return .requestJSONEncodable(
+                SearchTextRequest(
+                    strictTypeFiltering: true,
+                    includedType: PrimaryTypeEnum.electricVehicleChargingStation.rawValue,
+                    locationRestriction: LocationRestriction(
+                        rectangle: LocationRestrictionRectangle(
+                            high: RequestCoordinate(latitude: northEastCoordinate.latitude, longitude: northEastCoordinate.longitude),
+                            low: RequestCoordinate(latitude: southWestCoordinate.latitude, longitude: southWestCoordinate.longitude)
+                        )
+                    ),
+                    textQuery: "EV"
+//                    languageCode: LanguageCodeEnum.pt.rawValue,
+//                    rankPreference: "DISTANCE"
+                ))
         }
     }
-    
+
     var headers: [String : String]? {
-        return ["Content-type": "application/json"]
+        /// default
+        var header = ["Content-Type": "application/json"]
+
+        switch self {
+        case .searchNearby, .searchText, .details, .autocomplete:
+            header.merge([
+                "X-Goog-Api-Key": SecretsKeys.googlePlaces.key,
+                "X-Goog-FieldMask": "*"
+            ]) { (current, _) in current }
+            return header
+
+        default: break
+        }
+
+        return header
     }
 }
 

@@ -149,7 +149,7 @@ struct MapView: View {
                 }
                 Button(MapApp.uber.title) {
                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-                    MapApp.uber.open(coordinate: coordinate, address: viewModel.selectedPlace?.vicinity ?? "")
+                    MapApp.uber.open(coordinate: coordinate, address: viewModel.selectedPlace?.fullAddress ?? "")
                     viewModel.onDismissRouteOptions()
                 }
                 Button("Cancelar", role: .cancel) {
@@ -166,18 +166,28 @@ struct MapView: View {
 
             guard let center = viewModel.lastRegion?.center else { return }
 
-            viewModel.fetchStationsFromGooglePlaces(in: center) { places in
-                guard let places else { return }
-                viewModel.getMapItemsRegion(places: places) { region in
-                    if let farthestPlaceCoordinate = farthestPlaceCoordinate(from: center, places: places) {
-                        let distance = distanceBetween(center, farthestPlaceCoordinate)
-                        let distanceInMeters: Double = distance + 2000
-                        viewModel.updateCameraDistance(distanceInMeters)
-                    } else {
-                        print("No places provided.")
-                    }
+            if let rect = viewModel.lastContext?.rect {
+                let northEastCoordinate = MKMapPoint(x: rect.maxX, y: rect.minY).coordinate
+                let southWestCoordinate = MKMapPoint(x: rect.minX, y: rect.maxY).coordinate
+
+                viewModel.searchInArea(
+                    northEastCoordinate: northEastCoordinate,
+                    southWestCoordinate: southWestCoordinate
+                ) { places in
+//                    guard let places else { return }
+//                    viewModel.getMapItemsRegion(places: places) { region in
+//                        if let farthestPlaceCoordinate = farthestPlaceCoordinate(from: center, places: places) {
+//                            let distance = distanceBetween(center, farthestPlaceCoordinate)
+//                            let distanceInMeters: Double = distance + 2000
+//                            viewModel.updateCameraDistance(distanceInMeters)
+//                        } else {
+//                            print("No places provided.")
+//                        }
+//                    }
                 }
             }
+
+
         })
         .opacity(viewModel.shouldShowFindInAreaButton ? 1 : 0)
         .padding(6)
