@@ -135,6 +135,7 @@ enum LanguageCodeEnum: String, CaseIterable, Codable {
     case pl = "pl"
     case ps = "ps"
     case pt = "pt"
+    case ptBR = "pt-BR"
     case qu = "qu"
     case rm = "rm"
     case rn = "rn"

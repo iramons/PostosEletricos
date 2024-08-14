@@ -53,13 +53,13 @@ extension GooglePlacesAPI: TargetType {
                             radius: radius
                         )
                     ),
-                    languageCode: LanguageCodeEnum.pt.rawValue
+                    languageCode: LanguageCodeEnum.ptBR.rawValue
                 )
             )
 
         case .details:
             return .requestParameters(
-                parameters: ["languageCode": "pt-BR"],
+                parameters: ["languageCode": LanguageCodeEnum.ptBR.rawValue],
                 encoding: URLEncoding.queryString
             )
 
@@ -104,14 +104,13 @@ extension GooglePlacesAPI: TargetType {
                             low: RequestCoordinate(latitude: southWestCoordinate.latitude, longitude: southWestCoordinate.longitude)
                         )
                     ),
-                    textQuery: "EV"
-//                    languageCode: LanguageCodeEnum.pt.rawValue,
-//                    rankPreference: "DISTANCE"
+                    textQuery: "EV",
+                    languageCode: LanguageCodeEnum.pt.rawValue
                 ))
         }
     }
 
-    var headers: [String : String]? {
+    var headers: [String: String]? {
         [
             "Content-Type": "application/json",
             "X-Goog-Api-Key": SecretsKeys.googlePlaces.key,

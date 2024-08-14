@@ -328,7 +328,7 @@ struct BottomSheetMapView: View {
                 "domingo: Atendimento 24 horas"
             ]
         ),
-        phoneNumber: "(21) 9999-9999",
+        nationalPhoneNumber: "(21) 9999-9999",
         website: "https://github.com/iramons"
     )
     
