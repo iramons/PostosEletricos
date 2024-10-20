@@ -9,6 +9,6 @@ import Foundation
 
 // MARK: - Location
 
-struct Location: Codable {
+struct Location: Codable, Hashable {
     let latitude, longitude: Double?
 }

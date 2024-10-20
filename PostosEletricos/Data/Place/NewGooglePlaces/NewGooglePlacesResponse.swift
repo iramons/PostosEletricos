@@ -10,12 +10,12 @@ import MapKit
 
 
 // MARK: - ContextualContent
-struct ContextualContent: Codable {
+struct ContextualContent: Codable, Hashable {
     let photos: [Photo]?
 }
 
 // MARK: - AuthorAttribution
-struct AuthorAttribution: Codable {
+struct AuthorAttribution: Codable, Hashable {
     let displayName, photoURI, uri: String?
 
     enum CodingKeys: String, CodingKey {
@@ -26,7 +26,7 @@ struct AuthorAttribution: Codable {
 }
 
 // MARK: - AddressComponent
-struct AddressComponent: Codable {
+struct AddressComponent: Codable, Hashable {
     let languageCode: String? //LanguageCodeEnum
     let longText, shortText: String?
     let types: [String]?
@@ -52,19 +52,19 @@ enum BusinessStatus: String, Codable {
 }
 
 // MARK: - DisplayName
-struct DisplayName: Codable {
+struct DisplayName: Codable, Hashable {
     let languageCode: String? // LanguageCodeEnum
     let text: String?
 }
 
 // MARK: - EvChargeOptions
-struct EvChargeOptions: Codable {
+struct EvChargeOptions: Codable, Hashable {
     let connectorAggregation: [ConnectorAggregation]?
     let connectorCount: Int?
 }
 
 // MARK: - ConnectorAggregation
-struct ConnectorAggregation: Codable {
+struct ConnectorAggregation: Codable, Hashable {
     let availabilityLastUpdateTime: String?
     let availableCount: Int?
     let count: Int?
@@ -73,7 +73,7 @@ struct ConnectorAggregation: Codable {
     let type: ConnectorAggregationType?
 }
 
-enum ConnectorAggregationType: String, Codable {
+enum ConnectorAggregationType: String, Codable, Hashable {
     /// Unspecified connector
     case unspecified = "EV_CONNECTOR_TYPE_UNSPECIFIED"
 

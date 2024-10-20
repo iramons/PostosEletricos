@@ -100,11 +100,13 @@ struct MapView: View {
         .onMapCameraChange(frequency: .onEnd) { context in
             viewModel.onMapCameraChange(context)
         }
-        .onChange(of: viewModel.selectedID) { _, newSelectedID in
-            viewModel.updateSelectedPlace(withID: newSelectedID)
+        .onChange(of: viewModel.selectedID) { _, _ in
+            viewModel.updateSelectedPlace()
         }
         .onChange(of: viewModel.showBottomSheet) {
-            viewModel.requestAppTrackingAuthorizationIfNeeded()
+            Task {
+                await viewModel.requestAppTrackingAuthorizationIfNeeded()
+            }
         }
         .sheet(
             isPresented: $viewModel.showBottomSheet,
@@ -164,7 +166,7 @@ struct MapView: View {
         FindInAreaButton(action: {
             withAnimation { viewModel.showFindInAreaButton = false }
 
-            guard let center = viewModel.lastRegion?.center else { return }
+//            guard let center = viewModel.lastRegion?.center else { return }
 
             if let rect = viewModel.lastContext?.rect {
                 let northEastCoordinate = MKMapPoint(x: rect.maxX, y: rect.minY).coordinate

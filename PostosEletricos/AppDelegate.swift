@@ -11,6 +11,7 @@ import GoogleMobileAds
 
 #if DEBUG
 import Pulse
+import PulseProxy
 #endif
 
 class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
@@ -42,8 +43,8 @@ extension AppDelegate {
 private extension AppDelegate {
     func enablePulseLogs() {
         #if DEBUG
-        Experimental.URLSessionProxy.shared.isEnabled = true
-        URLSessionProxyDelegate.enableAutomaticRegistration()
+        NetworkLogger.enableProxy()
+        RemoteLogger.shared.isAutomaticConnectionEnabled = true
         #endif
     }
 }

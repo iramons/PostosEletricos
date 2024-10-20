@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - Viewport
 
-struct Viewport: Codable {
+struct Viewport: Codable, Hashable {
     let high, low: Location?
 }
 

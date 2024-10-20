@@ -20,7 +20,15 @@ class MapViewModel: ObservableObject {
     @Published var state: ViewState = .none
     @Published var showBottomSheet: Bool = false
     @Published var selectedID: String?
-    @Published var selectedPlace: Place?
+    
+    var selectedPlace: Place? {
+        if let selectedID {
+            return places.first(where: { $0.id.hashValue == selectedID.hashValue })
+        }
+        
+        return nil
+    }
+    
     @Published var travelTime: String?
     @Published var showToast: Bool = false
     @Published var showAlert: Bool = false
@@ -43,9 +51,7 @@ class MapViewModel: ObservableObject {
         didSet { findAutocomplete() }
     }
 
-    @Published var places: [Place] = [] {
-        didSet { updateSelectedPlaceWhenPlacesUpdate() }
-    }
+    @Published var places: [Place] = []
 
     var shouldShowPlacesFromSearch: Bool { !placesFromSearch.isEmpty }
     var shouldShowFindInAreaButton: Bool { !shouldShowPlacesFromSearch && showFindInAreaButton }
@@ -115,8 +121,7 @@ class MapViewModel: ObservableObject {
 
     // MARK: - Selected Place
 
-    func updateSelectedPlace(withID id: String?) {
-        selectedPlace = places.first(where: { $0.id == id })
+    func updateSelectedPlace() {
         presentationDetentionSelection = .fraction(0.18)
         handleSelectedPlaceUpdated()
         adCoordinator.loadAd()
@@ -124,25 +129,26 @@ class MapViewModel: ObservableObject {
     }
 
     func handleSelectedPlaceUpdated() {
-        withAnimation { showBottomSheet = selectedPlace != nil }
-
-
         guard let selectedPlace else { return }
-
-        /// update camera
+        
+        // update camera
         guard let selectedPlaceCoordinate = selectedPlace.coordinate else { return }
         let mapItem = MKMapItem(placemark: .init(coordinate: selectedPlaceCoordinate))
         updateCameraPosition(with: .item(mapItem))
 
-        /// update place
+        // update place
         guard let placeID = selectedPlace.placeID else { return }
         fetchPlace(placeID: placeID) { placeFromGoogle in
-            if let placeFromGoogle, let existingPlaceIndex = self.places.firstIndex(where: { $0.placeID == placeFromGoogle.placeID }) {
+            if let placeFromGoogle,
+               let existingPlaceIndex = self.places.firstIndex(where: { $0.placeID == placeFromGoogle.placeID }) {
                 withAnimation {
                     self.places[existingPlaceIndex].update(placeFromGoogle)
                 }
             }
         }
+        
+        // show bottom sheet
+        withAnimation { showBottomSheet = true }
     }
 
     func onDismissBottomSheet() {
@@ -260,12 +266,12 @@ class MapViewModel: ObservableObject {
         locationManager.handleAuthorizationStatus()
     }
 
-    func requestAppTrackingAuthorizationIfNeeded() {
+    func requestAppTrackingAuthorizationIfNeeded() async {
         if ATTrackingManager.trackingAuthorizationStatus == .notDetermined {
-            DispatchQueue.main.async {
-                ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
-                    withAnimation { self.shouldShowBannerAds = (status == .authorized) }
-                })
+            let status = await ATTrackingManager.requestTrackingAuthorization()
+            
+            if status == .authorized {
+                shouldShowBannerAds = true
             }
         }
     }
@@ -328,12 +334,6 @@ class MapViewModel: ObservableObject {
             placesInFindedArea?[existingPlaceIndex].update(place)
         } else {
             placesInFindedArea?.append(place)
-        }
-    }
-
-    private func updateSelectedPlaceWhenPlacesUpdate() {
-        if let selectedPlace {
-            self.selectedPlace = places.first(where: { $0.placeID == selectedPlace.placeID })
         }
     }
 

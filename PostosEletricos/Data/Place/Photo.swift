@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Photo
-struct Photo: Codable {
+struct Photo: Codable, Hashable {
     let authorAttributions: [AuthorAttribution]?
     let heightPx: Int?
     let name: String?

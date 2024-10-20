@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - OpeningHours
 
-struct OpeningHours: Codable {
+struct OpeningHours: Codable, Hashable {
     let openNow: Bool?
     let periods: [Period]?
     let weekdayDescriptions: [String]?
@@ -27,7 +27,7 @@ struct OpeningHours: Codable {
 
 // MARK: - Period
 
-struct Period: Codable {
+struct Period: Codable, Hashable {
     let close, periodOpen: Close?
 
     enum CodingKeys: String, CodingKey {
@@ -38,14 +38,14 @@ struct Period: Codable {
 
 // MARK: - Close
 
-struct Close: Codable {
+struct Close: Codable, Hashable {
     let date: DateClass?
     let day, hour, minute: Int?
 }
 
 // MARK: - DateClass
 
-struct DateClass: Codable {
+struct DateClass: Codable, Hashable {
     let day, month, year: Int?
 }
 
