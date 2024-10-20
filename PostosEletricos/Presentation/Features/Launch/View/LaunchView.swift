@@ -101,7 +101,7 @@ struct LaunchView: View {
 }
 
 #Preview {
-    @StateObject var navigationManager = NavigationManager()
+    @Previewable @StateObject var navigationManager = NavigationManager()
 
     return LaunchView()
         .environmentObject(navigationManager)

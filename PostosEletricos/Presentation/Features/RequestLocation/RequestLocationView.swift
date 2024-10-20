@@ -22,7 +22,7 @@ struct RequestLocationView: View {
 
                 VStack(spacing: 32) {
                     Text("Serviços de localização")
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.white)
                         .font(.custom("Roboto-Bold", size: 28))
                         .multilineTextAlignment(.center)
                         .shadow(color: .red, radius: 4)

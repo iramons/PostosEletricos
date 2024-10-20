@@ -1,5 +1,5 @@
 {
-  "originHash" : "1b8d8fd0952dab80ffc3fc84122d6e287691e543eb4101a36e39da27ccee87f7",
+  "originHash" : "d7bb42fa73035e43f153260aab7279d1f5a9028aa3f97d32aac73a41956fd818",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -8,15 +8,6 @@
       "state" : {
         "revision" : "f455c2975872ccd2d9c81594c658af65716e9b9a",
         "version" : "5.9.1"
-      }
-    },
-    {
-      "identity" : "ios-places-sdk",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/googlemaps/ios-places-sdk",
-      "state" : {
-        "revision" : "2a9c7305a0e5f83b9acdccfc74eb545ffeb476c3",
-        "version" : "8.5.0"
       }
     },
     {
@@ -42,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kean/Pulse",
       "state" : {
-        "revision" : "2e5e5f86c31970dc72613e480a1ba0b06bab81a2",
-        "version" : "4.2.1"
+        "revision" : "c102aaa266ac69a26d08ee6861da710283988e3b",
+        "version" : "5.1.2"
       }
     },
     {
@@ -51,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kean/PulseLogHandler",
       "state" : {
-        "revision" : "7280e980b71a1267099e7751a900fd1e67b7f4bb",
-        "version" : "4.0.1"
+        "revision" : "87e5981e3dad4007766da96c496468f03a05940e",
+        "version" : "5.0.0"
       }
     },
     {

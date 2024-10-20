@@ -10,7 +10,6 @@ import Foundation
 // MARK: - Viewport
 
 struct Viewport: Codable, Hashable {
-    
-    let northeast: Location?
-    let southwest: Location?
+    let high, low: Location?
 }
+

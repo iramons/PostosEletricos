@@ -26,14 +26,6 @@ struct BottomSheetMapView: View {
     @State var lookAroundScene: MKLookAroundScene?
     var action: ((BottomMapDetailsViewActionType) -> Void)
     
-    var placeCoordinate: CLLocationCoordinate2D? {
-        guard let lat = place.geometry?.location?.lat,
-              let lng = place.geometry?.location?.lng
-        else { return nil }
-        
-        return CLLocationCoordinate2D(latitude: lat, longitude: lng)
-    }
-    
     // MARK: body
     
     var body: some View {
@@ -93,8 +85,8 @@ struct BottomSheetMapView: View {
                 .foregroundStyle(.primary)
             
             HStack(alignment: .bottom, spacing: 6) {
-                if let vicinity = place.vicinity {
-                    Text(vicinity)
+                if let formattedAddress = place.formattedAddress {
+                    Text(formattedAddress)
                         .multilineTextAlignment(.leading)
                         .font(.custom("Roboto-Medium", size: 14))
                         .foregroundStyle(.secondary)
@@ -187,7 +179,7 @@ struct BottomSheetMapView: View {
             }
             
             // schedules
-            let weekdayText = place.openingHours?.weekdayText ?? place.currentOpeningHours?.weekdayText
+            let weekdayText = place.regularOpeningHours?.weekdayDescriptions ?? place.currentOpeningHours?.weekdayDescriptions
             if let weekdayText {
                 VStack(alignment: .leading, spacing: Constants.middleTitleDetailsSpacing) {
                     HStack(spacing: 4) {
@@ -286,8 +278,8 @@ struct BottomSheetMapView: View {
     private func getLookAroundScene() {
         withAnimation { lookAroundScene = nil }
         
-        guard let location = place.geometry?.location else { return }
-        let coordinate = CLLocationCoordinate2D(latitude: location.lat, longitude: location.lng)
+        guard let location = place.location, let latitude = location.latitude, let longitude = location.longitude else { return }
+        let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let request = MKLookAroundSceneRequest(coordinate: coordinate)
         
         Task {
@@ -301,29 +293,32 @@ struct BottomSheetMapView: View {
 
 #Preview {
     let place = Place(
-        name: "Posto elétrico com nome muito grande e estrondoso",
-        vicinity: "Rua das Pedras de São Pedro de Rio, número 1245, cep 22343445. Brasil,Mundo",
-        geometry: Geometry(location: Location(lat: 48.856788, lng: 2.351077)),
-        openingHours: OpeningHours(
-            openNow: true,
-            periods: [
-                Period(
-                    open: PeriodDayAndTime(day: 1, time: "0600"),
-                    close: PeriodDayAndTime(day: 1, time: "2300")
-                ),
-                Period(
-                    open: PeriodDayAndTime(day: 2, time: "0800"),
-                    close: PeriodDayAndTime(day: 2, time: "1800")
-                ),
-                Period(
-                    open: PeriodDayAndTime(day: 3, time: "0900"),
-                    close: PeriodDayAndTime(day: 3, time: "2000")
-                )
-            ]
+        displayName: DisplayName(
+            languageCode: "pt-br",
+            text: "Posto elétrico com nome muito grande e estrondoso"
         ),
+        formattedAddress: "Rua das Pedras de São Pedro de Rio, número 1245, cep 22343445. Brasil,Mundo",
+        location: Location(latitude: 48.856788, longitude: 2.351077),
+//        openingHours: OpeningHours(
+//            openNow: true,
+//            periods: [
+//                Period(
+//                    open: PeriodDayAndTime(day: 1, time: "0600"),
+//                    close: PeriodDayAndTime(day: 1, time: "2300")
+//                ),
+//                Period(
+//                    open: PeriodDayAndTime(day: 2, time: "0800"),
+//                    close: PeriodDayAndTime(day: 2, time: "1800")
+//                ),
+//                Period(
+//                    open: PeriodDayAndTime(day: 3, time: "0900"),
+//                    close: PeriodDayAndTime(day: 3, time: "2000")
+//                )
+//            ]
+//        ),
         currentOpeningHours: OpeningHours(
             openNow: true,
-            weekdayText: [
+            weekdayDescriptions: [
                 "segunda-feira: Atendimento 24 horas",
                 "terça-feira: Atendimento 24 horas",
                 "quarta-feira: Atendimento 24 horas",
@@ -333,7 +328,7 @@ struct BottomSheetMapView: View {
                 "domingo: Atendimento 24 horas"
             ]
         ),
-        phoneNumber: "(21) 9999-9999",
+        nationalPhoneNumber: "(21) 9999-9999",
         website: "https://github.com/iramons"
     )
     

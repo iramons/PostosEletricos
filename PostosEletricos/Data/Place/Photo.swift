@@ -8,29 +8,21 @@
 import Foundation
 
 // MARK: - Photo
-
-struct Photo: Codable, Equatable, Hashable {
-
-    let width: Double?
-    let height: Double?
-    let htmlAttributions: [String]?
-    let photoReference: String?
-
-    enum CodingKeys: String, CodingKey {
-        case width, height
-        case htmlAttributions = "html_attributions"
-        case photoReference = "photo_reference"
-    }
+struct Photo: Codable, Hashable {
+    let authorAttributions: [AuthorAttribution]?
+    let heightPx: Int?
+    let name: String?
+    let widthPx: Int?
 
     init(
-        width: Double? = nil,
-        height: Double? = nil,
-        htmlAttributions: [String]? = nil,
-        photoReference: String? = nil
+        authorAttributions: [AuthorAttribution]? = nil,
+        heightPx: Int? = nil,
+        name: String? = nil,
+        widthPx: Int? = nil
     ) {
-        self.width = width
-        self.height = height
-        self.htmlAttributions = htmlAttributions
-        self.photoReference = photoReference
+        self.authorAttributions = authorAttributions
+        self.heightPx = heightPx
+        self.name = name
+        self.widthPx = widthPx
     }
 }

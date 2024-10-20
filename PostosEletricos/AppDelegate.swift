@@ -7,11 +7,11 @@
 
 import Foundation
 import UIKit
-import GooglePlaces
 import GoogleMobileAds
 
 #if DEBUG
 import Pulse
+import PulseProxy
 #endif
 
 class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
@@ -23,7 +23,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
         launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
 
-        configureGooglePlaces()
         configureGoogleAds()
         enablePulseLogs()
 
@@ -34,10 +33,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
 // MARK: Configurations
 
 extension AppDelegate {
-    private func configureGooglePlaces() {
-        GMSPlacesClient.provideAPIKey(SecretsKeys.googlePlaces.key)
-    }
-
     private func configureGoogleAds() {
         GADMobileAds.sharedInstance().start(completionHandler: nil)
     }
@@ -48,8 +43,8 @@ extension AppDelegate {
 private extension AppDelegate {
     func enablePulseLogs() {
         #if DEBUG
-        Experimental.URLSessionProxy.shared.isEnabled = true
-        URLSessionProxyDelegate.enableAutomaticRegistration()
+        NetworkLogger.enableProxy()
+        RemoteLogger.shared.isAutomaticConnectionEnabled = true
         #endif
     }
 }

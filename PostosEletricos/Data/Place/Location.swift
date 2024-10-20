@@ -10,7 +10,5 @@ import Foundation
 // MARK: - Location
 
 struct Location: Codable, Hashable {
-    
-    var lat: Double = 0
-    var lng: Double = 0
+    let latitude, longitude: Double?
 }

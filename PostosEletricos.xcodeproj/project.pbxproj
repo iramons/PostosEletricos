@@ -11,6 +11,12 @@
 		20002FF52B01A14B005C7329 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20002FF42B01A14B005C7329 /* Images.xcassets */; };
 		20002FF82B01A14B005C7329 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20002FF72B01A14B005C7329 /* Preview Assets.xcassets */; };
 		2031333D2B9CFF470093CDC2 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2031333C2B9CFF470093CDC2 /* LocationService.swift */; };
+		205E35D82CC57203002E5D7C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 205E35D72CC57203002E5D7C /* PrivacyInfo.xcprivacy */; };
+		205E35DB2CC595CF002E5D7C /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 205E35DA2CC595CF002E5D7C /* Moya */; };
+		205E35DE2CC596B7002E5D7C /* Pulse in Frameworks */ = {isa = PBXBuildFile; productRef = 205E35DD2CC596B7002E5D7C /* Pulse */; };
+		205E35E02CC596B7002E5D7C /* PulseProxy in Frameworks */ = {isa = PBXBuildFile; productRef = 205E35DF2CC596B7002E5D7C /* PulseProxy */; };
+		205E35E22CC596B7002E5D7C /* PulseUI in Frameworks */ = {isa = PBXBuildFile; productRef = 205E35E12CC596B7002E5D7C /* PulseUI */; };
+		205E35E52CC59714002E5D7C /* PulseLogHandler in Frameworks */ = {isa = PBXBuildFile; productRef = 205E35E42CC59714002E5D7C /* PulseLogHandler */; };
 		2072183A2BA0B6C4005A136A /* BottomSheetMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207218392BA0B6C4005A136A /* BottomSheetMapView.swift */; };
 		207AF3E22B9E804F002AE17D /* MapApps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207AF3E12B9E804F002AE17D /* MapApps.swift */; };
 		207AF3E42B9E80B8002AE17D /* URL+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207AF3E32B9E80B8002AE17D /* URL+Ext.swift */; };
@@ -18,11 +24,6 @@
 		207AF3EE2B9EA109002AE17D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 207AF3ED2B9EA109002AE17D /* Lottie */; };
 		207EF3F62B9CAFD600EF46CF /* SecretsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF3F52B9CAFD600EF46CF /* SecretsKeys.swift */; };
 		207EF3F82B9CAFF500EF46CF /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF3F72B9CAFF500EF46CF /* MapView.swift */; };
-		207EF3FB2B9CB08900EF46CF /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF3FA2B9CB08900EF46CF /* CombineMoya */; };
-		207EF3FD2B9CB08900EF46CF /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF3FC2B9CB08900EF46CF /* Moya */; };
-		207EF3FF2B9CB08900EF46CF /* ReactiveMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF3FE2B9CB08900EF46CF /* ReactiveMoya */; };
-		207EF4012B9CB08900EF46CF /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF4002B9CB08900EF46CF /* RxMoya */; };
-		207EF40D2B9CB2E200EF46CF /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 207EF40C2B9CB2E200EF46CF /* GooglePlaces */; };
 		207EF40F2B9CB32500EF46CF /* GooglePlacesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF40E2B9CB32500EF46CF /* GooglePlacesAPI.swift */; };
 		207EF4112B9CB35000EF46CF /* NetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF4102B9CB35000EF46CF /* NetworkConfig.swift */; };
 		207EF4132B9CB36F00EF46CF /* GooglePlacesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207EF4122B9CB36F00EF46CF /* GooglePlacesResponse.swift */; };
@@ -35,14 +36,11 @@
 		20C5ED622BA9EC640092AB11 /* charger-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 20C5ED612BA9EC640092AB11 /* charger-anim.json */; };
 		20C6B1A92BAE20DB00B113F3 /* FindInAreaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C6B1A82BAE20DA00B113F3 /* FindInAreaButton.swift */; };
 		20CBCD462B9CBE1C008D01AA /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CBCD452B9CBE1C008D01AA /* MapViewModel.swift */; };
-		20FCF7632BAF1E33004A5495 /* Pulse in Frameworks */ = {isa = PBXBuildFile; productRef = 20FCF7622BAF1E33004A5495 /* Pulse */; };
-		20FCF7652BAF1E33004A5495 /* PulseUI in Frameworks */ = {isa = PBXBuildFile; productRef = 20FCF7642BAF1E33004A5495 /* PulseUI */; };
 		20FCF7682BAF2361004A5495 /* ShakeDevice+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FCF7672BAF2361004A5495 /* ShakeDevice+Ext.swift */; };
 		20FCF76A2BAF2AA2004A5495 /* PrintLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FCF7692BAF2AA2004A5495 /* PrintLog.swift */; };
 		20FCF76C2BAF2AC7004A5495 /* LogHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FCF76B2BAF2AC7004A5495 /* LogHandler.swift */; };
 		20FCF7702BAF2B3B004A5495 /* Logging+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FCF76F2BAF2B3B004A5495 /* Logging+Ext.swift */; };
 		20FCF7732BAF2B5B004A5495 /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 20FCF7722BAF2B5B004A5495 /* Logging */; };
-		20FCF7762BAF2B6D004A5495 /* PulseLogHandler in Frameworks */ = {isa = PBXBuildFile; productRef = 20FCF7752BAF2B6D004A5495 /* PulseLogHandler */; };
 		271377BC2BD5AFC6005F026E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271377BB2BD5AFC6005F026E /* AppDelegate.swift */; };
 		271377C42BD5BA2F005F026E /* CairoPlay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 271377C32BD5BA2F005F026E /* CairoPlay-Regular.ttf */; };
 		271377D72BD5BB84005F026E /* RobotoCondensed-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 271377C52BD5BB84005F026E /* RobotoCondensed-BlackItalic.ttf */; };
@@ -88,8 +86,8 @@
 		27512B9D2C0A9A4600C821B0 /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27512B9C2C0A9A4600C821B0 /* NavigationManager.swift */; };
 		27512BA12C0A9A9200C821B0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27512BA02C0A9A9200C821B0 /* ContentView.swift */; };
 		27512BA42C0B823C00C821B0 /* AdCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27512BA32C0B823C00C821B0 /* AdCoordinator.swift */; };
+		275461872C0E9D2D005C5D73 /* SearchTextRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275461862C0E9D2D005C5D73 /* SearchTextRequest.swift */; };
 		277A3CA42BEBD32C00174E0F /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CA32BEBD32C00174E0F /* Place.swift */; };
-		277A3CA72BEBD38700174E0F /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CA62BEBD38700174E0F /* Geometry.swift */; };
 		277A3CA92BEBD3BA00174E0F /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CA82BEBD3BA00174E0F /* Location.swift */; };
 		277A3CAB2BEBD3D200174E0F /* OpeningHours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CAA2BEBD3D200174E0F /* OpeningHours.swift */; };
 		277A3CAD2BEBD3E000174E0F /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CAC2BEBD3E000174E0F /* Photo.swift */; };
@@ -97,14 +95,18 @@
 		277A3CB12BEBD42D00174E0F /* Viewport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB02BEBD42D00174E0F /* Viewport.swift */; };
 		277A3CB32BEC63D000174E0F /* GooglePlaceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB22BEC63D000174E0F /* GooglePlaceResponse.swift */; };
 		277A3CB52BEC701100174E0F /* GooglePlacesAutocompleteResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB42BEC701100174E0F /* GooglePlacesAutocompleteResponse.swift */; };
-		277A3CB82BEC71C500174E0F /* Prediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB72BEC71C500174E0F /* Prediction.swift */; };
+		277A3CB82BEC71C500174E0F /* Suggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A3CB72BEC71C500174E0F /* Suggestion.swift */; };
 		2784EF682BD5886B00F485CC /* car-charging-station-anim.json in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF672BD5886B00F485CC /* car-charging-station-anim.json */; };
 		2784EF6A2BD5A22900F485CC /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2784EF692BD5A22900F485CC /* Colors.xcassets */; };
+		27A601622C0EB04E00B6E1F9 /* NewGooglePlacesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A601612C0EB04E00B6E1F9 /* NewGooglePlacesResponse.swift */; };
 		27A698462BFED34A007A6E79 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 27A698452BFED34A007A6E79 /* GoogleMobileAds */; };
 		27A698482BFEDE11007A6E79 /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A698472BFEDE11007A6E79 /* BannerAdView.swift */; };
 		27AD24E22BF8EE5D007A3A42 /* OriginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AD24E12BF8EE5D007A3A42 /* OriginFlow.swift */; };
 		27AD24E52BFA8D65007A3A42 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AD24E42BFA8D65007A3A42 /* LocationManager.swift */; };
 		27DB53DE2BF5857200897B41 /* RequestLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DB53DD2BF5857200897B41 /* RequestLocationView.swift */; };
+		27E01D302C111D0800DAAB0B /* SearchNearbyRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E01D2F2C111D0800DAAB0B /* SearchNearbyRequest.swift */; };
+		27E01D322C11228500DAAB0B /* LanguageCodeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E01D312C11228500DAAB0B /* LanguageCodeEnum.swift */; };
+		27E01D342C1130A300DAAB0B /* AutoCompleteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E01D332C1130A300DAAB0B /* AutoCompleteRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -113,6 +115,7 @@
 		20002FF42B01A14B005C7329 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		20002FF72B01A14B005C7329 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2031333C2B9CFF470093CDC2 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		205E35D72CC57203002E5D7C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		207218392BA0B6C4005A136A /* BottomSheetMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetMapView.swift; sourceTree = "<group>"; };
 		207AF3E12B9E804F002AE17D /* MapApps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapApps.swift; sourceTree = "<group>"; };
 		207AF3E32B9E80B8002AE17D /* URL+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Ext.swift"; sourceTree = "<group>"; };
@@ -181,8 +184,8 @@
 		27512B9C2C0A9A4600C821B0 /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
 		27512BA02C0A9A9200C821B0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		27512BA32C0B823C00C821B0 /* AdCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdCoordinator.swift; sourceTree = "<group>"; };
+		275461862C0E9D2D005C5D73 /* SearchTextRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextRequest.swift; sourceTree = "<group>"; };
 		277A3CA32BEBD32C00174E0F /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
-		277A3CA62BEBD38700174E0F /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
 		277A3CA82BEBD3BA00174E0F /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		277A3CAA2BEBD3D200174E0F /* OpeningHours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningHours.swift; sourceTree = "<group>"; };
 		277A3CAC2BEBD3E000174E0F /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
@@ -190,13 +193,17 @@
 		277A3CB02BEBD42D00174E0F /* Viewport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Viewport.swift; sourceTree = "<group>"; };
 		277A3CB22BEC63D000174E0F /* GooglePlaceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlaceResponse.swift; sourceTree = "<group>"; };
 		277A3CB42BEC701100174E0F /* GooglePlacesAutocompleteResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlacesAutocompleteResponse.swift; sourceTree = "<group>"; };
-		277A3CB72BEC71C500174E0F /* Prediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prediction.swift; sourceTree = "<group>"; };
+		277A3CB72BEC71C500174E0F /* Suggestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Suggestion.swift; sourceTree = "<group>"; };
 		2784EF672BD5886B00F485CC /* car-charging-station-anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "car-charging-station-anim.json"; sourceTree = "<group>"; };
 		2784EF692BD5A22900F485CC /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		27A601612C0EB04E00B6E1F9 /* NewGooglePlacesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGooglePlacesResponse.swift; sourceTree = "<group>"; };
 		27A698472BFEDE11007A6E79 /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
 		27AD24E12BF8EE5D007A3A42 /* OriginFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OriginFlow.swift; sourceTree = "<group>"; };
 		27AD24E42BFA8D65007A3A42 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		27DB53DD2BF5857200897B41 /* RequestLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestLocationView.swift; sourceTree = "<group>"; };
+		27E01D2F2C111D0800DAAB0B /* SearchNearbyRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNearbyRequest.swift; sourceTree = "<group>"; };
+		27E01D312C11228500DAAB0B /* LanguageCodeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageCodeEnum.swift; sourceTree = "<group>"; };
+		27E01D332C1130A300DAAB0B /* AutoCompleteRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoCompleteRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,16 +211,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				205E35E52CC59714002E5D7C /* PulseLogHandler in Frameworks */,
 				27A698462BFED34A007A6E79 /* GoogleMobileAds in Frameworks */,
 				20FCF7732BAF2B5B004A5495 /* Logging in Frameworks */,
-				207EF3FD2B9CB08900EF46CF /* Moya in Frameworks */,
-				207EF3FB2B9CB08900EF46CF /* CombineMoya in Frameworks */,
-				207EF4012B9CB08900EF46CF /* RxMoya in Frameworks */,
-				20FCF7632BAF1E33004A5495 /* Pulse in Frameworks */,
-				207EF40D2B9CB2E200EF46CF /* GooglePlaces in Frameworks */,
-				207EF3FF2B9CB08900EF46CF /* ReactiveMoya in Frameworks */,
-				20FCF7652BAF1E33004A5495 /* PulseUI in Frameworks */,
-				20FCF7762BAF2B6D004A5495 /* PulseLogHandler in Frameworks */,
+				205E35DE2CC596B7002E5D7C /* Pulse in Frameworks */,
+				205E35E02CC596B7002E5D7C /* PulseProxy in Frameworks */,
+				205E35E22CC596B7002E5D7C /* PulseUI in Frameworks */,
+				205E35DB2CC595CF002E5D7C /* Moya in Frameworks */,
 				207AF3EE2B9EA109002AE17D /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -240,6 +244,7 @@
 		20002FEF2B01A149005C7329 /* PostosEletricos */ = {
 			isa = PBXGroup;
 			children = (
+				205E35D72CC57203002E5D7C /* PrivacyInfo.xcprivacy */,
 				20FCF7662BAF2140004A5495 /* Info.plist */,
 				20BA43C72BAF3F1300795AB5 /* Secrets.plist */,
 				20002FF02B01A149005C7329 /* PostosEletricosApp.swift */,
@@ -347,6 +352,9 @@
 			isa = PBXGroup;
 			children = (
 				207EF40E2B9CB32500EF46CF /* GooglePlacesAPI.swift */,
+				275461862C0E9D2D005C5D73 /* SearchTextRequest.swift */,
+				27E01D2F2C111D0800DAAB0B /* SearchNearbyRequest.swift */,
+				27E01D332C1130A300DAAB0B /* AutoCompleteRequest.swift */,
 			);
 			path = GooglePlaces;
 			sourceTree = "<group>";
@@ -627,27 +635,27 @@
 		277A3CA52BEBD35C00174E0F /* Place */ = {
 			isa = PBXGroup;
 			children = (
-				277A3CB62BEC708200174E0F /* GooglePlaces */,
+				27CDA57A2C0F788100B1FF2D /* NewGooglePlaces */,
+				277A3CB62BEC708200174E0F /* OldGooglePlaces */,
 				277A3CA32BEBD32C00174E0F /* Place.swift */,
-				277A3CA62BEBD38700174E0F /* Geometry.swift */,
 				277A3CA82BEBD3BA00174E0F /* Location.swift */,
 				277A3CAA2BEBD3D200174E0F /* OpeningHours.swift */,
 				277A3CAC2BEBD3E000174E0F /* Photo.swift */,
 				277A3CAE2BEBD3E800174E0F /* PlusCode.swift */,
 				277A3CB02BEBD42D00174E0F /* Viewport.swift */,
-				277A3CB72BEC71C500174E0F /* Prediction.swift */,
+				277A3CB72BEC71C500174E0F /* Suggestion.swift */,
 			);
 			path = Place;
 			sourceTree = "<group>";
 		};
-		277A3CB62BEC708200174E0F /* GooglePlaces */ = {
+		277A3CB62BEC708200174E0F /* OldGooglePlaces */ = {
 			isa = PBXGroup;
 			children = (
 				207EF4122B9CB36F00EF46CF /* GooglePlacesResponse.swift */,
 				277A3CB22BEC63D000174E0F /* GooglePlaceResponse.swift */,
 				277A3CB42BEC701100174E0F /* GooglePlacesAutocompleteResponse.swift */,
 			);
-			path = GooglePlaces;
+			path = OldGooglePlaces;
 			sourceTree = "<group>";
 		};
 		27AD24E32BF96EC9007A3A42 /* RequestLocation */ = {
@@ -656,6 +664,15 @@
 				27DB53DD2BF5857200897B41 /* RequestLocationView.swift */,
 			);
 			path = RequestLocation;
+			sourceTree = "<group>";
+		};
+		27CDA57A2C0F788100B1FF2D /* NewGooglePlaces */ = {
+			isa = PBXGroup;
+			children = (
+				27A601612C0EB04E00B6E1F9 /* NewGooglePlacesResponse.swift */,
+				27E01D312C11228500DAAB0B /* LanguageCodeEnum.swift */,
+			);
+			path = NewGooglePlaces;
 			sourceTree = "<group>";
 		};
 		27D1511D2BC31EC2002E4EBD /* Components */ = {
@@ -693,17 +710,14 @@
 			);
 			name = PostosEletricos;
 			packageProductDependencies = (
-				207EF3FA2B9CB08900EF46CF /* CombineMoya */,
-				207EF3FC2B9CB08900EF46CF /* Moya */,
-				207EF3FE2B9CB08900EF46CF /* ReactiveMoya */,
-				207EF4002B9CB08900EF46CF /* RxMoya */,
-				207EF40C2B9CB2E200EF46CF /* GooglePlaces */,
 				207AF3ED2B9EA109002AE17D /* Lottie */,
-				20FCF7622BAF1E33004A5495 /* Pulse */,
-				20FCF7642BAF1E33004A5495 /* PulseUI */,
 				20FCF7722BAF2B5B004A5495 /* Logging */,
-				20FCF7752BAF2B6D004A5495 /* PulseLogHandler */,
 				27A698452BFED34A007A6E79 /* GoogleMobileAds */,
+				205E35DA2CC595CF002E5D7C /* Moya */,
+				205E35DD2CC596B7002E5D7C /* Pulse */,
+				205E35DF2CC596B7002E5D7C /* PulseProxy */,
+				205E35E12CC596B7002E5D7C /* PulseUI */,
+				205E35E42CC59714002E5D7C /* PulseLogHandler */,
 			);
 			productName = PostosEletricos;
 			productReference = 20002FED2B01A149005C7329 /* PostosEletricos.app */;
@@ -735,13 +749,12 @@
 			);
 			mainGroup = 20002FE42B01A149005C7329;
 			packageReferences = (
-				207EF3F92B9CB08900EF46CF /* XCRemoteSwiftPackageReference "Moya" */,
-				207EF40B2B9CB2E200EF46CF /* XCRemoteSwiftPackageReference "ios-places-sdk" */,
 				207AF3EC2B9EA109002AE17D /* XCRemoteSwiftPackageReference "lottie-spm" */,
-				20FCF7612BAF1E33004A5495 /* XCRemoteSwiftPackageReference "Pulse" */,
 				20FCF7712BAF2B5B004A5495 /* XCRemoteSwiftPackageReference "swift-log" */,
-				20FCF7742BAF2B6D004A5495 /* XCRemoteSwiftPackageReference "PulseLogHandler" */,
 				27A698442BFED34A007A6E79 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				205E35D92CC595CF002E5D7C /* XCRemoteSwiftPackageReference "Moya" */,
+				205E35DC2CC596B7002E5D7C /* XCRemoteSwiftPackageReference "Pulse" */,
+				205E35E32CC59714002E5D7C /* XCRemoteSwiftPackageReference "PulseLogHandler" */,
 			);
 			productRefGroup = 20002FEE2B01A149005C7329 /* Products */;
 			projectDirPath = "";
@@ -795,6 +808,7 @@
 				20BA43C82BAF3F1300795AB5 /* Secrets.plist in Resources */,
 				2784EF682BD5886B00F485CC /* car-charging-station-anim.json in Resources */,
 				274800A52BE8208A00BF4883 /* Roboto-BoldItalic.ttf in Resources */,
+				205E35D82CC57203002E5D7C /* PrivacyInfo.xcprivacy in Resources */,
 				271377D92BD5BB84005F026E /* RobotoCondensed-Italic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -811,6 +825,7 @@
 				27512BA12C0A9A9200C821B0 /* ContentView.swift in Sources */,
 				27AD24E22BF8EE5D007A3A42 /* OriginFlow.swift in Sources */,
 				277A3CAD2BEBD3E000174E0F /* Photo.swift in Sources */,
+				275461872C0E9D2D005C5D73 /* SearchTextRequest.swift in Sources */,
 				207EF4112B9CB35000EF46CF /* NetworkConfig.swift in Sources */,
 				27512B9B2C0A8B3700C821B0 /* Bundle+Ext.swift in Sources */,
 				20BA43D52BAF57AA00795AB5 /* ToastModifier.swift in Sources */,
@@ -829,7 +844,6 @@
 				273945872BE8343400A1CE4B /* MapKit+Ext.swift in Sources */,
 				207EF3F62B9CAFD600EF46CF /* SecretsKeys.swift in Sources */,
 				20C0EC4C2BAE3A81009C52FF /* FetchState.swift in Sources */,
-				277A3CA72BEBD38700174E0F /* Geometry.swift in Sources */,
 				277A3CB32BEC63D000174E0F /* GooglePlaceResponse.swift in Sources */,
 				2748008E2BE70A9D00BF4883 /* CircularInfinityProgressView.swift in Sources */,
 				207EF40F2B9CB32500EF46CF /* GooglePlacesAPI.swift in Sources */,
@@ -841,8 +855,11 @@
 				271377BC2BD5AFC6005F026E /* AppDelegate.swift in Sources */,
 				20BA43CF2BAF574800795AB5 /* ToastView.swift in Sources */,
 				274507022BC8BC9E005ED545 /* ViewState.swift in Sources */,
-				277A3CB82BEC71C500174E0F /* Prediction.swift in Sources */,
+				277A3CB82BEC71C500174E0F /* Suggestion.swift in Sources */,
+				27E01D302C111D0800DAAB0B /* SearchNearbyRequest.swift in Sources */,
+				27E01D322C11228500DAAB0B /* LanguageCodeEnum.swift in Sources */,
 				277A3CA92BEBD3BA00174E0F /* Location.swift in Sources */,
+				27E01D342C1130A300DAAB0B /* AutoCompleteRequest.swift in Sources */,
 				207AF3E22B9E804F002AE17D /* MapApps.swift in Sources */,
 				27A698482BFEDE11007A6E79 /* BannerAdView.swift in Sources */,
 				27512BA42C0B823C00C821B0 /* AdCoordinator.swift in Sources */,
@@ -853,6 +870,7 @@
 				2031333D2B9CFF470093CDC2 /* LocationService.swift in Sources */,
 				271B50C42BB75A9100C4C684 /* LaunchView.swift in Sources */,
 				277A3CAB2BEBD3D200174E0F /* OpeningHours.swift in Sources */,
+				27A601622C0EB04E00B6E1F9 /* NewGooglePlacesResponse.swift in Sources */,
 				20CBCD462B9CBE1C008D01AA /* MapViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -994,7 +1012,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PostosEletricos/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Postos Elétricos";
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Network usage required for debugging purposes";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Utilizamos sua localização para mostrar os postos mais próximos de você.";
 				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Precisamos de sua permissão para mostrar os melhores anúncios de acordo com seu perfil.";
@@ -1008,7 +1026,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = br.com.devbvrains.postoseletricos;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.devbvrains.postoseletricos.xdebug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1029,7 +1047,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PostosEletricos/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Postos Elétricos";
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Network usage required for debugging purposes";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Utilizamos sua localização para mostrar os postos mais próximos de você.";
 				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Precisamos de sua permissão para mostrar os melhores anúncios de acordo com seu perfil.";
@@ -1075,6 +1093,30 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		205E35D92CC595CF002E5D7C /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
+		205E35DC2CC596B7002E5D7C /* XCRemoteSwiftPackageReference "Pulse" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Pulse";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.2;
+			};
+		};
+		205E35E32CC59714002E5D7C /* XCRemoteSwiftPackageReference "PulseLogHandler" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/PulseLogHandler";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		207AF3EC2B9EA109002AE17D /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
@@ -1083,44 +1125,12 @@
 				minimumVersion = 4.4.1;
 			};
 		};
-		207EF3F92B9CB08900EF46CF /* XCRemoteSwiftPackageReference "Moya" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Moya/Moya.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 15.0.3;
-			};
-		};
-		207EF40B2B9CB2E200EF46CF /* XCRemoteSwiftPackageReference "ios-places-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/googlemaps/ios-places-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 8.3.0;
-			};
-		};
-		20FCF7612BAF1E33004A5495 /* XCRemoteSwiftPackageReference "Pulse" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/kean/Pulse";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.5;
-			};
-		};
 		20FCF7712BAF2B5B004A5495 /* XCRemoteSwiftPackageReference "swift-log" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-log.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.5.4;
-			};
-		};
-		20FCF7742BAF2B6D004A5495 /* XCRemoteSwiftPackageReference "PulseLogHandler" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/kean/PulseLogHandler";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.1;
 			};
 		};
 		27A698442BFED34A007A6E79 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
@@ -1134,55 +1144,40 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		205E35DA2CC595CF002E5D7C /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 205E35D92CC595CF002E5D7C /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		205E35DD2CC596B7002E5D7C /* Pulse */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 205E35DC2CC596B7002E5D7C /* XCRemoteSwiftPackageReference "Pulse" */;
+			productName = Pulse;
+		};
+		205E35DF2CC596B7002E5D7C /* PulseProxy */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 205E35DC2CC596B7002E5D7C /* XCRemoteSwiftPackageReference "Pulse" */;
+			productName = PulseProxy;
+		};
+		205E35E12CC596B7002E5D7C /* PulseUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 205E35DC2CC596B7002E5D7C /* XCRemoteSwiftPackageReference "Pulse" */;
+			productName = PulseUI;
+		};
+		205E35E42CC59714002E5D7C /* PulseLogHandler */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 205E35E32CC59714002E5D7C /* XCRemoteSwiftPackageReference "PulseLogHandler" */;
+			productName = PulseLogHandler;
+		};
 		207AF3ED2B9EA109002AE17D /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 207AF3EC2B9EA109002AE17D /* XCRemoteSwiftPackageReference "lottie-spm" */;
 			productName = Lottie;
 		};
-		207EF3FA2B9CB08900EF46CF /* CombineMoya */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 207EF3F92B9CB08900EF46CF /* XCRemoteSwiftPackageReference "Moya" */;
-			productName = CombineMoya;
-		};
-		207EF3FC2B9CB08900EF46CF /* Moya */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 207EF3F92B9CB08900EF46CF /* XCRemoteSwiftPackageReference "Moya" */;
-			productName = Moya;
-		};
-		207EF3FE2B9CB08900EF46CF /* ReactiveMoya */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 207EF3F92B9CB08900EF46CF /* XCRemoteSwiftPackageReference "Moya" */;
-			productName = ReactiveMoya;
-		};
-		207EF4002B9CB08900EF46CF /* RxMoya */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 207EF3F92B9CB08900EF46CF /* XCRemoteSwiftPackageReference "Moya" */;
-			productName = RxMoya;
-		};
-		207EF40C2B9CB2E200EF46CF /* GooglePlaces */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 207EF40B2B9CB2E200EF46CF /* XCRemoteSwiftPackageReference "ios-places-sdk" */;
-			productName = GooglePlaces;
-		};
-		20FCF7622BAF1E33004A5495 /* Pulse */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 20FCF7612BAF1E33004A5495 /* XCRemoteSwiftPackageReference "Pulse" */;
-			productName = Pulse;
-		};
-		20FCF7642BAF1E33004A5495 /* PulseUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 20FCF7612BAF1E33004A5495 /* XCRemoteSwiftPackageReference "Pulse" */;
-			productName = PulseUI;
-		};
 		20FCF7722BAF2B5B004A5495 /* Logging */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 20FCF7712BAF2B5B004A5495 /* XCRemoteSwiftPackageReference "swift-log" */;
 			productName = Logging;
-		};
-		20FCF7752BAF2B6D004A5495 /* PulseLogHandler */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 20FCF7742BAF2B6D004A5495 /* XCRemoteSwiftPackageReference "PulseLogHandler" */;
-			productName = PulseLogHandler;
 		};
 		27A698452BFED34A007A6E79 /* GoogleMobileAds */ = {
 			isa = XCSwiftPackageProductDependency;
