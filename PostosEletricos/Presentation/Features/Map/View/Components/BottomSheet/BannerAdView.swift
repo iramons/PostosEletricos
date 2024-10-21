@@ -18,7 +18,8 @@ struct BannerAdView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> UIViewController {
         let viewController = UIViewController()
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        
+        bannerView.adUnitID = SecretsKeys.googleADSKey
         bannerView.rootViewController = viewController
         bannerView.isAutoloadEnabled = true
 

@@ -34,7 +34,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
 
 extension AppDelegate {
     private func configureGoogleAds() {
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        Task {
+            await GADMobileAds.sharedInstance().start()
+        }
     }
 }
 

@@ -88,7 +88,7 @@ extension GooglePlacesAPI: TargetType {
                 parameters: [
                     "maxwidth": maxWidth,
                     "photoreference": photoReference,
-                    "key" : SecretsKeys.googlePlaces.key,
+                    "key" : SecretsKeys.googlePlacesKey,
                 ],
                 encoding: URLEncoding.default
             )
@@ -113,7 +113,7 @@ extension GooglePlacesAPI: TargetType {
     var headers: [String: String]? {
         [
             "Content-Type": "application/json",
-            "X-Goog-Api-Key": SecretsKeys.googlePlaces.key,
+            "X-Goog-Api-Key": SecretsKeys.googlePlacesKey,
             "X-Goog-FieldMask": "*"
         ]
     }

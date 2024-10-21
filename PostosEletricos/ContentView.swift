@@ -7,10 +7,8 @@
 
 import Foundation
 import SwiftUI
-import OSLog
 
 #if DEBUG
-import Pulse
 import PulseUI
 #endif
 
@@ -21,8 +19,11 @@ struct ContentView: View {
     var body: some View {
         VStack {
             switch navigationManager.currentView {
-            case .launch: LaunchView()
-            case .map: MapView()
+            case .launch:
+                LaunchView()
+                
+            case .map:
+                MapView()
             }
         }
         .sheet(isPresented: $showPulseUI) {

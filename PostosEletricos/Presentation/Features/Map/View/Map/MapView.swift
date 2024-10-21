@@ -9,7 +9,6 @@ import SwiftUI
 import MapKit
 import AdSupport
 import AppTrackingTransparency
-import GoogleMobileAds
 import UIKit
 
 // MARK: MapView
@@ -17,7 +16,6 @@ import UIKit
 struct MapView: View {
 
     @StateObject var viewModel = MapViewModel()
-    private var interstitial: GADInterstitialAd?
 
     var body: some View {
         NavigationStack {
